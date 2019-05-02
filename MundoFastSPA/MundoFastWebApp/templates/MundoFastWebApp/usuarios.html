@@ -1,0 +1,16 @@
+<h1>Lista de Usuarios:</h1>
+{% if listaUsuario %}
+    <ul>
+    {% for usuario in listaUsuario %}
+        <li><a href="/MundoFastWebApp/usuarios/{{ usuario.id }}/">{{ usuario.nombreUsuario }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No existen usuarios almacenados.</p>
+{% endif %}
+
+<p><a href="/MundoFastWebApp/usuarios/crearUsuario">Crear Nuevo Usuario</a></p>
+
+<footer>
+    <p><a href="/MundoFastWebApp/">Volver</a></p>
+</footer>
