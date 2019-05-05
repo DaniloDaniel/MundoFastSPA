@@ -1,0 +1,16 @@
+<h1>Productos:</h1>
+{% if listaProducto %}
+    <ul>
+    {% for producto in listaProducto %}
+        <li><a href="/MundoFastWebApp/productos/{{ producto.id }}/">{{ producto.nombreProducto }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No existen productos almacenados.</p>
+{% endif %}
+
+<p><a href="{% url 'MundoFastWebApp:formproducto' %}">Crear Nuevo Producto</a></p>
+
+<footer>
+    <p><a href="{% url 'MundoFastWebApp:index' %}">Volver</a></p>
+</footer>

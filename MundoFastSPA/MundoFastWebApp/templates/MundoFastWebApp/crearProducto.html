@@ -1,0 +1,28 @@
+<h1>Crear Nuevo Producto:</h1>
+
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+<form action="{% url 'MundoFastWebApp:crearproducto' %}" method="post">
+{% csrf_token %}
+    <label for="codigoProducto">Codigo Producto:</label>
+    <input type="text" name="codigoProducto" id="codigoProducto"><br>
+    <label for="nombreProducto">Nombre Producto:</label>
+    <input type="text" name="nombreProducto" id="nombreProducto"><br>
+    <label for="descripcionProducto">Descripcion Producto:</label>
+    <input type="textarea" name="descripcionProducto" id="descripcionProducto" rows="10" cols="30"><br>
+    <label for="categoriaProducto">Categoria Producto:</label>
+    <input type="select" name="categoriaProducto" id="categoriaProducto"><br>
+    <label for="precioProducto">Precio Producto:</label>
+    <input type="text" name="precioProducto" id="precioProducto"><br>
+    <label for="cantidadProducto">Cantidad Producto:</label>
+    <input type="text" name="cantidadProducto" id="cantidadProducto"><br>
+    <label for="ofertaProducto">Oferta Producto:</label>
+    <input type="text" name="ofertaProducto" id="ofertaProducto"><br>
+    <label for="descuentoProducto">Descuento Producto:</label>
+    <input type="text" name="descuentoProducto" id="descuentoProducto"><br>
+<input type="submit" value="Crear Producto">
+</form>
+
+<footer>
+    <p><a href="{% url 'MundoFastWebApp:productos' %}">Volver</a></p>
+</footer>

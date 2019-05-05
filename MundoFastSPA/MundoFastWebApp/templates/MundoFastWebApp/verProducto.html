@@ -1,0 +1,18 @@
+<h1>Detalles del Producto:</h1>
+Codigo: {{ producto.codigoProducto}} <br>
+Nombre: {{ producto.nombreProducto}} <br>
+Descripcion: {{ producto.descripcionProducto}} <br>
+Categoria: {{ producto.categoriaProducto}} <br>
+Precio: {{ producto.precioProducto}} <br>
+Cantidad: {{ producto.cantidadProducto}} <br>
+Oferta: {% if ofertaProducto %}
+                Si <br>
+        {% else %}
+                No <br>
+        {% endif %}
+Descuento: {{ producto.descuentoProducto}} <br>
+<br>
+<br>
+<footer>
+    <p><a href="{% url 'MundoFastWebApp:productos' %}">Volver</a></p>
+</footer>
