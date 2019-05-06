@@ -1,6 +1,22 @@
-<h1>Bienvenido a Mundo Fast SPA</h1>
-
-<ul>
-    <li><a href="/MundoFastWebApp/usuarios/"> Usuarios</a></li>
-    <li> Productos</li>
-</ul>
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <title>MundoFastSPA</title>
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+        <link href='//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+    </head>
+    <body>
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                <a class="navbar-brand" href="#">Bienvenido a Mundo Fast SPA - Sitio en Desarrollo</a>
+                </div>
+                <ul class="nav navbar-nav">
+                    <li><a href="{% url 'MundoFastWebApp:usuarios' %}"> Usuarios</a></li>
+                    <li><a href="#">Productos</a></li>
+                </ul>
+            </div>
+        </nav>
+    </body>
+</html>

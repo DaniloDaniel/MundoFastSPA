@@ -10,4 +10,4 @@ class Usuario(models.Model):
     passwordUsuario = models.CharField(max_length=50)
 
     def __str__(self):
-        return self.rutUsuario
+        return self.nombreUsuario
