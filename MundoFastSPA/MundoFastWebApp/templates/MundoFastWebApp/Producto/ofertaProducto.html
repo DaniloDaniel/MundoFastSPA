@@ -1,4 +1,4 @@
-<h1>Productos:</h1>
+<h1>Productos en Oferta:</h1>
 {% if listaProducto %}
     <ul>
     {% for producto in listaProducto %}
@@ -6,11 +6,9 @@
     {% endfor %}
     </ul>
 {% else %}
-    <p>No existen productos almacenados.</p>
+    <p>No existen productos ofertados.</p>
 {% endif %}
 
-<p><a href="{% url 'MundoFastWebApp:formproducto' %}">Crear Nuevo Producto</a></p>
-
 <footer>
-    <p><a href="{% url 'MundoFastWebApp:index' %}">Volver</a></p>
+    <p><a href="{% url 'MundoFastWebApp:productos' %}">Volver</a></p>
 </footer>

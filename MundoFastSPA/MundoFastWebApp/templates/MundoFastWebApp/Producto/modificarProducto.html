@@ -1,0 +1,43 @@
+<H1>Modificar Producto {{ producto.nombreProducto }}</H1>
+
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+<form action="{% url 'MundoFastWebApp:modificarproducto' producto.id%}" method="post">
+{% csrf_token %}
+    <label for="codigoProducto">Codigo Producto:</label>
+    <input type="number" name="codigoProducto" id="codigoProducto" value="{{producto.codigoProducto}}" required><br>
+    <label for="nombreProducto">Nombre Producto:</label>
+    <input type="text" name="nombreProducto" id="nombreProducto" value="{{producto.nombreProducto}}" required><br>
+    <label for="descripcionProducto">Descripcion Producto:</label>
+    <input type="text" name="descripcionProducto" id="descripcionProducto" value="{{producto.descripcionProducto}}" required><br>
+    <label for="categoriaProducto">Categoria Producto:</label>
+    <select name="categoriaProducto" id="categoriaProducto">
+        {% for choice,readablechoice in producto.opcionesCategoria %}
+            {% if choice == producto.categoriaProducto %}        
+                <option value="{{ choice }}" selected >{{ readablechoice }}</option>
+            {% endif %}
+            <option value="{{ choice }}">{{ readablechoice }}</option>       
+        {% endfor %}
+    </select><br>
+    <label for="precioProducto">Precio Producto:</label>
+    <input type="number" name="precioProducto" id="precioProducto" value="{{producto.precioProducto}}" required><br>
+    <label for="cantidadProducto">Cantidad Producto:</label>
+    <input type="number" name="cantidadProducto" id="cantidadProducto" value="{{producto.cantidadProducto}}" required><br>
+    <label for="ofertaProducto">Oferta Producto:</label>
+    <select name="ofertaDropDown">
+        {% if producto.ofertaProducto %}
+            <option value="{{ producto.ofertaProducto }}" selected>Si</option>
+            <option value="False">No</option>
+        {% else %}
+            <option value="{{ producto.ofertaProducto }}" selected>No</option>
+            <option value="True">Si</option>
+        {% endif %}
+    </select><br>
+    <label for="descuentoProducto">Descuento Producto:</label>
+    <input type="number" name="descuentoProducto" id="descuentoProducto" value="{{producto.descuentoProducto}}" min=0 max=100 required><br>
+<input type="submit" value="Guardar">
+</form>
+
+<footer>
+<a href="{% url 'MundoFastWebApp:productos' %}">Volver</a>
+</footer>

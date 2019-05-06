@@ -1,6 +1,7 @@
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, render, render_to_response
 
 # Create your views here.
+from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from .models import Producto
@@ -9,33 +10,63 @@ from .models import Producto
 def index(request):
     return render(request, 'MundoFastWebApp/index.html')
 
+def usuarios(request):
+    return HttpResponse("usuarios")
+
 def productos(request):
-    listaProducto = Producto.objects.order_by('-codigoProducto')
+    listaProducto = Producto.objects.order_by('-id')
     context = {'listaProducto': listaProducto}
-    return render(request, 'MundoFastWebApp/productos.html', context)
+    return render(request, 'MundoFastWebApp/Producto/productos.html', context)
 
 def verProducto(request, id):
     producto = get_object_or_404(Producto, pk=id)
-    return render(request, 'MundoFastWebApp/verProducto.html', {'producto': producto})
+    return render(request, 'MundoFastWebApp/Producto/verProducto.html', {'producto': producto})
 
 def formProducto(request):
-    return render(request, 'MundoFastWebApp/crearProducto.html')
+    producto = Producto()
+    return render(request, 'MundoFastWebApp/Producto/crearProducto.html', {'producto': producto})
 
 def crearProducto(request):
     try:
         producto = Producto(codigoProducto = request.POST['codigoProducto'], nombreProducto = request.POST['nombreProducto'], 
             descripcionProducto = request.POST['descripcionProducto'], categoriaProducto = request.POST['categoriaProducto'], 
             precioProducto = request.POST['precioProducto'],cantidadProducto = request.POST['cantidadProducto'],
-            ofertaProducto = request.POST['ofertaProducto'],descuentoProducto = request.POST['descuentoProducto'])
-    except (KeyError, Producto.DoesNotExist):
-        # Redisplay the question voting form.
-        return render(request, 'MundoFastWebApp/crearProducto.html', {
-            'question': question,
-            'error_message': "You didn't select a choice.",
-        })
+            ofertaProducto = request.POST['ofertaDropDown'],descuentoProducto = request.POST['descuentoProducto'])
+    except IntegrityError:
+        return render(request, "MundoFastWebApp/Producto/crearProducto.html", {"error_message": "Dejaste un campo vacío"})
     else:
         producto.save()
         # Always return an HttpResponseRedirect after successfully dealing
         # with POST data. This prevents data from being posted twice if a
         # user hits the Back button.
         return HttpResponseRedirect(reverse('MundoFastWebApp:productos'))
+
+def modificarProducto(request, id):
+    producto = get_object_or_404(Producto, pk=id)
+    if request.method == 'POST':
+        producto.codigoProducto = request.POST['codigoProducto']
+        producto.nombreProducto = request.POST['nombreProducto']
+        producto.descripcionProducto = request.POST['descripcionProducto']
+        producto.categoriaProducto = request.POST['categoriaProducto']
+        producto.precioProducto = request.POST['precioProducto']
+        producto.cantidadProducto = request.POST['cantidadProducto']
+        producto.ofertaProducto = request.POST['ofertaDropDown']
+        producto.descuentoProducto = request.POST['descuentoProducto']
+        producto.save()
+        return HttpResponseRedirect(reverse('MundoFastWebApp:productos'))
+    else:
+        return render(request, 'MundoFastWebApp/Producto/modificarProducto.html', {'producto': producto})
+
+def eliminarProducto(request, id):
+    producto = get_object_or_404(Producto, pk=id)
+    if request.method == 'POST':
+        if 'opcionSi' in request.POST:
+            producto.delete()
+        return HttpResponseRedirect(reverse('MundoFastWebApp:productos'))
+    else:
+        return render(request, 'MundoFastWebApp/Producto/eliminarProducto.html', {'producto': producto})
+
+def ofertaProducto(request):
+    listaProducto = [producto for producto in Producto.objects.all() if producto.ofertaProducto]
+    context = {'listaProducto': listaProducto}
+    return render(request, 'MundoFastWebApp/Producto/ofertaProducto.html', context)

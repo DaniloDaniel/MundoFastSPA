@@ -24,7 +24,7 @@ class Producto(models.Model):
     precioProducto = models.PositiveIntegerField(default=0)
     cantidadProducto = models.PositiveIntegerField(default=0)
     ofertaProducto = models.BooleanField(default=False)
-    descuentoProducto = models.PositiveIntegerField(blank=True, validators=[MaxValueValidator(100)])
+    descuentoProducto = models.PositiveIntegerField(default = 0, validators = [MaxValueValidator(100)])
 
     def __str__(self):
         return self.nombreProducto

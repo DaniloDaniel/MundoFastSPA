@@ -5,14 +5,17 @@ Descripcion: {{ producto.descripcionProducto}} <br>
 Categoria: {{ producto.categoriaProducto}} <br>
 Precio: {{ producto.precioProducto}} <br>
 Cantidad: {{ producto.cantidadProducto}} <br>
-Oferta: {% if ofertaProducto %}
+Oferta: {% if producto.ofertaProducto %}
                 Si <br>
         {% else %}
                 No <br>
         {% endif %}
-Descuento: {{ producto.descuentoProducto}} <br>
-<br>
+Descuento: {{ producto.descuentoProducto}}
 <br>
 <footer>
-    <p><a href="{% url 'MundoFastWebApp:productos' %}">Volver</a></p>
+        {% if 'ofertas' in request.META.HTTP_REFERER %}
+                <p><a href="{% url 'MundoFastWebApp:ofertaproducto' %}">Volver</a></p>
+        {% else %}
+                <p><a href="{% url 'MundoFastWebApp:productos' %}">Volver</a></p>
+        {% endif %}
 </footer>
