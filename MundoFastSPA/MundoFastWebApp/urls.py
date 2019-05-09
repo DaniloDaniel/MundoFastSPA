@@ -14,4 +14,6 @@ urlpatterns = [
     path('usuarios/crearUsuario/', views.crearUsuario, name='crearUsuario'),
     # Registro en: /MundoFastWebApp/usuarios/crearUsuario/
     path('usuarios/formUsuario/', views.formUsuario, name='formUsuario'),
+    # MOdificar en: /MundoFastWebApp/usuarios/modificarUsuario/1/
+    path('usuarios/modificarUsuario/<int:id>/', views.modificarUsuario, name='modificarUsuario'),
 ]
