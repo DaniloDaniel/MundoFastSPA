@@ -1,0 +1,14 @@
+<h1>Productos en Oferta:</h1>
+{% if listaProducto %}
+    <ul>
+    {% for producto in listaProducto %}
+        <li><a href="/MundoFastWebApp/productos/{{ producto.id }}/">{{ producto.nombreProducto }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No existen productos ofertados.</p>
+{% endif %}
+
+<footer>
+    <p><a href="{% url 'MundoFastWebApp:productos' %}">Volver</a></p>
+</footer>
