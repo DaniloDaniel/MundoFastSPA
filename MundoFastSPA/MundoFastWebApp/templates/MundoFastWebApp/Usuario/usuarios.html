@@ -1,0 +1,25 @@
+<head>
+    <title>MundoFastSPA - Usuarios</title>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+    <link href='//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+</head>
+
+<body>
+    <h1>Lista de Usuarios:</h1>
+    {% if listaUsuario %}
+        <ul>
+        {% for usuario in listaUsuario %}
+            <li><a href="/MundoFastWebApp/usuarios/{{ usuario.id }}/">{{ usuario.nombreUsuario }}</a></li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>No existen usuarios almacenados.</p>
+    {% endif %}
+
+    <p><a href="{% url 'MundoFastWebApp:formUsuario' %}">Crear Nuevo Usuario</a></p>
+
+    <footer>
+        <p><a href="{% url 'MundoFastWebApp:index' %}">Volver</a></p>
+    </footer>
+</body>
