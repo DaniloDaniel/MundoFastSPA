@@ -69,9 +69,14 @@ def eliminarProducto(request, id):
         return render(request, 'MundoFastWebApp/Producto/eliminarProducto.html', {'producto': producto})
 
 def ofertaProducto(request):
-    listaProducto = [producto for producto in Producto.objects.all() if producto.ofertaProducto]
+    listaProducto = [producto for producto in Producto.objects.order_by('-id') if producto.ofertaProducto]
     context = {'listaProducto': listaProducto}
     return render(request, 'MundoFastWebApp/Producto/ofertaProducto.html', context)
+
+def buscarProducto(request):
+    listaProducto = [producto for producto in Producto.objects.order_by('-id') if request.POST['buscarProducto'] in producto.nombreProducto]
+    context = {'listaProducto': listaProducto}
+    return render(request, 'MundoFastWebApp/Producto/productos.html', context)
     
 def usuarios(request):
     listaUsuario = Usuario.objects.order_by('-rutUsuario')
