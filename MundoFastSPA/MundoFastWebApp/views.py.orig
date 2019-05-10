@@ -72,11 +72,13 @@ def ofertaProducto(request):
     listaProducto = [producto for producto in Producto.objects.order_by('-id') if producto.ofertaProducto]
     context = {'listaProducto': listaProducto}
     return render(request, 'MundoFastWebApp/Producto/ofertaProducto.html', context)
+<<<<<<< HEAD
 
 def buscarProducto(request):
     listaProducto = [producto for producto in Producto.objects.order_by('-id') if request.POST['buscarProducto'] in producto.nombreProducto]
     context = {'listaProducto': listaProducto}
     return render(request, 'MundoFastWebApp/Producto/productos.html', context)
+=======
     
 def usuarios(request):
     listaUsuario = Usuario.objects.order_by('-rutUsuario')
@@ -102,3 +104,4 @@ def crearUsuario(request):
         usuario.save()
         return HttpResponseRedirect(reverse('MundoFastWebApp:usuarios'))
 
+>>>>>>> origin/master

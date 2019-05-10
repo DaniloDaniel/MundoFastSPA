@@ -4,8 +4,16 @@ from . import views
 
 app_name = 'MundoFastWebApp'
 urlpatterns = [
+    # ex: /MundoFastWebApp/
     path('', views.index, name='index'),
+    # ex: /MundoFastWebApp/usuarios/
     path('usuarios/', views.usuarios, name='usuarios'),
+    # ex: /MundoFastWebApp/usuarios/1/
+    path('usuarios/<int:id>/', views.verUsuario, name='verUsuario'),
+    # ex: /MundoFastWebApp/usuarios/crearUsuario/
+    path('usuarios/crearUsuario/', views.crearUsuario, name='crearUsuario'),
+    # Registro en: /MundoFastWebApp/usuarios/crearUsuario/
+    path('usuarios/formUsuario/', views.formUsuario, name='formUsuario'),
     path('productos/', views.productos, name='productos'),
     path('productos/crearproducto/', views.crearProducto, name='crearproducto'),
     path('productos/<int:id>/', views.verProducto, name='verproducto'),

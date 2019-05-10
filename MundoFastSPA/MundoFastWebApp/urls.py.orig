@@ -1,0 +1,28 @@
+from django.urls import path
+
+from . import views
+
+app_name = 'MundoFastWebApp'
+urlpatterns = [
+    # ex: /MundoFastWebApp/
+    path('', views.index, name='index'),
+<<<<<<< HEAD
+    path('usuarios/', views.usuarios, name='usuarios'),
+    path('productos/', views.productos, name='productos'),
+    path('productos/crearproducto/', views.crearProducto, name='crearproducto'),
+    path('productos/<int:id>/', views.verProducto, name='verproducto'),
+    path('productos/formproducto/', views.formProducto, name='formproducto'),
+    path('productos/modificar/<int:id>/', views.modificarProducto, name='modificarproducto'),
+    path('productos/eliminar/<int:id>/', views.eliminarProducto, name='eliminarproducto'),
+    path('productos/ofertas/', views.ofertaProducto, name='ofertaproducto')
+=======
+    # ex: /MundoFastWebApp/usuarios/
+    path('usuarios/', views.usuarios, name='usuarios'),
+    # ex: /MundoFastWebApp/usuarios/1/
+    path('usuarios/<int:id>/', views.verUsuario, name='verUsuario'),
+    # ex: /MundoFastWebApp/usuarios/crearUsuario/
+    path('usuarios/crearUsuario/', views.crearUsuario, name='crearUsuario'),
+    # Registro en: /MundoFastWebApp/usuarios/crearUsuario/
+    path('usuarios/formUsuario/', views.formUsuario, name='formUsuario'),
+>>>>>>> origin/master
+]
