@@ -2,6 +2,16 @@
 # Created by https://www.gitignore.io/api/django,windows
 # Edit at https://www.gitignore.io/?templates=django,windows
 
+#tmp
+*.user
+*.vs
+*.suo
+*.bak
+*.cache
+*.log
+*.tmp
+*.orig
+
 ### Django ###
 *.log
 *.pot
