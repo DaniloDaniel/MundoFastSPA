@@ -10,7 +10,18 @@
     {% if listaUsuario %}
         <ul>
         {% for usuario in listaUsuario %}
-            <li><a href="/MundoFastWebApp/usuarios/{{ usuario.id }}/">{{ usuario.nombreUsuario }}</a></li>
+            <li>
+                <a href="/MundoFastWebApp/usuarios/{{ usuario.id }}/">{{ usuario.nombreUsuario }}</a>
+                <button type="button" class="btn btn-success" onclick="location.href='/MundoFastWebApp/usuarios/{{ usuario.id }}/'">
+                    <span class="glyphicon glyphicon-search"></span>
+                </button>
+                <button type="button" class="btn btn-primary" onclick="location.href='/MundoFastWebApp/usuarios/modificarUsuario/{{ usuario.id }}/'">
+                    <span class="glyphicon glyphicon-pencil"></span>
+                </button>
+                <button type="button" class="btn btn-danger" onclick="location.href='/MundoFastWebApp/usuarios/{{ usuario.id }}/'">
+                    <span class="glyphicon glyphicon-trash"></span>
+                </button>
+            </li>
         {% endfor %}
         </ul>
     {% else %}

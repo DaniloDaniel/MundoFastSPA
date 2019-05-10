@@ -1,0 +1,31 @@
+<head>
+    <title>MundoFastSPA - Modificar Usuario</title>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+    <link href='//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+</head>
+
+<body>
+    <h1>Modificar Información del Usuario:</h1>
+
+    {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+    <form action="{% url 'MundoFastWebApp:modificarUsuario' usuario.id %}" method="post">
+        {% csrf_token %}
+        <label for="rutUsuario">RUT:</label>
+        <input type="text" name="rutUsuario" id="rutUsuario" value="{{usuario.rutUsuario}}" required><br>
+        <label for="nombreUsuario">Nombre:</label>
+        <input type="text" name="nombreUsuario" id="nombreUsuario" value="{{usuario.nombreUsuario}}" required><br>
+        <label for="emailUsuario">Correo Electrónico:</label>
+        <input type="email" name="emailUsuario" value="{{usuario.emailUsuario}}" required><br>
+        <label for="imagenUsuario">Imagen:</label>
+        <input type="text" name="imagenUsuario" id="imagenUsuario" value="{{usuario.imagenUsuario}}" required><br>
+        <label for="rolUsuario">Rol:</label>
+        <input type="text" name="rolUsuario" id="rolUsuario" value="{{usuario.rolUsuario}}" required><br>
+        <label for="passwordUsuario">Contraseña:</label>
+        <input type="password" name="passwordUsuario" id="passwordUsuario" value="{{usuario.passwordUsuario}}" required><br><br>
+        <input type="submit" class="btn btn-success" value="Modificar Usuario">
+        <button type="button" class="btn btn-danger">Cancelar</button>
+    </form> 
+        <p><a href="{% url 'MundoFastWebApp:usuarios' %}">Cancelar</a></p>
+</body>

@@ -1,9 +1,20 @@
-<h1>Datos del Usuario:</h1>
-{{ usuario.rutUsuario}} <br>
-{{ usuario.nombreUsuario}} <br>
-{{ usuario.rolUsuario}} <br>
-<br>
-<br>
+<head>
+    <title>MundoFastSPA - Perfil de Usuario</title>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+    <link href='//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+</head>
+
+<body>
+    <h1>Datos del Usuario:</h1>
+    RUT: {{ usuario.rutUsuario}} <br>
+    Nombre: {{ usuario.nombreUsuario}} <br>
+    Correo Electrónico: {{ usuario.emailUsuario}} <br>
+    Imagen: {{ usuario.imagenUsuario}} <br>
+    Rol: {{ usuario.rolUsuario}} <br>
+    <br>
+    <br>
+</body>
 <footer>
     <p><a href="/MundoFastWebApp/usuarios/">Volver</a></p>
 </footer>
