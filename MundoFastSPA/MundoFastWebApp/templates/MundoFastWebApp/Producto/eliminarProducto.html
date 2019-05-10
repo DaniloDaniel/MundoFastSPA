@@ -1,0 +1,15 @@
+<H1>Eliminar Producto {{ producto.nombreProducto }}</H1>
+
+Seguro que desea eliminar el producto: <b>{{ producto.nombreProducto }}</b>?<br>
+<form action="{% url 'MundoFastWebApp:eliminarproducto' producto.id %}" method="POST">
+{% csrf_token %}
+    <input type="radio" name="opcionSi" id="opcionSi" value="Si">
+    <label for="opcionSi">Si</label><br>
+    <input type="radio" name="opcionNo" id="opcionNo" value="No">
+    <label for="opcionNo">No</label><br>
+<input type="submit" value="Aceptar">
+</form>
+
+<footer>
+<a href="{% url 'MundoFastWebApp:productos' %}">Volver</a>
+</footer>

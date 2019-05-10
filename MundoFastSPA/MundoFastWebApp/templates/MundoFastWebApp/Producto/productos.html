@@ -1,0 +1,33 @@
+<h1>Productos:</h1>
+{% if listaProducto %}
+    <ul>
+    {% for producto in listaProducto %}
+        <li><a href="{% url 'MundoFastWebApp:verproducto' producto.id%}">{{ producto.nombreProducto }}</a>
+            <a href="{% url 'MundoFastWebApp:modificarproducto' producto.id %}"> |modificar|</a>
+            <a href="{% url 'MundoFastWebApp:eliminarproducto' producto.id %}"> |eliminar|</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    {% if 'buscar' in request.path %}
+        <p>No existen productos almacenados con ese nombre.</p>
+    {% else %}
+        <p>No existen productos almacenados.</p>
+    {% endif %}
+{% endif %}
+
+<form action="{% url 'MundoFastWebApp:buscarproducto' %}" method="post">
+{% csrf_token %}
+    <label for="buscarProducto">Nombre Producto:</label>
+    <input type="text" name="buscarProducto" id="buscarProducto">
+    <input type="submit" value="Buscar Producto">
+</form>
+<p><a href="{% url 'MundoFastWebApp:ofertaproducto' %}">Mostrar Ofertas</a></p>
+<p><a href="{% url 'MundoFastWebApp:formproducto' %}">Crear Nuevo Producto</a></p>
+
+<footer>
+    {% if 'buscar' in request.path %}
+        <p><a href="{% url 'MundoFastWebApp:productos' %}">Volver</a></p>
+    {% else %}
+        <p><a href="{% url 'MundoFastWebApp:index' %}">Volver</a></p>
+    {% endif %}
+</footer>

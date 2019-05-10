@@ -13,17 +13,17 @@
     <form action="{% url 'MundoFastWebApp:crearUsuario' %}" method="post">
         {% csrf_token %}
         <label for="rutUsuario">RUT:</label>
-        <input type="text" name="rutUsuario", id="rutUsuario"><br>
+        <input type="text" name="rutUsuario" id="rutUsuario" required><br>
         <label for="nombreUsuario">Nombre:</label>
-        <input type="text" name="nombreUsuario", id="nombreUsuario"><br>
+        <input type="text" name="nombreUsuario", id="nombreUsuario" required><br>
         <label for="emailUsuario">Correo Electrónico:</label>
-        <input type="text" name="emailUsuario"><br>
+        <input type="email" name="emailUsuario" required><br>
         <label for="imagenUsuario">Imagen:</label>
-        <input type="text" name="imagenUsuario", id="imagenUsuario"><br>
+        <input type="text" name="imagenUsuario" id="imagenUsuario" required><br>
         <label for="rolUsuario">Rol:</label>
-        <input type="text" name="rolUsuario", id="rolUsuario"><br>
+        <input type="text" name="rolUsuario" id="rolUsuario" required><br>
         <label for="passwordUsuario">Contraseña:</label>
-        <input type="text" name="passwordUsuario", id="passwordUsuario"><br><br>
+        <input type="password" name="passwordUsuario" id="passwordUsuario" required><br><br>
         <input type="submit" class="btn btn-success" value="Crear Usuario">
         <button type="button" class="btn btn-danger">Cancelar</button>
     </form> 

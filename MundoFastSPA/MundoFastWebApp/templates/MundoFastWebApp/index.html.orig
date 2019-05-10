@@ -14,7 +14,11 @@
                 </div>
                 <ul class="nav navbar-nav">
                     <li><a href="{% url 'MundoFastWebApp:usuarios' %}"> Usuarios</a></li>
+<<<<<<< HEAD
                     <li><a href="{% url 'MundoFastWebApp:productos' %}">Productos</a></li>
+=======
+                    <li><a href="#">Productos</a></li>
+>>>>>>> origin/master
                 </ul>
             </div>
         </nav>

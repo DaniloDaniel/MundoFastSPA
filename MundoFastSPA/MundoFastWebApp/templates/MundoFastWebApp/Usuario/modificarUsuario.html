@@ -13,17 +13,17 @@
     <form action="{% url 'MundoFastWebApp:modificarUsuario' usuario.id %}" method="post">
         {% csrf_token %}
         <label for="rutUsuario">RUT:</label>
-        <input type="text" name="rutUsuario", id="rutUsuario", value="{{usuario.rutUsuario}}"><br>
+        <input type="text" name="rutUsuario" id="rutUsuario" value="{{usuario.rutUsuario}}" required><br>
         <label for="nombreUsuario">Nombre:</label>
-        <input type="text" name="nombreUsuario", id="nombreUsuario", value="{{usuario.nombreUsuario}}"><br>
+        <input type="text" name="nombreUsuario" id="nombreUsuario" value="{{usuario.nombreUsuario}}" required><br>
         <label for="emailUsuario">Correo Electrónico:</label>
-        <input type="text" name="emailUsuario", value="{{usuario.emailUsuario}}"><br>
+        <input type="email" name="emailUsuario" value="{{usuario.emailUsuario}}" required><br>
         <label for="imagenUsuario">Imagen:</label>
-        <input type="text" name="imagenUsuario", id="imagenUsuario", value="{{usuario.imagenUsuario}}"><br>
+        <input type="text" name="imagenUsuario" id="imagenUsuario" value="{{usuario.imagenUsuario}}" required><br>
         <label for="rolUsuario">Rol:</label>
-        <input type="text" name="rolUsuario", id="rolUsuario", value="{{usuario.rolUsuario}}"><br>
+        <input type="text" name="rolUsuario" id="rolUsuario" value="{{usuario.rolUsuario}}" required><br>
         <label for="passwordUsuario">Contraseña:</label>
-        <input type="text" name="passwordUsuario", id="passwordUsuario", value="{{usuario.passwordUsuario}}"><br><br>
+        <input type="password" name="passwordUsuario" id="passwordUsuario" value="{{usuario.passwordUsuario}}" required><br><br>
         <input type="submit" class="btn btn-success" value="Modificar Usuario">
         <button type="button" class="btn btn-danger">Cancelar</button>
     </form> 
