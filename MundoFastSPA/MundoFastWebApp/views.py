@@ -4,6 +4,7 @@ from django.http import Http404 # Importa vista de error 404
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.db import IntegrityError
+from django.contrib import messages # Librería para mensajes
 
 # Create your views here.
 
@@ -35,6 +36,7 @@ def crearProducto(request):
         return render(request, "MundoFastWebApp/Producto/crearProducto.html", {"error_message": "Dejaste un campo vacío"})
     else:
         producto.save()
+        messages.success(request, 'Producto creado correctamente.')
         # Always return an HttpResponseRedirect after successfully dealing
         # with POST data. This prevents data from being posted twice if a
         # user hits the Back button.
@@ -52,6 +54,7 @@ def modificarProducto(request, id):
         producto.ofertaProducto = request.POST['ofertaDropDown']
         producto.descuentoProducto = request.POST['descuentoProducto']
         producto.save()
+        messages.success(request, 'Producto modificado correctamente.')
         return HttpResponseRedirect(reverse('MundoFastWebApp:productos'))
     else:
         return render(request, 'MundoFastWebApp/Producto/modificarProducto.html', {'producto': producto})
@@ -61,6 +64,7 @@ def eliminarProducto(request, id):
     if request.method == 'POST':
         if 'opcionSi' in request.POST:
             producto.delete()
+            messages.error(request, 'Producto eliminado correctamente.')
         return HttpResponseRedirect(reverse('MundoFastWebApp:productos'))
     else:
         return render(request, 'MundoFastWebApp/Producto/eliminarProducto.html', {'producto': producto})
@@ -97,6 +101,7 @@ def crearUsuario(request):
         return render(request, 'MundoFastWebApp/Usuario/crearUsuario.html', {'usuario': usuario, 'error_message': 'Error al crear Nuevo Usuario',})
     else:
         usuario.save()
+        messages.success(request, 'Usuario creado correctamente.')
         return HttpResponseRedirect(reverse('MundoFastWebApp:usuarios'))
 
 def modificarUsuario(request, id):
@@ -109,6 +114,17 @@ def modificarUsuario(request, id):
         usuario.rolUsuario = request.POST['rolUsuario']
         usuario.passwordUsuario = request.POST['passwordUsuario']
         usuario.save()
+        messages.success(request, 'Usuario modificado correctamente.')
         return HttpResponseRedirect(reverse('MundoFastWebApp:usuarios'))
     else:
         return render(request, 'MundoFastWebApp/Usuario/modificarUsuario.html', {'usuario': usuario})
+
+def eliminarUsuario(request, id):
+    usuario = get_object_or_404(Usuario, pk=id)
+    if request.method == 'POST':
+        if 'opcionSi' in request.POST:
+            usuario.delete()
+            messages.error(request, 'Usuario eliminado correctamente.')
+        return HttpResponseRedirect(reverse('MundoFastWebApp:usuarios'))
+    else:
+        return render(request, 'MundoFastWebApp/Usuario/eliminarUsuario.html', {'usuario': usuario})
