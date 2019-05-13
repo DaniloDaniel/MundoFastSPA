@@ -12,10 +12,12 @@ urlpatterns = [
     path('usuarios/<int:id>/', views.verUsuario, name='verUsuario'),
     # ex: /MundoFastWebApp/usuarios/crearUsuario/
     path('usuarios/crearUsuario/', views.crearUsuario, name='crearUsuario'),
-    # Registro en: /MundoFastWebApp/usuarios/crearUsuario/
+    # Registro: /MundoFastWebApp/usuarios/crearUsuario/
     path('usuarios/formUsuario/', views.formUsuario, name='formUsuario'),
-    # MOdificar en: /MundoFastWebApp/usuarios/modificarUsuario/1/
+    # Modificar: /MundoFastWebApp/usuarios/modificarUsuario/1/
     path('usuarios/modificarUsuario/<int:id>/', views.modificarUsuario, name='modificarUsuario'),
+    # Eliminar: /MundoFastWebApp/usuarios/eliminarUsuario/1/
+    path('usuarios/eliminarUsuario/<int:id>/', views.eliminarUsuario, name='eliminarUsuario'),
     path('productos/', views.productos, name='productos'),
     path('productos/crearproducto/', views.crearProducto, name='crearproducto'),
     path('productos/<int:id>/', views.verProducto, name='verproducto'),

@@ -1,33 +1,108 @@
-<h1>Productos:</h1>
-{% if listaProducto %}
-    <ul>
-    {% for producto in listaProducto %}
-        <li><a href="{% url 'MundoFastWebApp:verproducto' producto.id%}">{{ producto.nombreProducto }}</a>
-            <a href="{% url 'MundoFastWebApp:modificarproducto' producto.id %}"> |modificar|</a>
-            <a href="{% url 'MundoFastWebApp:eliminarproducto' producto.id %}"> |eliminar|</a></li>
-    {% endfor %}
-    </ul>
-{% else %}
-    {% if 'buscar' in request.path %}
-        <p>No existen productos almacenados con ese nombre.</p>
-    {% else %}
-        <p>No existen productos almacenados.</p>
-    {% endif %}
-{% endif %}
+<head>
+    <title>MundoFastSPA - Productos</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <link href='//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        .footer {
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            background-color: black;
+            color: white;
+            text-align: center;
+        }
+    </style>
+</head>
 
-<form action="{% url 'MundoFastWebApp:buscarproducto' %}" method="post">
-{% csrf_token %}
-    <label for="buscarProducto">Nombre Producto:</label>
-    <input type="text" name="buscarProducto" id="buscarProducto">
-    <input type="submit" value="Buscar Producto">
-</form>
-<p><a href="{% url 'MundoFastWebApp:ofertaproducto' %}">Mostrar Ofertas</a></p>
-<p><a href="{% url 'MundoFastWebApp:formproducto' %}">Crear Nuevo Producto</a></p>
-
-<footer>
-    {% if 'buscar' in request.path %}
-        <p><a href="{% url 'MundoFastWebApp:productos' %}">Volver</a></p>
-    {% else %}
-        <p><a href="{% url 'MundoFastWebApp:index' %}">Volver</a></p>
-    {% endif %}
-</footer>
+<body>
+    <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+        <a class="navbar-brand" href="{% url 'MundoFastWebApp:index' %}"><b>Mundo Fast SPA</b></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="collapsibleNavbar">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'MundoFastWebApp:usuarios' %}">Usuarios</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="{% url 'MundoFastWebApp:productos' %}">Productos</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <br>
+    <div class="container">
+        <h3>Lista de Productos:</h3>
+        <br> {% if messages %} {% for message in messages %}
+        <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %}" role="alert">
+            {{ message }}
+        </div>
+        {% endfor %} {% endif %}
+        <form action="{% url 'MundoFastWebApp:buscarproducto' %}" method="post">
+            <button type="button" class="btn btn-success" onclick="location.href='{% url 'MundoFastWebApp:formproducto' %}'">
+                <i class="fa fa-user"></i>Nuevo Producto
+            </button>
+            {% csrf_token %}
+            <label for="buscarProducto"></label>
+            <input type="text" name="buscarProducto" id="buscarProducto">
+            <input type="submit" value="Buscar Producto">
+        </form>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Producto</th>
+                    <th>Ver</th>
+                    <th>Editar</th>
+                    <th>Eliminar</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if listaProducto %}
+                <tr>
+                    {% for producto in listaProducto %}
+                    <td>
+                        <a href="/MundoFastWebApp/productos/{{ producto.id }}/">{{ producto.nombreProducto }}</a>
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-success" onclick="location.href='/MundoFastWebApp/productos/{{ producto.id }}/'">
+                            <i class="fa fa-eye"></i>
+                        </button>
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-primary" onclick="location.href='/MundoFastWebApp/productos/modificar/{{ producto.id }}/'">
+                            <i class="fa fa-pencil"></i>
+                        </button>
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-danger" onclick="location.href='/MundoFastWebApp/productos/eliminar/{{ producto.id }}/'">
+                            <i class="fa fa-trash"></i>
+                        </button>
+                    </td>
+                    {% endfor %} {% else %}
+                    <td>
+                        {% if 'buscar' in request.path %} No existen productos almacenados con ese nombre. {% else %} No existen productos almacenados. {% endif %}
+                    </td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    {% endif %}
+                </tr>
+            </tbody>
+        </table>
+        <p><a href="{% url 'MundoFastWebApp:ofertaproducto' %}">Mostrar Ofertas</a></p>
+        <footer>
+            {% if 'buscar' in request.path %}
+            <p><a href="{% url 'MundoFastWebApp:productos' %}">Volver</a></p>
+            {% else %}
+            <p><a href="{% url 'MundoFastWebApp:index' %}">Volver</a></p>
+            {% endif %}
+        </footer>
+    </div>
+</body>

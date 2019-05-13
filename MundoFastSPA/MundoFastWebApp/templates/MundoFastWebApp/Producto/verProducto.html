@@ -1,21 +1,29 @@
-<h1>Detalles del Producto:</h1>
-Codigo: {{ producto.codigoProducto}} <br>
-Nombre: {{ producto.nombreProducto}} <br>
-Descripcion: {{ producto.descripcionProducto}} <br>
-Categoria: {{ producto.categoriaProducto}} <br>
-Precio: {{ producto.precioProducto}} <br>
-Cantidad: {{ producto.cantidadProducto}} <br>
-Oferta: {% if producto.ofertaProducto %}
-                Si <br>
-        {% else %}
-                No <br>
-        {% endif %}
-Descuento: {{ producto.descuentoProducto}}
-<br>
-<footer>
+<head>
+    <title>MundoFastSPA - Modificar Producto</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <link href='//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+</head>
+
+<body>
+    <h1>Detalles del Producto:</h1> Código: {{ producto.codigoProducto}}
+    <br> Nombre: {{ producto.nombreProducto}}
+    <br> Descripcion: {{ producto.descripcionProducto}}
+    <br> Categoria: {{ producto.categoriaProducto}}
+    <br> Precio: {{ producto.precioProducto}}
+    <br> Cantidad: {{ producto.cantidadProducto}}
+    <br> Oferta: {% if producto.ofertaProducto %} Si
+    <br> {% else %} No
+    <br> {% endif %} Descuento: {{ producto.descuentoProducto}}
+    <br>
+    <footer>
         {% if 'ofertas' in request.META.HTTP_REFERER %}
-                <p><a href="{% url 'MundoFastWebApp:ofertaproducto' %}">Volver</a></p>
+        <p><a href="{% url 'MundoFastWebApp:ofertaproducto' %}">Volver</a></p>
         {% else %}
-                <p><a href="{% url 'MundoFastWebApp:productos' %}">Volver</a></p>
+        <p><a href="{% url 'MundoFastWebApp:productos' %}">Volver</a></p>
         {% endif %}
-</footer>
+    </footer>
+</body>
