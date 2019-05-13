@@ -128,3 +128,9 @@ def eliminarUsuario(request, id):
         return HttpResponseRedirect(reverse('MundoFastWebApp:usuarios'))
     else:
         return render(request, 'MundoFastWebApp/Usuario/eliminarUsuario.html', {'usuario': usuario})
+
+def buscarUsuario(request):
+    listaUsuario = [usuario for usuario in Usuario.objects.order_by('-id') if request.POST['buscarUsuario'] in usuario.nombreUsuario]
+    context = {'listaUsuario': listaUsuario}
+    messages.info(request, 'Resultados de búsqueda')
+    return render(request, 'MundoFastWebApp/Usuario/usuarios.html', context)

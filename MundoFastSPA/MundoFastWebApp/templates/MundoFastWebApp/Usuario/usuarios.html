@@ -41,6 +41,15 @@
     <div class="container">
         <h3>Lista de Usuarios:</h3>
         <br>
+        <form action="{% url 'MundoFastWebApp:buscarUsuario' %}" method="post">
+            <button type="button" class="btn btn-success" onclick="location.href='{% url 'MundoFastWebApp:formUsuario' %}'">
+                <i class="fa fa-user-plus"></i>Nuevo Usuario
+            </button>
+            {% csrf_token %}
+            <label for="buscarUsuario"></label>
+            <input type="text" name="buscarUsuario" id="buscarUsuario">
+            <input type="submit" value="Buscar Producto">
+        </form>
         {% if messages %}
             {% for message in messages %}
                 <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %}" role="alert">
@@ -48,10 +57,6 @@
                 </div>
             {% endfor %}
         {% endif %}
-        <button type="button" class="btn btn-success" onclick="location.href='{% url 'MundoFastWebApp:formUsuario' %}'">
-            <i class="fa fa-user-plus"></i>Nuevo Usuario
-        </button>
-        <br>
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -63,38 +68,44 @@
             </thead>
             <tbody>
                 {% if listaUsuario %}
-                <tr>
                     {% for usuario in listaUsuario %}
-                        <td>
-                            <a href="/MundoFastWebApp/usuarios/{{ usuario.id }}/">{{ usuario.nombreUsuario }}</a>
-                        </td>
-                        <td>
-                            <button type="button" class="btn btn-success" onclick="location.href='/MundoFastWebApp/usuarios/{{ usuario.id }}/'">
-                                <i class="fa fa-eye"></i>
-                            </button>
-                        </td>
-                        <td>
-                            <button type="button" class="btn btn-primary" onclick="location.href='/MundoFastWebApp/usuarios/modificarUsuario/{{ usuario.id }}/'">
-                                <i class="fa fa-pencil"></i>
-                            </button>
-                        </td>
-                        <td>
-                            <button type="button" class="btn btn-danger" onclick="location.href='/MundoFastWebApp/usuarios/eliminarUsuario/{{ usuario.id }}/'">
-                                <i class="fa fa-trash"></i>
-                            </button>
-                        </td>
+                        <tr>
+                            <td>
+                                <a href="/MundoFastWebApp/usuarios/{{ usuario.id }}/">{{ usuario.nombreUsuario }}</a>
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-success" onclick="location.href='/MundoFastWebApp/usuarios/{{ usuario.id }}/'">
+                                    <i class="fa fa-eye"></i>
+                                </button>
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-primary" onclick="location.href='/MundoFastWebApp/usuarios/modificarUsuario/{{ usuario.id }}/'">
+                                    <i class="fa fa-pencil"></i>
+                                </button>
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-danger" onclick="location.href='/MundoFastWebApp/usuarios/eliminarUsuario/{{ usuario.id }}/'">
+                                    <i class="fa fa-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
                     {% endfor %}
-                </tr>
-                {% else %}
-                <td>No existen usuarios almacenados.</td>
-                <td></td>
-                <td></td>
-                <td></td>                    
-                {% endif %}
-                            
-                <br>
+                    {% else %}
+                        <td>
+                            {% if 'buscar' in request.path %} No existen usuarios registrados con ese nombre. {% else %} No existen usuarios registrados. {% endif %}
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td></td>                    
+                    {% endif %}
             </tbody>
         </table>
+        <br>
+        {% if 'buscar' in request.path %}
+            <form>
+                <button type="button" class="btn btn-primary" onclick="location.href='{% url 'MundoFastWebApp:usuarios' %}'">Volver</button>
+            </form>
+        {% endif %}
     </div>
     <div class="footer">
         <p><a href="{% url 'MundoFastWebApp:index' %}">Volver</a></p>
