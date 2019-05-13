@@ -18,6 +18,9 @@ urlpatterns = [
     path('usuarios/modificarUsuario/<int:id>/', views.modificarUsuario, name='modificarUsuario'),
     # Eliminar: /MundoFastWebApp/usuarios/eliminarUsuario/1/
     path('usuarios/eliminarUsuario/<int:id>/', views.eliminarUsuario, name='eliminarUsuario'),
+    # Buscar: /MundoFastWebApp/usuarios/buscarUsuario/1/
+    path('usuarios/buscarUsuario/', views.buscarUsuario, name='buscarUsuario'),
+    # Productos:
     path('productos/', views.productos, name='productos'),
     path('productos/crearproducto/', views.crearProducto, name='crearproducto'),
     path('productos/<int:id>/', views.verProducto, name='verproducto'),
