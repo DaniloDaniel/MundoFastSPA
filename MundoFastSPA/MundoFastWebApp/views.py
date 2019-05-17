@@ -77,6 +77,7 @@ def ofertaProducto(request):
 def buscarProducto(request):
     listaProducto = [producto for producto in Producto.objects.order_by('-id') if request.POST['buscarProducto'] in producto.nombreProducto]
     context = {'listaProducto': listaProducto}
+    messages.info(request, 'Resultados de búsqueda.')
     return render(request, 'MundoFastWebApp/Producto/productos.html', context)
     
 def usuarios(request):
@@ -132,5 +133,5 @@ def eliminarUsuario(request, id):
 def buscarUsuario(request):
     listaUsuario = [usuario for usuario in Usuario.objects.order_by('-id') if request.POST['buscarUsuario'] in usuario.nombreUsuario]
     context = {'listaUsuario': listaUsuario}
-    messages.info(request, 'Resultados de búsqueda')
+    messages.info(request, 'Resultados de búsqueda.')
     return render(request, 'MundoFastWebApp/Usuario/usuarios.html', context)
