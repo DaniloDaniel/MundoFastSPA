@@ -40,11 +40,7 @@
     <br>
     <div class="container">
         <h3>Lista de Productos:</h3>
-        <br> {% if messages %} {% for message in messages %}
-        <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %}" role="alert">
-            {{ message }}
-        </div>
-        {% endfor %} {% endif %}
+        <br>
         <form action="{% url 'MundoFastWebApp:buscarproducto' %}" method="post">
             <button type="button" class="btn btn-success" onclick="location.href='{% url 'MundoFastWebApp:formproducto' %}'">
                 <i class="fa fa-user"></i>Nuevo Producto
@@ -54,6 +50,13 @@
             <input type="text" name="buscarProducto" id="buscarProducto">
             <input type="submit" value="Buscar Producto">
         </form>
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %}" role="alert">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}    
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -65,26 +68,27 @@
             </thead>
             <tbody>
                 {% if listaProducto %}
-                <tr>
                     {% for producto in listaProducto %}
-                    <td>
-                        <a href="/MundoFastWebApp/productos/{{ producto.id }}/">{{ producto.nombreProducto }}</a>
-                    </td>
-                    <td>
-                        <button type="button" class="btn btn-success" onclick="location.href='/MundoFastWebApp/productos/{{ producto.id }}/'">
-                            <i class="fa fa-eye"></i>
-                        </button>
-                    </td>
-                    <td>
-                        <button type="button" class="btn btn-primary" onclick="location.href='/MundoFastWebApp/productos/modificar/{{ producto.id }}/'">
-                            <i class="fa fa-pencil"></i>
-                        </button>
-                    </td>
-                    <td>
-                        <button type="button" class="btn btn-danger" onclick="location.href='/MundoFastWebApp/productos/eliminar/{{ producto.id }}/'">
-                            <i class="fa fa-trash"></i>
-                        </button>
-                    </td>
+                        <tr>
+                            <td>
+                                <a href="/MundoFastWebApp/productos/{{ producto.id }}/">{{ producto.nombreProducto }}</a>
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-success" onclick="location.href='/MundoFastWebApp/productos/{{ producto.id }}/'">
+                                    <i class="fa fa-eye"></i>
+                                </button>
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-primary" onclick="location.href='/MundoFastWebApp/productos/modificar/{{ producto.id }}/'">
+                                    <i class="fa fa-pencil"></i>
+                                </button>
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-danger" onclick="location.href='/MundoFastWebApp/productos/eliminar/{{ producto.id }}/'">
+                                    <i class="fa fa-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
                     {% endfor %} {% else %}
                     <td>
                         {% if 'buscar' in request.path %} No existen productos almacenados con ese nombre. {% else %} No existen productos almacenados. {% endif %}
@@ -92,17 +96,22 @@
                     <td></td>
                     <td></td>
                     <td></td>
-                    {% endif %}
-                </tr>
+                {% endif %}
             </tbody>
         </table>
-        <p><a href="{% url 'MundoFastWebApp:ofertaproducto' %}">Mostrar Ofertas</a></p>
-        <footer>
+        <form action="{% url 'MundoFastWebApp:ofertaproducto' %}" method="post">
+            <button type="submit" class="btn btn-info">
+                <i class="fa fa-eye"></i>Mostrar Ofertas
+            </button>
             {% if 'buscar' in request.path %}
-            <p><a href="{% url 'MundoFastWebApp:productos' %}">Volver</a></p>
+                <button type="button" class="btn btn-danger" onclick="location.href='{% url 'MundoFastWebApp:productos' %}'">
+                    Volver a la lista
+                </button>
             {% else %}
-            <p><a href="{% url 'MundoFastWebApp:index' %}">Volver</a></p>
+                <button type="button" class="btn btn-danger" onclick="location.href='{% url 'MundoFastWebApp:index' %}'">
+                    Volver
+                </button>           
             {% endif %}
-        </footer>
+        </form>
     </div>
 </body>
