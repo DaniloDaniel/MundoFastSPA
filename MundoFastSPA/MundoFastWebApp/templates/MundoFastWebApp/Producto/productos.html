@@ -100,6 +100,7 @@
             </tbody>
         </table>
         <form action="{% url 'MundoFastWebApp:ofertaproducto' %}" method="post">
+            {% csrf_token %}
             <button type="submit" class="btn btn-info">
                 <i class="fa fa-eye"></i>Mostrar Ofertas
             </button>
