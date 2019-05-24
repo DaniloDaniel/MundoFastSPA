@@ -1,0 +1,43 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <title>MundoFastSPA</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+        <link href='//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+        <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+        <style>
+            .footer {
+                position: fixed;
+                left: 0;
+                bottom: 0;
+                width: 100%;
+                background-color: grey;
+                color: white;
+                text-align: center;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <h3>Crear Nuevo Producto:</h3>
+            {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+            <form action="{% url 'MundoFastWebApp:index' %}" method="post">
+                {% csrf_token %}
+                <label for="emailUsuario"><b>Correo Electrónico:</b></label>
+                <input type="email" name="emailUsuario" id="emailUsuario" required><br>
+                <label for="passwordUsuario"><b>Contraseña:</b></label>
+                <input type="password" name="passwordUsuario" id="passwordUsuario" required><br>
+                <input type="submit" class="btn btn-success" value="Iniciar Sesión">
+                <button type="button" class="btn btn-danger" onclick="location.href='{% url 'MundoFastWebApp:index' %}'">Volver</button>
+            </form>
+        </div>
+    </body>
+    <div class="footer">
+        <p>Volver</p>
+    </div>
+</html>
