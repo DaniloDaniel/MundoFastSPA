@@ -1,5 +1,5 @@
 from django.shortcuts import get_object_or_404, render, render_to_response
-from .models import Usuario, Producto # Importa el modelo
+from .models import Usuario, Producto, Venta # Importa el modelo
 from django.http import Http404 # Importa vista de error 404
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
@@ -135,3 +135,8 @@ def buscarUsuario(request):
     context = {'listaUsuario': listaUsuario}
     messages.info(request, 'Resultados de búsqueda.')
     return render(request, 'MundoFastWebApp/Usuario/usuarios.html', context)
+
+def ventas(request):
+    listaVenta = Venta.objects.order_by('-id')
+    context = {'listaVenta': listaVenta}
+    return render(request, 'MundoFastWebApp/Venta/ventas.html', context)

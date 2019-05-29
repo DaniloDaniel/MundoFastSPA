@@ -1,6 +1,7 @@
 from django.db import models
 
 from django.core.validators import MaxValueValidator
+import datetime
 
 # Create your models here.
 class Producto(models.Model):
@@ -39,3 +40,24 @@ class Usuario(models.Model):
 
     def __str__(self):
         return self.nombreUsuario
+
+class Venta(models.Model):
+    fechaVenta = models.DateTimeField(auto_now_add=True)
+    cuotasVenta = models.PositiveIntegerField(default=1)
+    totalVenta = models.PositiveIntegerField()
+    responsableVenta = models.ForeignKey(Usuario, on_delete=models.PROTECT)
+    descuendoAdicionalVenta = models.PositiveIntegerField(default = 0, validators = [MaxValueValidator(100)])
+    productos = models.ManyToManyField(Producto, through='DetalleVenta')
+
+    def __str__(self):
+        return ("Venta " + str(self.id) )
+
+class DetalleVenta(models.Model):
+    producto = models.ForeignKey(Producto, on_delete=models.PROTECT)
+    venta = models.ForeignKey(Venta, on_delete=models.PROTECT)
+    cantidadProducto = models.PositiveIntegerField(default=1)
+    descuentoAplicadoProducto = models.PositiveIntegerField(default = 0, validators = [MaxValueValidator(100)])
+    totalPorProducto = models.PositiveIntegerField()
+
+    def __str__(self):
+        return (str(self.venta) + " " +str(self.producto))
