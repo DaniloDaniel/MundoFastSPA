@@ -178,3 +178,14 @@ def crearVenta(request):
         # with POST data. This prevents data from being posted twice if a
         # user hits the Back button.
         return HttpResponseRedirect(reverse('MundoFastWebApp:ventas'))
+
+def buscarVenta(request):
+    print("testo: "+request.POST['buscarVenta'])
+    alt = request.POST['buscarVenta']
+    if request.POST['buscarVenta']:
+        listaVenta = [x for x in Venta.objects.order_by('-id') if int(alt) == x.folioVenta]
+        context = {'listaVenta': listaVenta}
+        messages.info(request, 'Resultados de búsqueda.')
+        return render(request, 'MundoFastWebApp/Venta/ventas.html', context)
+    else:
+        return HttpResponseRedirect(reverse('MundoFastWebApp:ventas'))
