@@ -1,5 +1,5 @@
 from django.shortcuts import get_object_or_404, render, render_to_response
-from .models import Usuario, Producto, Venta # Importa el modelo
+from .models import Usuario, Producto, Venta, DetalleVenta # Importa el modelo
 from django.http import Http404 # Importa vista de error 404
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
@@ -140,3 +140,41 @@ def ventas(request):
     listaVenta = Venta.objects.order_by('-id')
     context = {'listaVenta': listaVenta}
     return render(request, 'MundoFastWebApp/Venta/ventas.html', context)
+
+def formVenta(request):
+    venta = Venta()
+    listaUsuario = Usuario.objects.order_by('-id')
+    listaProducto = Producto.objects.order_by('-id')
+    return render(request, 'MundoFastWebApp/Venta/crearVenta.html',
+            {'venta': venta, 
+             'listaUsuario': listaUsuario,
+             'listaProducto': listaProducto})
+
+def crearVenta(request):
+    print(request.POST.get('cantidadProductoVenta1'))
+    try:
+        cantProductosVenta = int(request.POST['contProductosVenta'])
+        for i in range(cantProductosVenta):
+            print("AAAA: "+str(i))
+        print(cantProductosVenta)
+        detallesVenta = []
+        venta = Venta(folioVenta = request.POST['folioVenta'], cuotasVenta = request.POST['cuotasVenta'], subTotal = request.POST.get('subTotal'), 
+            descuendoAdicionalVenta = request.POST['descuentoAdicionalVenta'], totalVenta = request.POST.get('totalVenta'),
+            estadoVenta = request.POST['estadoVenta'], responsableVenta = Usuario.objects.get(nombreUsuario = request.POST['responsableVenta']))
+        venta.save()
+        for i in range(cantProductosVenta):
+            productoAux = Producto()
+            productoAux = Producto.objects.get(codigoProducto=request.POST.get('codigoProductoVenta'+str(i)))
+            print(productoAux.nombreProducto)
+            cantidadProducto = request.POST.get('cantidadProductoVenta'+str(i))
+            totalProducto = productoAux.precioProducto - (productoAux.precioProducto * productoAux.descuentoProducto / 100)
+            detalleVenta = DetalleVenta(producto=productoAux, venta=venta, cantidadProducto=cantidadProducto, descuentoAplicadoProducto=productoAux.descuentoProducto, totalPorProducto=totalProducto)
+            detalleVenta.save()
+    except IntegrityError:
+        return render(request, "MundoFastWebApp/Venta/crearVenta.html", {"error_message": "Dejaste un campo vacío"})
+    else:
+        messages.success(request, 'Venta creada correctamente.')
+        # Always return an HttpResponseRedirect after successfully dealing
+        # with POST data. This prevents data from being posted twice if a
+        # user hits the Back button.
+        return HttpResponseRedirect(reverse('MundoFastWebApp:ventas'))

@@ -31,4 +31,6 @@ urlpatterns = [
     path('productos/buscar/', views.buscarProducto, name='buscarproducto'),
     # Ventas:
     path('ventas/', views.ventas, name='ventas'),
+    path('ventas/formVenta/', views.formVenta, name='formVenta'),
+    path('ventas/crearVenta/', views.crearVenta, name='crearVenta'),
 ]

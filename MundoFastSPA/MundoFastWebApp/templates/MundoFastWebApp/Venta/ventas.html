@@ -39,16 +39,16 @@
     </nav>
     <br>
     <div class="container">
-        <h3>Lista de Productos:</h3>
+        <h3>Lista de Ventas:</h3>
         <br>
         <form action="{% url 'MundoFastWebApp:buscarproducto' %}" method="post">
-            <button type="button" class="btn btn-success" onclick="location.href='{% url 'MundoFastWebApp:formproducto' %}'">
-                <i class="fa fa-user"></i>Nuevo Producto
+            <button type="button" class="btn btn-success" onclick="location.href='{% url 'MundoFastWebApp:formVenta' %}'">
+                <i class="fa fa-user"></i>Nueva Venta
             </button>
             {% csrf_token %}
-            <label for="buscarProducto"></label>
-            <input type="text" name="buscarProducto" id="buscarProducto">
-            <input type="submit" value="Buscar Producto">
+            <label for="buscarVenta"></label>
+            <input type="text" name="buscarVenta" id="buscarVenta">
+            <input type="submit" value="Buscar Venta">
         </form>
         {% if messages %}
             {% for message in messages %}
@@ -60,18 +60,38 @@
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th>Producto</th>
+                    <th>Folio</th>
+                    <th>Fecha</th>
+                    <th>Subtotal</th>
+                    <th>Descuento</th>
+                    <th>Total</th>
+                    <th>Estado</th>
                     <th>Ver</th>
                     <th>Editar</th>
                     <th>Eliminar</th>
                 </tr>
             </thead>
             <tbody>
-                {% if listaProducto %}
-                    {% for producto in listaProducto %}
+                {% if listaVenta %}
+                    {% for venta in listaVenta %}
                         <tr>
                             <td>
-                                <a href="/MundoFastWebApp/productos/{{ producto.id }}/">{{ producto.nombreProducto }}</a>
+                                <a href="/MundoFastWebApp/productos/{{ producto.id }}/">{{ venta.folioVenta }}</a>
+                            </td>
+                            <td>
+                                <label>{{ venta.fechaVenta }}</label>
+                            </td>
+                            <td>
+                                <label>{{ venta.subTotal }}</label>
+                            </td>
+                            <td>
+                                <label>{{ venta.descuendoAdicionalVenta }}</label>
+                            </td>
+                            <td>
+                                <label>{{ venta.totalVenta }}</label>
+                            </td>
+                            <td>
+                                <label>{{ venta.estadoVenta }}</label>
                             </td>
                             <td>
                                 <button type="button" class="btn btn-success" onclick="location.href='/MundoFastWebApp/productos/{{ producto.id }}/'">
@@ -101,9 +121,6 @@
         </table>
         <form action="{% url 'MundoFastWebApp:ofertaproducto' %}" method="post">
             {% csrf_token %}
-            <button type="submit" class="btn btn-info">
-                <i class="fa fa-eye"></i>Mostrar Ofertas
-            </button>
             {% if 'buscar' in request.path %}
                 <button type="button" class="btn btn-danger" onclick="location.href='{% url 'MundoFastWebApp:productos' %}'">
                     Volver a la lista

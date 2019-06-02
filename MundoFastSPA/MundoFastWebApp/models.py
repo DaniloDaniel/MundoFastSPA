@@ -42,19 +42,22 @@ class Usuario(models.Model):
         return self.nombreUsuario
 
 class Venta(models.Model):
+    folioVenta = models.PositiveIntegerField(unique=True, default=0)
     fechaVenta = models.DateTimeField(auto_now_add=True)
     cuotasVenta = models.PositiveIntegerField(default=1)
+    subTotal = models.PositiveIntegerField(default=0)
     totalVenta = models.PositiveIntegerField()
+    estadoVenta = models.CharField(max_length=20, default='En Proceso')
     responsableVenta = models.ForeignKey(Usuario, on_delete=models.PROTECT)
     descuendoAdicionalVenta = models.PositiveIntegerField(default = 0, validators = [MaxValueValidator(100)])
     productos = models.ManyToManyField(Producto, through='DetalleVenta')
 
     def __str__(self):
-        return ("Venta " + str(self.id) )
+        return ("Venta Folio N°" + str(self.folioVenta) )
 
 class DetalleVenta(models.Model):
     producto = models.ForeignKey(Producto, on_delete=models.PROTECT)
-    venta = models.ForeignKey(Venta, on_delete=models.PROTECT)
+    venta = models.ForeignKey(Venta, on_delete=models.CASCADE)
     cantidadProducto = models.PositiveIntegerField(default=1)
     descuentoAplicadoProducto = models.PositiveIntegerField(default = 0, validators = [MaxValueValidator(100)])
     totalPorProducto = models.PositiveIntegerField()
