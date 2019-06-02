@@ -41,7 +41,7 @@
     <div class="container">
         <h3>Lista de Ventas:</h3>
         <br>
-        <form action="{% url 'MundoFastWebApp:buscarproducto' %}" method="post">
+        <form action="" method="post">
             <button type="button" class="btn btn-success" onclick="location.href='{% url 'MundoFastWebApp:formVenta' %}'">
                 <i class="fa fa-user"></i>Nueva Venta
             </button>
@@ -76,7 +76,7 @@
                     {% for venta in listaVenta %}
                         <tr>
                             <td>
-                                <a href="/MundoFastWebApp/productos/{{ producto.id }}/">{{ venta.folioVenta }}</a>
+                                <a href="">{{ venta.folioVenta }}</a>
                             </td>
                             <td>
                                 <label>{{ venta.fechaVenta }}</label>
@@ -94,17 +94,17 @@
                                 <label>{{ venta.estadoVenta }}</label>
                             </td>
                             <td>
-                                <button type="button" class="btn btn-success" onclick="location.href='/MundoFastWebApp/productos/{{ producto.id }}/'">
+                                <button type="button" class="btn btn-success" onclick="location.href=''">
                                     <i class="fa fa-eye"></i>
                                 </button>
                             </td>
                             <td>
-                                <button type="button" class="btn btn-primary" onclick="location.href='/MundoFastWebApp/productos/modificar/{{ producto.id }}/'">
+                                <button type="button" class="btn btn-primary" onclick="location.href=''">
                                     <i class="fa fa-pencil"></i>
                                 </button>
                             </td>
                             <td>
-                                <button type="button" class="btn btn-danger" onclick="location.href='/MundoFastWebApp/productos/eliminar/{{ producto.id }}/'">
+                                <button type="button" class="btn btn-danger" onclick="location.href=''">
                                     <i class="fa fa-trash"></i>
                                 </button>
                             </td>
