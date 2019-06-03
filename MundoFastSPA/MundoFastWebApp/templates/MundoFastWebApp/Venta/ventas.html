@@ -41,13 +41,13 @@
     <div class="container">
         <h3>Lista de Ventas:</h3>
         <br>
-        <form action="" method="post">
+        <form action="{% url 'MundoFastWebApp:buscarVenta' %}" method="post">
             <button type="button" class="btn btn-success" onclick="location.href='{% url 'MundoFastWebApp:formVenta' %}'">
                 <i class="fa fa-user"></i>Nueva Venta
             </button>
             {% csrf_token %}
             <label for="buscarVenta"></label>
-            <input type="text" name="buscarVenta" id="buscarVenta">
+            <input type="number" name="buscarVenta" id="buscarVenta">
             <input type="submit" value="Buscar Venta">
         </form>
         {% if messages %}
@@ -111,7 +111,7 @@
                         </tr>
                     {% endfor %} {% else %}
                     <td>
-                        {% if 'buscar' in request.path %} No existen productos almacenados con ese nombre. {% else %} No existen productos almacenados. {% endif %}
+                        {% if 'buscar' in request.path %} No existen ventas almacenados con ese numero de folio. {% else %} No existen ventas almacenados. {% endif %}
                     </td>
                     <td></td>
                     <td></td>
@@ -122,7 +122,7 @@
         <form action="{% url 'MundoFastWebApp:ofertaproducto' %}" method="post">
             {% csrf_token %}
             {% if 'buscar' in request.path %}
-                <button type="button" class="btn btn-danger" onclick="location.href='{% url 'MundoFastWebApp:productos' %}'">
+                <button type="button" class="btn btn-danger" onclick="location.href='{% url 'MundoFastWebApp:ventas' %}'">
                     Volver a la lista
                 </button>
             {% else %}

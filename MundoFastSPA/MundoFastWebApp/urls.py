@@ -33,4 +33,6 @@ urlpatterns = [
     path('ventas/', views.ventas, name='ventas'),
     path('ventas/formVenta/', views.formVenta, name='formVenta'),
     path('ventas/crearVenta/', views.crearVenta, name='crearVenta'),
+    path('ventas/buscar/', views.buscarVenta, name='buscarVenta'),
+
 ]
