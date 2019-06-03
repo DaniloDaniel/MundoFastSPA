@@ -20,7 +20,6 @@
             {% for producto in listaProducto %}
                 var productoAux = {codigoPAux:"{{producto.codigoProducto}}", nombrePAux:"{{producto.nombreProducto}}", precioPAux:"{{producto.precioProducto}}", descuentoPAux:"{{producto.descuentoProducto}}"};
                 lista.push(productoAux);
-                console.log(productoAux);
             {% endfor %}
             {% for venta in listaVenta %}
                 if(randomFolio == "{{venta.folioVenta}}"){
@@ -56,12 +55,9 @@
 
                 var total = $("#subTotal").val() - ($("#descuentoAdicionalVenta").val() * $("#subTotal").val()) /100;
                 $("#totalVenta").val(total);
-                console.log(contProductosVenta);
                 
                 $(".cantidadProductoVenta").on("change keyup",function() {
                     var suffix = this.name.match(/\d+/);
-                    //var prefixPrecio = '#precioProductoVenta';
-                    //var prefixCodigo = '#codigoProductoVenta';
                     var precioId = prefixPrecio + suffix;
                     var codigoId = prefixCodigo + suffix;
                     var precioReal;
@@ -88,7 +84,6 @@
                 $("#descuentoAdicionalVenta").on("change keyup",function(){
                     var total = $("#subTotal").val() - ($(this).val() * $("#subTotal").val()) /100;
                     $("#totalVenta").val(total);
-                    console.log(contProductosVenta);
                 });
                 
                 $("#eliminarFila").on("click", function(){
