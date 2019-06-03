@@ -64,3 +64,7 @@ class DetalleVenta(models.Model):
 
     def __str__(self):
         return (str(self.venta) + " " +str(self.producto))
+
+    def totalProducto(self):
+        total = self.cantidadProducto * self.totalPorProducto
+        return total

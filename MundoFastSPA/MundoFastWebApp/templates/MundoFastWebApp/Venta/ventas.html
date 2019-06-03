@@ -76,7 +76,7 @@
                     {% for venta in listaVenta %}
                         <tr>
                             <td>
-                                <a href="">{{ venta.folioVenta }}</a>
+                                <a href="/MundoFastWebApp/ventas/{{ venta.id }}/">{{ venta.folioVenta }}</a>
                             </td>
                             <td>
                                 <label>{{ venta.fechaVenta }}</label>
@@ -94,7 +94,7 @@
                                 <label>{{ venta.estadoVenta }}</label>
                             </td>
                             <td>
-                                <button type="button" class="btn btn-success" onclick="location.href=''">
+                                <button type="button" class="btn btn-success" onclick="location.href='/MundoFastWebApp/ventas/{{ venta.id }}/'">
                                     <i class="fa fa-eye"></i>
                                 </button>
                             </td>
