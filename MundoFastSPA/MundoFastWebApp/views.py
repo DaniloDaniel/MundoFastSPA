@@ -136,6 +136,14 @@ def buscarUsuario(request):
     messages.info(request, 'Resultados de búsqueda.')
     return render(request, 'MundoFastWebApp/Usuario/usuarios.html', context)
 
+def iniciarSesión(request, email):
+    usuario = get_object_or_404(Usuario, eliminarUsuario = email)
+    if request.method == 'POST':
+        usuario.emailUsuario = request.POST['emailUsuario']
+        usuario.passwordUsuario = request.POST['passwordUsuario']
+        return HttpResponseRedirect(reverse('MundoFastWebApp:index'))
+    else:
+        return render(request, 'MundoFastWebApp/login/', {'usuario': usuario})
 def ventas(request):
     listaVenta = Venta.objects.order_by('-id')
     context = {'listaVenta': listaVenta}

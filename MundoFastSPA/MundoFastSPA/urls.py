@@ -19,4 +19,5 @@ from django.urls import include, path
 urlpatterns = [
     path('MundoFastWebApp/', include('MundoFastWebApp.urls')),
     path('admin/', admin.site.urls),
+    path('MundoFastWebApp/', include('django.contrib.auth.urls')),
 ]
