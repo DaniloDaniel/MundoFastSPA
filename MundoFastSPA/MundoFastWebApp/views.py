@@ -193,3 +193,43 @@ def verVenta(request, id):
     venta = get_object_or_404(Venta, pk=id)
     listaDetalleVenta = [detalleVenta for detalleVenta in DetalleVenta.objects.order_by('-id') if venta.id == detalleVenta.venta.id]
     return render(request, 'MundoFastWebApp/Venta/verVenta.html', {'venta': venta, 'listaDetalleVenta': listaDetalleVenta})
+
+def modificarVenta(request, id):
+    venta = get_object_or_404(Venta, pk=id)
+    listaDetalleVenta = [detalleVenta for detalleVenta in DetalleVenta.objects.order_by('-id') if venta.id == detalleVenta.venta.id]
+    listaProducto = Producto.objects.order_by('-id')
+    listaUsuario = Usuario.objects.order_by('-id')
+    if request.method == 'POST':
+        try:
+            venta.cuotasVenta = request.POST['cuotasVenta']
+            venta.subTotal = request.POST['subTotal']
+            venta.totalVenta = request.POST['totalVenta']
+            venta.estadoVenta = request.POST['estadoVenta']
+            venta.responsableVenta = Usuario.objects.get(nombreUsuario=request.POST['responsableVenta'])
+            venta.descuentoAdicionalVenta = request.POST['descuentoAdicionalVenta']
+            venta.save()
+        
+            cantProductosVenta = int(request.POST['contProductosVenta'])
+            detallesVenta = []
+            for i in range(cantProductosVenta):
+                productoAux = Producto()
+                productoAux = Producto.objects.get(codigoProducto=request.POST.get('codigoProductoVenta'+str(i)))
+                detalleVenta = DetalleVenta.objects.get(producto=productoAux, venta=venta)
+                cantidadProducto = request.POST.get('cantidadProductoVenta'+str(i))
+                totalProducto = productoAux.precioProducto - (productoAux.precioProducto * productoAux.descuentoProducto / 100)
+                detalleVenta.producto = productoAux
+                detalleVenta.venta = venta
+                detalleVenta.cantidadProducto=cantidadProducto
+                detalleVenta.descuentoAplicadoProducto=productoAux.descuentoProducto
+                detalleVenta.totalPorProducto=totalProducto
+                detalleVenta.save()
+        except IntegrityError:
+            return render(request, "MundoFastWebApp/Venta/modificarVenta.html", {"error_message": "Error de integridad"})
+        else:
+            messages.success(request, 'Venta modificada correctamente.')
+            # Always return an HttpResponseRedirect after successfully dealing
+            # with POST data. This prevents data from being posted twice if a
+            # user hits the Back button.
+            return HttpResponseRedirect(reverse('MundoFastWebApp:ventas'))
+    else:
+        return render(request, 'MundoFastWebApp/Venta/modificarVenta.html', {'venta': venta, 'listaProducto':listaProducto, 'listaDetalleVenta': listaDetalleVenta, 'listaUsuario': listaUsuario})
