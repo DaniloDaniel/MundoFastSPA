@@ -1,5 +1,4 @@
 from django.urls import path
-
 from . import views
 
 app_name = 'MundoFastWebApp'
@@ -35,4 +34,5 @@ urlpatterns = [
     path('ventas/crearVenta/', views.crearVenta, name='crearVenta'),
     path('ventas/buscar/', views.buscarVenta, name='buscarVenta'),
     path('ventas/<int:id>/', views.verVenta, name='verVenta'),
+    
 ]

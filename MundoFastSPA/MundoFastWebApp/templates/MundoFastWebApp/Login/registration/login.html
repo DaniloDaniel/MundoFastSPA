@@ -1,0 +1,60 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <title>MundoFastSPA</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+        <link href='//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+        <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+        <style>
+            .footer {
+                position: fixed;
+                left: 0;
+                bottom: 0;
+                width: 100%;
+                background-color: grey;
+                color: white;
+                text-align: center;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <h3>Iniciar Sesión:</h3>
+            {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+            <form action="." method="post">
+                {% csrf_token %}
+                <input type="hidden" name="next" value="{{ next }}" />
+                    {{ form.non_field_errors }}
+                    {% for field in form %}
+                <div class="field-wrapper">
+                    <div class="label-wrapper">
+                        {% if field.name == "username" %}
+                            Correo Electrónico
+                        {% else %}
+                            {{ field.label_tag }}
+                        {% endif %}
+                        {% if field.field.required %}<span class="required">*</span>{% endif %}
+                    </div>
+                    <div class="value-wrapper">
+                        {{ field }}
+                        {{ field.errors }}
+                    </div>
+                </div>
+                {% endfor %}
+                <div class="submit-wrapper">
+                <input type="submit" class="btn btn-success" value="Iniciar Sesión">
+                <button type="button" class="btn btn-danger" onclick="location.href='{% url 'MundoFastWebApp:index' %}'">Volver</button>
+                </div>
+            </form>
+        </div>
+        
+    </body>
+    <div class="footer">
+        <p>Volver</p>
+    </div>
+</html>
