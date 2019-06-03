@@ -1,0 +1,46 @@
+<head>
+    <title>MundoFastSPA - Ver Venta</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <link href='//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+</head>
+
+<body>
+    <h1>Detalles de la Venta:</h1> Folio: {{ venta.folioVenta }}
+    <br> Fecha: {{ venta.fechaVenta }}
+    <br> Productos:
+    <table style="width:30%">
+        <tr>
+            <th>Codigo</th>
+            <th>Nombre</th>
+            <th>Cantidad</th>
+            <th>Precio Unitario</th>
+            <th>Descuento</th>
+            <th>Total</th>
+        </tr>
+        {% for x in listaDetalleVenta%}
+            <tr>
+                <td>{{ x.producto.codigoProducto }}</td>
+                <td>{{ x.producto.nombreProducto }}</td>
+                <td>{{ x.cantidadProducto }}</td>
+                <td>{{ x.totalPorProducto }}</td>
+                <td>{{ x.descuentoAplicadoProducto }}</td>
+                <td>{{ x.totalProducto }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+    Cuotas: {{ venta.cuotasVenta }}
+    <br> Sub Total: {{ venta.subTotal }}
+    <br> Descuento: {{ venta.descuentoAdicionalVenta }}
+    <br> Total: {{ venta.totalVenta }}
+    <br> Estado: {{ venta.estadoVenta }}
+    <br> Responsable: {{venta.responsableVenta}}
+    <br> 
+    <br>
+    <footer>
+        <p><a href="{% url 'MundoFastWebApp:ventas' %}">Volver</a></p>
+    </footer>
+</body>

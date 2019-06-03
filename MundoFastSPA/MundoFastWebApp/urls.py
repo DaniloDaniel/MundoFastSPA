@@ -34,5 +34,5 @@ urlpatterns = [
     path('ventas/formVenta/', views.formVenta, name='formVenta'),
     path('ventas/crearVenta/', views.crearVenta, name='crearVenta'),
     path('ventas/buscar/', views.buscarVenta, name='buscarVenta'),
-
+    path('ventas/<int:id>/', views.verVenta, name='verVenta'),
 ]

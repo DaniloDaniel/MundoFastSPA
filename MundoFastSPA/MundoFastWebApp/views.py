@@ -188,3 +188,8 @@ def buscarVenta(request):
         return render(request, 'MundoFastWebApp/Venta/ventas.html', context)
     else:
         return HttpResponseRedirect(reverse('MundoFastWebApp:ventas'))
+
+def verVenta(request, id):
+    venta = get_object_or_404(Venta, pk=id)
+    listaDetalleVenta = [detalleVenta for detalleVenta in DetalleVenta.objects.order_by('-id') if venta.id == detalleVenta.venta.id]
+    return render(request, 'MundoFastWebApp/Venta/verVenta.html', {'venta': venta, 'listaDetalleVenta': listaDetalleVenta})
