@@ -180,7 +180,6 @@ def crearVenta(request):
         return HttpResponseRedirect(reverse('MundoFastWebApp:ventas'))
 
 def buscarVenta(request):
-    print("testo: "+request.POST['buscarVenta'])
     alt = request.POST['buscarVenta']
     if request.POST['buscarVenta']:
         listaVenta = [x for x in Venta.objects.order_by('-id') if int(alt) == x.folioVenta]
