@@ -24,18 +24,35 @@
     </head>
     <body>
         <div class="container">
-            <h3>Crear Nuevo Producto:</h3>
+            <h3>Iniciar Sesión:</h3>
             {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
-            <form action="{% url 'MundoFastWebApp:index' %}" method="post">
+            <form action="." method="post">
                 {% csrf_token %}
-                <label for="emailUsuario"><b>Correo Electrónico:</b></label>
-                <input type="email" name="emailUsuario" id="emailUsuario" required><br>
-                <label for="passwordUsuario"><b>Contraseña:</b></label>
-                <input type="password" name="passwordUsuario" id="passwordUsuario" required><br>
+                <input type="hidden" name="next" value="{{ next }}" />
+                    {{ form.non_field_errors }}
+                    {% for field in form %}
+                <div class="field-wrapper">
+                    <div class="label-wrapper">
+                        {% if field.name == "username" %}
+                            Correo Electrónico
+                        {% else %}
+                            {{ field.label_tag }}
+                        {% endif %}
+                        {% if field.field.required %}<span class="required">*</span>{% endif %}
+                    </div>
+                    <div class="value-wrapper">
+                        {{ field }}
+                        {{ field.errors }}
+                    </div>
+                </div>
+                {% endfor %}
+                <div class="submit-wrapper">
                 <input type="submit" class="btn btn-success" value="Iniciar Sesión">
                 <button type="button" class="btn btn-danger" onclick="location.href='{% url 'MundoFastWebApp:index' %}'">Volver</button>
+                </div>
             </form>
         </div>
+        
     </body>
     <div class="footer">
         <p>Volver</p>
