@@ -241,3 +241,13 @@ def modificarVenta(request, id):
             return HttpResponseRedirect(reverse('MundoFastWebApp:ventas'))
     else:
         return render(request, 'MundoFastWebApp/Venta/modificarVenta.html', {'venta': venta, 'listaProducto':listaProducto, 'listaDetalleVenta': listaDetalleVenta, 'listaUsuario': listaUsuario})
+
+def eliminarVenta(request, id):
+    venta = get_object_or_404(Venta, pk=id)
+    if request.method == 'POST':
+        if 'opcionSi' in request.POST:
+            venta.delete()
+            messages.error(request, 'Venta eliminado correctamente.')
+        return HttpResponseRedirect(reverse('MundoFastWebApp:ventas'))
+    else:
+        return render(request, 'MundoFastWebApp/Venta/eliminarVenta.html', {'venta': venta})

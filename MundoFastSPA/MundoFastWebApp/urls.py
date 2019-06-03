@@ -35,4 +35,5 @@ urlpatterns = [
     path('ventas/buscar/', views.buscarVenta, name='buscarVenta'),
     path('ventas/<int:id>/', views.verVenta, name='verVenta'),
     path('ventas/modificar/<int:id>/', views.modificarVenta, name='modificarVenta'),
+    path('ventas/eliminar/<int:id>/', views.eliminarVenta, name='eliminarVenta'),
 ]
