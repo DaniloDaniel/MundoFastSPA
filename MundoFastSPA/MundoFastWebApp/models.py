@@ -43,8 +43,9 @@ class Usuario(AbstractBaseUser, PermissionsMixin):
     imagenUsuario = models.CharField(max_length=10000)
     rolUsuario = models.CharField(max_length=20)
     emailUsuario = models.EmailField(_('email address'), unique=True)
-    is_staff = models.BooleanField(default=False)
+    is_staff = models.BooleanField(default=True)
     is_active = models.BooleanField(default=True)
+    is_superuser= models.BooleanField(default=True)
     date_joined = models.DateTimeField(default=timezone.now)
 
     USERNAME_FIELD = 'emailUsuario'
