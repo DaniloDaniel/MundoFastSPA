@@ -177,7 +177,7 @@
             <label for="responsableVenta"><b>Responsable Venta:</b></label>
             <select name="responsableVenta" id="responsableVenta">
                 {% for usuario in listaUsuario %}
-                <option value="{{ usuario.nombreUsuario }}">{{ usuario.nombreUsuario }}</option>       
+                <option value="{{ usuario.emailUsuario }}">{{ usuario.emailUsuario }}</option>       
                 {% endfor %}
             </select><br>
             <input type="text" id="contProductosVenta" name="contProductosVenta"/>

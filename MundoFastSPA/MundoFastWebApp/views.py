@@ -159,16 +159,12 @@ def formVenta(request):
              'listaProducto': listaProducto})
 
 def crearVenta(request):
-    print(request.POST.get('cantidadProductoVenta1'))
     try:
         cantProductosVenta = int(request.POST['contProductosVenta'])
-        for i in range(cantProductosVenta):
-            print("AAAA: "+str(i))
-        print(cantProductosVenta)
         detallesVenta = []
         venta = Venta(folioVenta = request.POST['folioVenta'], cuotasVenta = request.POST['cuotasVenta'], subTotal = request.POST.get('subTotal'), 
             descuendoAdicionalVenta = request.POST['descuentoAdicionalVenta'], totalVenta = request.POST.get('totalVenta'),
-            estadoVenta = request.POST['estadoVenta'], responsableVenta = Usuario.objects.get(nombreUsuario = request.POST['responsableVenta']))
+            estadoVenta = request.POST['estadoVenta'], responsableVenta = Usuario.objects.get(emailUsuario = request.POST['responsableVenta']))
         venta.save()
         for i in range(cantProductosVenta):
             productoAux = Producto()
@@ -213,7 +209,7 @@ def modificarVenta(request, id):
             venta.subTotal = request.POST['subTotal']
             venta.totalVenta = request.POST['totalVenta']
             venta.estadoVenta = request.POST['estadoVenta']
-            venta.responsableVenta = Usuario.objects.get(nombreUsuario=request.POST['responsableVenta'])
+            venta.responsableVenta = Usuario.objects.get(emailUsuario=request.POST['responsableVenta'])
             venta.descuentoAdicionalVenta = request.POST['descuentoAdicionalVenta']
             venta.save()
         
