@@ -9,6 +9,36 @@
 </head>
 
 <body>
+    <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+        <a class="navbar-brand" href="{% url 'MundoFastWebApp:index' %}"><b>Mundo Fast SPA</b></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="collapsibleNavbar">
+            <ul class="navbar-nav">
+                {% block content %}
+                    {% if user.is_authenticated %}
+                        <li class="nav-item">
+                           <a class="nav-link active" href="{% url 'MundoFastWebApp:usuarios' %}"> Usuarios</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'MundoFastWebApp:productos' %}">Productos</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'MundoFastWebApp:ventas' %}">Ventas</a>
+                        </li>
+                        <li class="nav-item">
+                        <a class="nav-link" href="{% url 'logout' %}">Cerrar Sesión</a>
+                       </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'login' %}">Iniciar Sesión</a>
+                        </li>
+                    {% endif %}
+                {% endblock %}
+            </ul>
+        </div>  
+    </nav>
     <h1>Datos del Usuario:</h1>
     <b>RUT:</b> {{ usuario.rutUsuario}}<br>
     <b>Nombre:</b> {{ usuario.nombreUsuario}}<br>

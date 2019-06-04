@@ -97,7 +97,7 @@ def formUsuario(request):
 
 def crearUsuario(request):
     try:
-        usuario = Usuario(rutUsuario = request.POST['rutUsuario'], nombreUsuario = request.POST['nombreUsuario'], emailUsuario = request.POST['emailUsuario'], imagenUsuario = request.POST['imagenUsuario'], rolUsuario = request.POST['rolUsuario'], passwordUsuario = request.POST['passwordUsuario'])
+        usuario = Usuario.objects.create_superuser(rutUsuario = request.POST['rutUsuario'], nombreUsuario = request.POST['nombreUsuario'], emailUsuario = request.POST['emailUsuario'], imagenUsuario = request.POST['imagenUsuario'], rolUsuario = request.POST['rolUsuario'], password = request.POST['password'])
     except (KeyError, Usuario.DoesNotExist):
         return render(request, 'MundoFastWebApp/Usuario/crearUsuario.html', {'usuario': usuario, 'error_message': 'Error al crear Nuevo Usuario',})
     else:
@@ -113,7 +113,7 @@ def modificarUsuario(request, id):
         usuario.emailUsuario = request.POST['emailUsuario']
         usuario.imagenUsuario = request.POST['imagenUsuario']
         usuario.rolUsuario = request.POST['rolUsuario']
-        usuario.passwordUsuario = request.POST['passwordUsuario']
+        usuario.password = request.POST['password']
         usuario.save()
         messages.success(request, 'Usuario modificado correctamente.')
         return HttpResponseRedirect(reverse('MundoFastWebApp:usuarios'))
@@ -140,7 +140,7 @@ def iniciarSesión(request, email):
     usuario = get_object_or_404(Usuario, eliminarUsuario = email)
     if request.method == 'POST':
         usuario.emailUsuario = request.POST['emailUsuario']
-        usuario.passwordUsuario = request.POST['passwordUsuario']
+        usuario.password = request.POST['password']
         return HttpResponseRedirect(reverse('MundoFastWebApp:index'))
     else:
         return render(request, 'MundoFastWebApp/login/', {'usuario': usuario})
