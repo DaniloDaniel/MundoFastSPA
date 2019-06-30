@@ -83,3 +83,14 @@ class DetalleVenta(models.Model):
     def totalProducto(self):
         total = self.cantidadProducto * self.totalPorProducto
         return total
+
+class Empresa(models.Model):
+    nombreEmpresa = models.CharField(max_length=30)
+    emailEmpresa = models.CharField(max_length=1000)
+    descripcionEmpresa = models.CharField(max_length=10000)
+    imagenEmpresa = models.CharField(max_length=10000)
+    direccionEmpresa = models.CharField(max_length=50)
+    horarioEmpresa = models.CharField(max_length=500)
+
+    def __str__(self):
+        return self
