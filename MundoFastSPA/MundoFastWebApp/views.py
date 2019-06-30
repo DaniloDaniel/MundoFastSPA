@@ -1,5 +1,5 @@
 from django.shortcuts import get_object_or_404, render, render_to_response
-from .models import Usuario, Producto, Venta, DetalleVenta # Importa el modelo
+from .models import Usuario, Producto, Venta, DetalleVenta, Empresa # Importa el modelo
 from django.http import Http404 # Importa vista de error 404
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
@@ -247,3 +247,25 @@ def eliminarVenta(request, id):
         return HttpResponseRedirect(reverse('MundoFastWebApp:ventas'))
     else:
         return render(request, 'MundoFastWebApp/Venta/eliminarVenta.html', {'venta': venta})
+    
+def verPerfilEmpresa(request):
+    try:
+        empresa = Empresa.objects.get(pk=1)
+    except Empresa.DoesNotExist:
+        raise Http404("Error. URL no válido.")
+    return render(request, 'MundoFastWebApp/Empresa/verPerfilEmpresa.html', {'empresa': empresa})
+
+def modificarPerfilEmpresa(request):
+    empresa = get_object_or_404(Empresa, pk=1)
+    if request.method == 'POST':
+        empresa.nombreEmpresa = request.POST['nombreEmpresa']
+        empresa.emailEmpresa = request.POST['emailEmpresa']
+        empresa.descripcionEmpresa = request.POST['descripcionEmpresa']
+        empresa.direccionEmpresa = request.POST['direccionEmpresa']
+        empresa.horarioEmpresa = request.POST['horarioEmpresa']
+        empresa.imagenEmpresa = request.POST['imagenEmpresa']
+        empresa.save()
+        messages.success(request, 'Información de Empresa modificada correctamente.')
+        return HttpResponseRedirect(reverse('MundoFastWebApp:verPerfilEmpresa'))
+    else:
+        return render(request, 'MundoFastWebApp/Empresa/modificarPerfilEmpresa.html', {'empresa': empresa})

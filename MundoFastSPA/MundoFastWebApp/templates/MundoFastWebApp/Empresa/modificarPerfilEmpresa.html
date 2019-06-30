@@ -1,0 +1,34 @@
+<head>
+    <title>MundoFastSPA - Modificar Perfil</title>
+     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <link href='//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+</head>
+
+<body>
+    <div class="container">
+        <br>
+        <h3>Modificar Información de la Empresa:</h3>
+        {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+        <form action="{% url 'MundoFastWebApp:modificarPerfilEmpresa' %}" method="post">
+            {% csrf_token %}
+            <label for="nombreEmpresa"><b>Nombre:</b></label>
+            <input type="text" name="nombreEmpresa" id="nombreEmpresa" value="{{empresa.nombreEmpresa}}" required><br>
+            <label for="emailEmpresa"><b>Correo Electrónico:</b></label>
+            <input type="email" name="emailEmpresa" id="emailEmpresa" value="{{empresa.emailEmpresa}}" required><br>
+            <label for="descripcionEmpresa"><b>Descripción:</b></label>
+            <input type="text" name="descripcionEmpresa" value="{{empresa.descripcionEmpresa}}" required><br>
+            <label for="direccionEmpresa"><b>Dirección:</b></label>
+            <input type="text" name="direccionEmpresa" id="direccionEmpresa" value="{{empresa.direccionEmpresa}}" required><br>
+            <label for="horarioEmpresa"><b>Horario:</b></label>
+            <input type="text" name="horarioEmpresa" id="horarioEmpresa" value="{{empresa.horarioEmpresa}}" required><br>
+            <label for="imagenEmpresa"><b>Imagen:</b></label>
+            <input type="text" name="imagenEmpresa" id="imagenEmpresa" value="{{empresa.imagenUsuario}}" required><br>
+            <input type="submit" class="btn btn-success" value="Modificar Empresa">
+            <button type="button" class="btn btn-danger" onclick="location.href='{% url 'MundoFastWebApp:verPerfilEmpresa' %}'">Cancelar</button>
+        </form>
+    </container> 
+</body>
