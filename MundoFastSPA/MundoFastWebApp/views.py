@@ -169,7 +169,6 @@ def crearVenta(request):
         for i in range(cantProductosVenta):
             productoAux = Producto()
             productoAux = Producto.objects.get(codigoProducto=request.POST.get('codigoProductoVenta'+str(i)))
-            print(productoAux.nombreProducto)
             cantidadProducto = request.POST.get('cantidadProductoVenta'+str(i))
             totalProducto = productoAux.precioProducto - (productoAux.precioProducto * productoAux.descuentoProducto / 100)
             detalleVenta = DetalleVenta(producto=productoAux, venta=venta, cantidadProducto=cantidadProducto, descuentoAplicadoProducto=productoAux.descuentoProducto, totalPorProducto=totalProducto)
@@ -215,17 +214,14 @@ def modificarVenta(request, id):
         
             cantProductosVenta = int(request.POST['contProductosVenta'])
             detallesVenta = []
+            b = DetalleVenta.objects.filter(venta=venta.id)
+            b.delete()
             for i in range(cantProductosVenta):
                 productoAux = Producto()
                 productoAux = Producto.objects.get(codigoProducto=request.POST.get('codigoProductoVenta'+str(i)))
-                detalleVenta = DetalleVenta.objects.get(producto=productoAux, venta=venta)
                 cantidadProducto = request.POST.get('cantidadProductoVenta'+str(i))
                 totalProducto = productoAux.precioProducto - (productoAux.precioProducto * productoAux.descuentoProducto / 100)
-                detalleVenta.producto = productoAux
-                detalleVenta.venta = venta
-                detalleVenta.cantidadProducto=cantidadProducto
-                detalleVenta.descuentoAplicadoProducto=productoAux.descuentoProducto
-                detalleVenta.totalPorProducto=totalProducto
+                detalleVenta = DetalleVenta(producto=productoAux, venta=venta, cantidadProducto=cantidadProducto, descuentoAplicadoProducto=productoAux.descuentoProducto, totalPorProducto=totalProducto)
                 detalleVenta.save()
         except IntegrityError:
             return render(request, "MundoFastWebApp/Venta/modificarVenta.html", {"error_message": "Error de integridad"})
