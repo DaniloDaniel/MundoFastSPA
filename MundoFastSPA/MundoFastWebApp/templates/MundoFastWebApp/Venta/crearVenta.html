@@ -12,13 +12,28 @@
             function total() {
                 var subTotal = 0;
                 
-                $( ".precioProductoData" ).each(function() {
+                $( ".precioProductoVenta" ).each(function() {
                     subTotal += +($(this).text());
                 });
                 $("#subTotal").val(subTotal);
 
                 var total = $("#subTotal").val() - (($("#descuentoAdicionalVenta").val() * $("#subTotal").val()) /100);
                 $("#totalVenta").val(total);
+            }
+
+            function calcularCarro(){
+                var j=0;
+                $('.codigoProductoVenta').each(function(){
+                    var i;
+                    for(i=0;i<lista.length;i++){
+                        if($(this).val() == lista[i].codigoPAux){
+                            var precio = lista[i].precioPAux * parseInt($('.cantidadProductoVenta').eq(j).val());
+                            $('.precioProductoData').eq(j).val(precio);
+                            total();
+                        }
+                    }
+                    j++;
+                });
             }
 
             var lista = [];
@@ -44,40 +59,49 @@
                 var i;
                 var encontroProducto = false; //variable para determinar si encontro producto en la busqueda
                 for(i=0;i<lista.length;i++){
+                    var existeProducto = false;
                     if($("#productosVentaSearchBox").val().toLowerCase() == lista[i].nombrePAux.toLowerCase() || $("#productosVentaSearchBox").val() == lista[i].codigoPAux){
-                        var precio = $("#productosVentaSearchBox").val();
-                        $("#tableHeader").after("<tr><td><input type='number' id='codigoProductoVenta"+contProductosVenta+"' name='codigoProductoVenta"+contProductosVenta+"' style='width:80px' value='"+ lista[i].codigoPAux +"'readonly/></td><td>"+lista[i].nombrePAux+"</td>"+
-                        "<td><input type='number' name='cantidadProductoVenta"+contProductosVenta+"' class='cantidadProductoVenta' value=1 min=1 style='width:80px'/></td><td class='precioProductoData' id='precioProductoVenta"+contProductosVenta+"'>"+lista[i].precioPAux +"</td><td id='eliminarFila'>eliminar</td></tr>");
-                        contProductosVenta++;
-                        $("#contProductosVenta").val(contProductosVenta);
-                        encontroProducto = true; //como encontró producto se cambia su valor a 1
-                        $("#errorProductoNoExiste").hide();
-                        $("#tablaProductos").show();
-                        $("#mensajeError").hide();
+                        var j=0;
+                        $('#tablaProductos').show();
+                        $(".codigoProductoVenta").each(function(){
+                            if($(this).val() == $("#productosVentaSearchBox").val() || $(".nombreProductoVenta").eq(j).text().toLowerCase() == lista[i].nombrePAux.toLowerCase()){
+                                existeProducto = true;
+                                encontroProducto = true;
+                                var cantidadAux = parseInt($('.cantidadProductoVenta').eq(j).val()) + 1;
+                                $('.cantidadProductoVenta').eq(j).val(cantidadAux);
+                            }
+                            j++;
+                        });
+                        if(!existeProducto){
+                            $("#tableHeader").after("<tr><td><input type='number' class='codigoProductoVenta' style='width:80px' value='"+ lista[i].codigoPAux +"'readonly/></td><td class='nombreProductoVenta'>"+lista[i].nombrePAux+"</td>"+
+                            "<td><input type='number' name='cantidadProductoVenta"+contProductosVenta+"' class='cantidadProductoVenta' value=1 min=1 style='width:80px'/></td><td class='precioProductoVenta'>"+lista[i].precioPAux +"</td><td><button type='button' id='eliminarFila'>eliminar</button></td></tr>");
+                            contProductosVenta++;
+                            $("#contProductosVenta").val(contProductosVenta);
+                            encontroProducto = true; //como encontró producto se cambia su valor a true
+                            $("#errorProductoNoExiste").hide();
+                            $("#tablaProductos").show();
+                            $("#tableHeader").show();
+                            $("#mensajeError").hide();
+                        }
                     }
                     if(!encontroProducto && (i+1)==lista.length){
                         $("#errorProductoNoExiste").show();
                     }
                 }
-                
-                total();
-                
-                $(".cantidadProductoVenta").on("change keyup",function() {
-                    var suffix = this.name.match(/\d+/);
-                    var precioId = prefixPrecio + suffix;
-                    var codigoId = prefixCodigo + suffix;
-                    var precioReal;
 
-                    var i;
-                    for(i=0;i<lista.length;i++){
-                        if($(codigoId).val() == lista[i].codigoPAux){
-                            precioReal = lista[i].precioPAux;
-                    }
-                    }
-                    var precio = precioReal * $(this).val();
-                    $(precioId).text(precio);
-
-                    total();
+                $("#form").on("click",function() {
+                    var j=0;
+                    $('.codigoProductoVenta').each(function(){
+                        var i;
+                        for(i=0;i<lista.length;i++){
+                            if($(this).val() == lista[i].codigoPAux){
+                                var precio = parseInt(lista[i].precioPAux) * parseInt($('.cantidadProductoVenta').eq(j).val());
+                                $('.precioProductoVenta').eq(j).text(precio);
+                                total();
+                            }
+                        }
+                        j++;
+                    });
                 });
                 
                 $("#descuentoAdicionalVenta").on("change keyup",function(){
@@ -85,24 +109,34 @@
                     $("#totalVenta").val(total);
                 });
                 
-                $("#eliminarFila").on("click", function(){
+                $("#eliminarFila").unbind().click(function(){
                     
                     if(contProductosVenta == 1){
-                        $("#tablaProductos").hide();
-                        $(this).parent("tr:first").remove();
+                        $("#tableHeader").hide();
+                        $(this).closest('tr').remove();
+                        contProductosVenta--;
                     }
                     else{
-                        $(this).parent("tr:first").remove();
+                        $(this).closest('tr').remove();
+                        contProductosVenta--;
                     }
-                    contProductosVenta--;
                     total();
                     $("#contProductosVenta").val(contProductosVenta);
                 });
+                
             });
             $("#form").submit(function(e){
                 if(contProductosVenta == 0){
                     e.preventDefault();
                     $("#mensajeError").show();
+                }
+                else{
+                    var i=0;
+                    $('.codigoProductoVenta').each(function(){
+                        $(this).attr('name','codigoProductoVenta'+i);
+                        $('.cantidadProductoVenta').eq(i).attr('name','cantidadProductoVenta'+i);
+                        i++;
+                    });
                 }
             });    
         });
