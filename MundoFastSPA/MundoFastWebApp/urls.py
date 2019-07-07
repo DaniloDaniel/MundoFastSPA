@@ -39,4 +39,7 @@ urlpatterns = [
     # Empresa:
     path('empresa/', views.verPerfilEmpresa, name='verPerfilEmpresa'),
     path('empresa/modificarPerfilEmpresa', views.modificarPerfilEmpresa, name='modificarPerfilEmpresa'),
+    # Reportes:
+    path('reportes/', views.reportes, name='reportes'),
+    path('reportes/diario', views.reporteDiario, name='reporteDiario'),
 ]

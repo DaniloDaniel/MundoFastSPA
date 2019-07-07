@@ -4,6 +4,7 @@ from django.http import Http404 # Importa vista de error 404
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.db import IntegrityError
+import datetime
 from django.contrib import messages # Librería para mensajes
 
 # Create your views here.
@@ -265,3 +266,16 @@ def modificarPerfilEmpresa(request):
         return HttpResponseRedirect(reverse('MundoFastWebApp:verPerfilEmpresa'))
     else:
         return render(request, 'MundoFastWebApp/Empresa/modificarPerfilEmpresa.html', {'empresa': empresa})
+
+def reportes(request):
+    return render(request, 'MundoFastWebApp/Reporte/reportes.html')
+
+def reporteDiario(request):
+    venta = Venta.objects.get(id=3)
+    today = datetime.date.today()
+    try:
+        listaVenta = [venta for venta in Venta.objects.order_by('-id') if venta.fechaVenta.date() == datetime.date.today()]
+    except TypeError:
+        return render(request, 'MundoFastWebApp/Reporte/reportes.html')
+    context = {'listaVenta': listaVenta}
+    return render(request, 'MundoFastWebApp/Reporte/reporteDiario.html', context)
