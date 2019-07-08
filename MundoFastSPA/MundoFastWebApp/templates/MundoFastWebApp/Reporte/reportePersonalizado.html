@@ -25,7 +25,8 @@
             var totalEnProceso = 0;
             var contEnProceso = 0;
             var lista = [];
-            var fechaReporte = "{{listaVenta.0.fechaVenta.date}}";
+            var fechaInicio = "{{fechaInicio}}";
+            var fechaTermino = "{{fechaTermino}}"
 
             $("#detalles").hide();
 
@@ -44,8 +45,8 @@
                 }
             }
 
-            $('#titulo').after("<div id='reporteDiarioDiv'><span>Fecha: "+ fechaReporte +"</span><br><span>Ventas Finalizadas: "+ contFinalizadas +"</span><br><span>Total Ventas Finalizadas: "+ totalFinalizadas +"</span><br>"+ 
-                "<span>Ventas En Proceso: "+ contEnProceso +"</span><br><span>Total Ventas En Proceso: "+ totalEnProceso +"</span></div><br>");
+            $('#titulo').after("<span>Desde: "+ fechaInicio +" Hasta: "+ fechaTermino +"</span><br><span>Ventas Finalizadas: "+ contFinalizadas +"</span><br><span>Total Ventas Finalizadas: "+ totalFinalizadas +"</span><br>"+ 
+                "<span>Ventas En Proceso: "+ contEnProceso +"</span><br><span>Total Ventas En Proceso: "+ totalEnProceso +"</span><br>");
 
             $('#btnDetalles').click(function(){
                 $('#detalles').toggle();
@@ -85,7 +86,7 @@
                 </div>
             {% endfor %}
         {% endif %}
-        <h3 id="titulo">Reporte Diario</h3><br>
+        <h3 id="titulo">Reporte Personalizado</h3><br>
         <button type="button" id="btnDetalles" class="btn btn-info">Detalles</button>
         <button type="button" id="btnImprimir" class="btn btn-info">Imprimir</button><br><br>
         <div id="detalles">

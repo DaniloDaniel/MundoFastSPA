@@ -18,6 +18,48 @@
             text-align: center;
         }
     </style>
+    <script>
+        $(document).ready(function(){
+            var fechaInicioStr;
+            $('#lblErrorFechas').css("color", 'red');
+            $('#lblErrorFechas').hide();
+
+            $('#fechaInicio, #fechaTermino').blur(function(){
+                if($('#fechaInicio').val() != "" && $('#fechaTermino').val() != ""){
+                    if($('#fechaInicio').val() > $('#fechaTermino').val()){
+                    $('#fechaInicio').css("border","1px solid red");
+                    $('#fechaTermino').css("border","1px solid red");
+                    $('#lblErrorFechas').show();
+                    }else{
+                        $('#lblErrorFechas').hide();
+                        $('#fechaInicio').css("border","");
+                        $('#fechaTermino').css("border","");
+                    }
+                }
+            });
+            $('#formReportePersonalizado').submit(function(e){
+                if($('#fechaInicio').val() != "" && $('#fechaTermino').val() != ""){
+                    if($('#fechaInicio').val() > $('#fechaTermino').val()){
+                        e.preventDefault();
+                        $('#fechaInicio').css("border","1px solid red");
+                        $('#fechaTermino').css("border","1px solid red");
+                        $('#lblErrorFechas').show();
+                    }else{
+                        $('#lblErrorFechas').hide();
+                        $('#fechaInicio').css("border","");
+                        $('#fechaTermino').css("border","");
+                        location.href='{% url 'MundoFastWebApp:reportePersonalizado' %}';
+                    }
+                }else{
+                    e.preventDefault();
+                    $('#fechaInicio').css("border","1px solid red");
+                    $('#fechaTermino').css("border","1px solid red");
+                    $('#lblErrorFechas').show();
+                }
+            });
+
+        });
+    </script>
 </head>
 
 <body>
@@ -52,9 +94,17 @@
         <h3>Reportes</h3><br>
         <ul style="list-style: none;">
             <li><button type="button" class="btn btn-primary" onclick="location.href='{% url 'MundoFastWebApp:reporteDiario' %}'">Generar Reporte Diario</button></li><br>
-            <li><button type="button" class="btn btn-primary">Generar Reporte Mensual</button></li><br>
-            <li><button type="button" class="btn btn-primary">Generar Reporte Anual</button></li><br>
-            <li><button type="button" class="btn btn-primary">Generar Reporte Personalizado</button></li><br>      
+            <li><button type="button" class="btn btn-primary" onclick="location.href='{% url 'MundoFastWebApp:reporteMensual' %}'">Generar Reporte Mensual</button></li><br>
+            <li><button type="button" class="btn btn-primary" onclick="location.href='{% url 'MundoFastWebApp:reporteAnual' %}'">Generar Reporte Anual</button></li><br>
+            <li>
+                <form id="formReportePersonalizado"action="{% url 'MundoFastWebApp:reportePersonalizado' %}" method="post">
+                {% csrf_token %}
+                    <button type="submit" class="btn btn-primary">Generar Reporte Personalizado</button>
+                    <input type="date" id="fechaInicio" name="fechaInicio"> - 
+                    <input type="date" id="fechaTermino" name="fechaTermino">
+                    <label id="lblErrorFechas" text-color="red">Fechas inválidas</label>
+                </form>
+            </li><br>      
         </ul>
         <button type="button" class="btn btn-danger" onclick="location.href='{% url 'MundoFastWebApp:index' %}'">
             Volver

@@ -42,4 +42,7 @@ urlpatterns = [
     # Reportes:
     path('reportes/', views.reportes, name='reportes'),
     path('reportes/diario', views.reporteDiario, name='reporteDiario'),
+    path('reportes/mensual', views.reporteMensual, name='reporteMensual'),
+    path('reportes/anual', views.reporteAnual, name='reporteAnual'),
+    path('reportes/personalizado', views.reportePersonalizado, name='reportePersonalizado'),
 ]
