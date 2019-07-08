@@ -4,6 +4,7 @@ from django.http import Http404 # Importa vista de error 404
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.db import IntegrityError
+import datetime
 from django.contrib import messages # Librería para mensajes
 
 # Create your views here.
@@ -265,3 +266,40 @@ def modificarPerfilEmpresa(request):
         return HttpResponseRedirect(reverse('MundoFastWebApp:verPerfilEmpresa'))
     else:
         return render(request, 'MundoFastWebApp/Empresa/modificarPerfilEmpresa.html', {'empresa': empresa})
+
+def reportes(request):
+    return render(request, 'MundoFastWebApp/Reporte/reportes.html')
+
+def reporteDiario(request):
+    try:
+        listaVenta = [venta for venta in Venta.objects.order_by('-id') if venta.fechaVenta.date() == datetime.date.today()]
+    except TypeError:
+        return render(request, 'MundoFastWebApp/Reporte/reportes.html')
+    context = {'listaVenta': listaVenta}
+    return render(request, 'MundoFastWebApp/Reporte/reporteDiario.html', context)
+
+def reporteMensual(request):
+    try:
+        listaVenta = [venta for venta in Venta.objects.order_by('-id') if venta.fechaVenta.month == datetime.date.today().month and venta.fechaVenta.year == datetime.date.today().year]
+    except TypeError:
+        return render(request, 'MundoFastWebApp/Reporte/reportes.html')
+    context = {'listaVenta': listaVenta}
+    return render(request, 'MundoFastWebApp/Reporte/reporteMensual.html', context)
+
+def reporteAnual(request):
+    try:
+        listaVenta = [venta for venta in Venta.objects.order_by('-id') if venta.fechaVenta.year == datetime.date.today().year]
+    except TypeError:
+        return render(request, 'MundoFastWebApp/Reporte/reportes.html')
+    context = {'listaVenta': listaVenta}
+    return render(request, 'MundoFastWebApp/Reporte/reporteAnual.html', context)
+
+def reportePersonalizado(request):
+    try:
+        listaVenta = [venta for venta in Venta.objects.order_by('-id') if request.POST['fechaInicio']<= str(venta.fechaVenta.date()) <= request.POST['fechaTermino']]
+    except TypeError:
+        return render(request, 'MundoFastWebApp/Reporte/reportes.html')
+    fechaInicio = request.POST['fechaInicio']
+    fechaTermino = request.POST['fechaTermino'] 
+    context = {'listaVenta': listaVenta, 'fechaInicio': fechaInicio, 'fechaTermino': fechaTermino}
+    return render(request, 'MundoFastWebApp/Reporte/reportePersonalizado.html', context)

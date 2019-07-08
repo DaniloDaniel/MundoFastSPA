@@ -1,0 +1,106 @@
+<head>
+    <title>MundoFastSPA - Reportes</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <link href='//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        .footer {
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            background-color: black;
+            color: white;
+            text-align: center;
+        }
+    </style>
+    <script>
+        $(document).ready(function(){
+            var totalFinalizadas = 0;
+            var contFinalizadas = 0;
+            var totalEnProceso = 0;
+            var contEnProceso = 0;
+            var lista = [];
+            var fechaInicio = "{{fechaInicio}}";
+            var fechaTermino = "{{fechaTermino}}"
+
+            $("#detalles").hide();
+
+            {% for venta in listaVenta %}
+                var ventaAux = {totalVentaAux:"{{venta.totalVenta}}", estadoVentaAux:"{{venta.estadoVenta}}"};
+                lista.push(ventaAux);
+            {% endfor %}
+
+            for(i=0;i<lista.length;i++){
+                if(lista[i].estadoVentaAux == "Finalizada"){
+                    totalFinalizadas += +(lista[i].totalVentaAux);
+                    contFinalizadas++;
+                }else{
+                    totalEnProceso += +(lista[i].totalVentaAux);
+                    contEnProceso++;
+                }
+            }
+
+            $('#titulo').after("<span>Desde: "+ fechaInicio +" Hasta: "+ fechaTermino +"</span><br><span>Ventas Finalizadas: "+ contFinalizadas +"</span><br><span>Total Ventas Finalizadas: "+ totalFinalizadas +"</span><br>"+ 
+                "<span>Ventas En Proceso: "+ contEnProceso +"</span><br><span>Total Ventas En Proceso: "+ totalEnProceso +"</span><br>");
+
+            $('#btnDetalles').click(function(){
+                $('#detalles').toggle();
+            });
+            $('#btnImprimir').click(function(){
+                window.print();
+            });
+        });
+    </script>
+</head>
+<body>
+    <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+        <a class="navbar-brand" href="{% url 'MundoFastWebApp:index' %}"><b>Mundo Fast SPA</b></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="collapsibleNavbar">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'MundoFastWebApp:usuarios' %}">Usuarios</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="{% url 'MundoFastWebApp:productos' %}">Productos</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="{% url 'MundoFastWebApp:ventas' %}">Ventas</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <br>
+    <div class="container">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %}" role="alert">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+        <h3 id="titulo">Reporte Personalizado</h3><br>
+        <button type="button" id="btnDetalles" class="btn btn-info">Detalles</button>
+        <button type="button" id="btnImprimir" class="btn btn-info">Imprimir</button><br><br>
+        <div id="detalles">
+        {% for venta in listaVenta %}
+                <label>Folio n°: {{venta.folioVenta}}</label>
+                <ul>
+                    <li>Fecha: {{venta.fechaVenta.date}}</li>
+                    <li>Estado: {{venta.estadoVenta}}
+                    <li>Total: {{venta.totalVenta}}</li>
+                </ul>
+        {% endfor %}
+        </div>
+        <button type="button" class="btn btn-danger" onclick="location.href='{% url 'MundoFastWebApp:reportes' %}'">
+            Volver
+        </button>           
+    </div>
+</body>
