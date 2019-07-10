@@ -6,6 +6,7 @@ from django.urls import reverse
 from django.db import IntegrityError
 import datetime
 from django.contrib import messages # Librería para mensajes
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
@@ -13,7 +14,7 @@ def index(request):
     return render(request, 'MundoFastWebApp/index.html')
 
 
-
+@login_required
 def productos(request):
     listaProducto = Producto.objects.order_by('-id')
     context = {'listaProducto': listaProducto}
@@ -23,10 +24,12 @@ def verProducto(request, id):
     producto = get_object_or_404(Producto, pk=id)
     return render(request, 'MundoFastWebApp/Producto/verProducto.html', {'producto': producto})
 
+@login_required
 def formProducto(request):
     producto = Producto()
     return render(request, 'MundoFastWebApp/Producto/crearProducto.html', {'producto': producto})
 
+@login_required
 def crearProducto(request):
     try:
         producto = Producto(codigoProducto = request.POST['codigoProducto'], nombreProducto = request.POST['nombreProducto'], 
@@ -43,6 +46,7 @@ def crearProducto(request):
         # user hits the Back button.
         return HttpResponseRedirect(reverse('MundoFastWebApp:productos'))
 
+@login_required
 def modificarProducto(request, id):
     producto = get_object_or_404(Producto, pk=id)
     if request.method == 'POST':
@@ -60,6 +64,7 @@ def modificarProducto(request, id):
     else:
         return render(request, 'MundoFastWebApp/Producto/modificarProducto.html', {'producto': producto})
 
+@login_required
 def eliminarProducto(request, id):
     producto = get_object_or_404(Producto, pk=id)
     if request.method == 'POST':
@@ -70,22 +75,26 @@ def eliminarProducto(request, id):
     else:
         return render(request, 'MundoFastWebApp/Producto/eliminarProducto.html', {'producto': producto})
 
+@login_required
 def ofertaProducto(request):
     listaProducto = [producto for producto in Producto.objects.order_by('-id') if producto.ofertaProducto]
     context = {'listaProducto': listaProducto}
     return render(request, 'MundoFastWebApp/Producto/ofertaProducto.html', context)
 
+@login_required
 def buscarProducto(request):
     listaProducto = [producto for producto in Producto.objects.order_by('-id') if request.POST['buscarProducto'] in producto.nombreProducto]
     context = {'listaProducto': listaProducto}
     messages.info(request, 'Resultados de búsqueda.')
     return render(request, 'MundoFastWebApp/Producto/productos.html', context)
-    
+
+@login_required 
 def usuarios(request):
     listaUsuario = Usuario.objects.order_by('-rutUsuario')
     context = {'listaUsuario': listaUsuario}
     return render(request, 'MundoFastWebApp/Usuario/usuarios.html', context)
-    
+
+@login_required
 def verUsuario(request, id):
     try:
         usuario = Usuario.objects.get(pk=id)
@@ -93,9 +102,11 @@ def verUsuario(request, id):
         raise Http404("Error. Usuario no existe.")
     return render(request, 'MundoFastWebApp/Usuario/verUsuario.html', {'usuario': usuario})
 
+@login_required
 def formUsuario(request):
     return render(request, 'MundoFastWebApp/Usuario/crearUsuario.html')
 
+@login_required
 def crearUsuario(request):
     try:
         usuario = Usuario.objects.create_superuser(rutUsuario = request.POST['rutUsuario'], nombreUsuario = request.POST['nombreUsuario'], emailUsuario = request.POST['emailUsuario'], imagenUsuario = request.POST['imagenUsuario'], rolUsuario = request.POST['rolUsuario'], password = request.POST['password'])
@@ -106,6 +117,7 @@ def crearUsuario(request):
         messages.success(request, 'Usuario creado correctamente.')
         return HttpResponseRedirect(reverse('MundoFastWebApp:usuarios'))
 
+@login_required
 def modificarUsuario(request, id):
     usuario = get_object_or_404(Usuario, pk=id)
     if request.method == 'POST':
@@ -121,6 +133,7 @@ def modificarUsuario(request, id):
     else:
         return render(request, 'MundoFastWebApp/Usuario/modificarUsuario.html', {'usuario': usuario})
 
+@login_required
 def eliminarUsuario(request, id):
     usuario = get_object_or_404(Usuario, pk=id)
     if request.method == 'POST':
@@ -131,6 +144,7 @@ def eliminarUsuario(request, id):
     else:
         return render(request, 'MundoFastWebApp/Usuario/eliminarUsuario.html', {'usuario': usuario})
 
+@login_required
 def buscarUsuario(request):
     listaUsuario = [usuario for usuario in Usuario.objects.order_by('-id') if request.POST['buscarUsuario'] in usuario.nombreUsuario]
     context = {'listaUsuario': listaUsuario}
@@ -145,11 +159,14 @@ def iniciarSesión(request, email):
         return HttpResponseRedirect(reverse('MundoFastWebApp:index'))
     else:
         return render(request, 'MundoFastWebApp/login/', {'usuario': usuario})
+
+@login_required
 def ventas(request):
     listaVenta = Venta.objects.order_by('-id')
     context = {'listaVenta': listaVenta}
     return render(request, 'MundoFastWebApp/Venta/ventas.html', context)
 
+@login_required
 def formVenta(request):
     venta = Venta()
     listaUsuario = Usuario.objects.order_by('-id')
@@ -159,6 +176,7 @@ def formVenta(request):
              'listaUsuario': listaUsuario,
              'listaProducto': listaProducto})
 
+@login_required
 def crearVenta(request):
     try:
         cantProductosVenta = int(request.POST['contProductosVenta'])
@@ -183,6 +201,7 @@ def crearVenta(request):
         # user hits the Back button.
         return HttpResponseRedirect(reverse('MundoFastWebApp:ventas'))
 
+@login_required
 def buscarVenta(request):
     alt = request.POST['buscarVenta']
     if request.POST['buscarVenta']:
@@ -193,11 +212,13 @@ def buscarVenta(request):
     else:
         return HttpResponseRedirect(reverse('MundoFastWebApp:ventas'))
 
+@login_required
 def verVenta(request, id):
     venta = get_object_or_404(Venta, pk=id)
     listaDetalleVenta = [detalleVenta for detalleVenta in DetalleVenta.objects.order_by('-id') if venta.id == detalleVenta.venta.id]
     return render(request, 'MundoFastWebApp/Venta/verVenta.html', {'venta': venta, 'listaDetalleVenta': listaDetalleVenta})
 
+@login_required
 def modificarVenta(request, id):
     venta = get_object_or_404(Venta, pk=id)
     listaDetalleVenta = [detalleVenta for detalleVenta in DetalleVenta.objects.order_by('-id') if venta.id == detalleVenta.venta.id]
@@ -235,6 +256,7 @@ def modificarVenta(request, id):
     else:
         return render(request, 'MundoFastWebApp/Venta/modificarVenta.html', {'venta': venta, 'listaProducto':listaProducto, 'listaDetalleVenta': listaDetalleVenta, 'listaUsuario': listaUsuario})
 
+@login_required
 def eliminarVenta(request, id):
     venta = get_object_or_404(Venta, pk=id)
     if request.method == 'POST':
@@ -244,7 +266,7 @@ def eliminarVenta(request, id):
         return HttpResponseRedirect(reverse('MundoFastWebApp:ventas'))
     else:
         return render(request, 'MundoFastWebApp/Venta/eliminarVenta.html', {'venta': venta})
-    
+
 def verPerfilEmpresa(request):
     try:
         empresa = Empresa.objects.get(pk=1)
@@ -252,6 +274,7 @@ def verPerfilEmpresa(request):
         raise Http404("Error. URL no válido.")
     return render(request, 'MundoFastWebApp/Empresa/verPerfilEmpresa.html', {'empresa': empresa})
 
+@login_required
 def modificarPerfilEmpresa(request):
     empresa = get_object_or_404(Empresa, pk=1)
     if request.method == 'POST':
@@ -267,9 +290,11 @@ def modificarPerfilEmpresa(request):
     else:
         return render(request, 'MundoFastWebApp/Empresa/modificarPerfilEmpresa.html', {'empresa': empresa})
 
+@login_required
 def reportes(request):
     return render(request, 'MundoFastWebApp/Reporte/reportes.html')
 
+@login_required
 def reporteDiario(request):
     try:
         listaVenta = [venta for venta in Venta.objects.order_by('-id') if venta.fechaVenta.date() == datetime.date.today()]
@@ -278,6 +303,7 @@ def reporteDiario(request):
     context = {'listaVenta': listaVenta}
     return render(request, 'MundoFastWebApp/Reporte/reporteDiario.html', context)
 
+@login_required
 def reporteMensual(request):
     try:
         listaVenta = [venta for venta in Venta.objects.order_by('-id') if venta.fechaVenta.month == datetime.date.today().month and venta.fechaVenta.year == datetime.date.today().year]
@@ -286,6 +312,7 @@ def reporteMensual(request):
     context = {'listaVenta': listaVenta}
     return render(request, 'MundoFastWebApp/Reporte/reporteMensual.html', context)
 
+@login_required
 def reporteAnual(request):
     try:
         listaVenta = [venta for venta in Venta.objects.order_by('-id') if venta.fechaVenta.year == datetime.date.today().year]
@@ -294,6 +321,7 @@ def reporteAnual(request):
     context = {'listaVenta': listaVenta}
     return render(request, 'MundoFastWebApp/Reporte/reporteAnual.html', context)
 
+@login_required
 def reportePersonalizado(request):
     try:
         listaVenta = [venta for venta in Venta.objects.order_by('-id') if request.POST['fechaInicio']<= str(venta.fechaVenta.date()) <= request.POST['fechaTermino']]
