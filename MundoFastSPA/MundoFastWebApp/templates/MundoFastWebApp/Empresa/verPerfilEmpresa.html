@@ -68,10 +68,9 @@
         <br>
         <br>
         <br>
+        {% if user.is_authenticated %}
         <button type="button" class="btn btn-danger" onclick="location.href='{% url 'MundoFastWebApp:modificarPerfilEmpresa' %}'">Modificar Información</button>
+        {% endif %}
         <button type="button" class="btn btn-warning" onclick="location.href='{% url 'MundoFastWebApp:index' %}'">Volver</button>
     </div>
 </body>
-<div class="footer">
-    <a href="/MundoFastWebApp/">Volver</a>
-</div>
