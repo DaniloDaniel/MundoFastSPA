@@ -7,6 +7,7 @@ from django.db import IntegrityError
 import datetime
 from django.contrib import messages # Librería para mensajes
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import update_session_auth_hash
 
 # Create your views here.
 
@@ -123,11 +124,13 @@ def modificarUsuario(request, id):
     if request.method == 'POST':
         usuario.rutUsuario = request.POST['rutUsuario']
         usuario.nombreUsuario = request.POST['nombreUsuario']
-        usuario.emailUsuario = request.POST['emailUsuario']
         usuario.imagenUsuario = request.POST['imagenUsuario']
         usuario.rolUsuario = request.POST['rolUsuario']
-        usuario.password = request.POST['password']
+        usuario.emailUsuario = request.POST['emailUsuario']
+        if(request.POST['password']!=""):
+            usuario.set_password(request.POST['password'])
         usuario.save()
+        update_session_auth_hash(request, usuario)
         messages.success(request, 'Usuario modificado correctamente.')
         return HttpResponseRedirect(reverse('MundoFastWebApp:usuarios'))
     else:

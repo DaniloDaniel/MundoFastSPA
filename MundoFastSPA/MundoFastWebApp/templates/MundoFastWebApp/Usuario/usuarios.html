@@ -98,9 +98,11 @@
                                 </button>
                             </td>
                             <td>
-                                <button type="button" class="btn btn-danger" onclick="location.href='/MundoFastWebApp/usuarios/eliminarUsuario/{{ usuario.id }}/'">
-                                    <i class="fa fa-trash"></i>
-                                </button>
+                                {% if user.id != usuario.id %}
+                                    <button type="button" class="btn btn-danger" onclick="location.href='/MundoFastWebApp/usuarios/eliminarUsuario/{{ usuario.id }}/'">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+                                {% endif %}
                             </td>
                         </tr>
                     {% endfor %}
