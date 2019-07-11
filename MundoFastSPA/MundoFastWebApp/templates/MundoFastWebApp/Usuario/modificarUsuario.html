@@ -18,14 +18,14 @@
             <input type="text" name="rutUsuario" id="rutUsuario" value="{{usuario.rutUsuario}}" required><br>
             <label for="nombreUsuario"><b>Nombre:</b></label>
             <input type="text" name="nombreUsuario" id="nombreUsuario" value="{{usuario.nombreUsuario}}" required><br>
-            <label for="emailUsuario"><b>Correo Electrónico:</b></label>
-            <input type="email" name="emailUsuario" value="{{usuario.emailUsuario}}" required><br>
             <label for="imagenUsuario"><b>Imagen:</b></label>
             <input type="text" name="imagenUsuario" id="imagenUsuario" value="{{usuario.imagenUsuario}}" required><br>
             <label for="rolUsuario"><b>Rol:</b></label>
             <input type="text" name="rolUsuario" id="rolUsuario" value="{{usuario.rolUsuario}}" required><br>
+            <label for="emailUsuario"><b>Correo Electrónico:</b></label>
+            <input type="email" name="emailUsuario" value="{{usuario.emailUsuario}}" required><br>
             <label for="password"><b>Contraseña:</b></label>
-            <input type="password" name="password" id="password" value="{{usuario.password}}" required><br><br>
+            <input type="password" name="password" id="password" value="" required><br><br>
             <input type="submit" class="btn btn-success" value="Modificar Usuario">
             <button type="button" class="btn btn-danger" onclick="location.href='{% url 'MundoFastWebApp:usuarios' %}'">Cancelar</button>
         </form>

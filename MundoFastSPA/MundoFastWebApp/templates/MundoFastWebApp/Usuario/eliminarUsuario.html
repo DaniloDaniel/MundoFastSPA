@@ -48,14 +48,18 @@
     <b>Rol:</b> {{ usuario.rolUsuario}}<br>
     <br>
     <br>
-    ¿Seguro que desea al usuario: <b>{{ usuario.nombreUsuario }}</b>?<br>
-    <form action="{% url 'MundoFastWebApp:eliminarUsuario' usuario.id %}" method="POST">
-        {% csrf_token %}
-        <input type="radio" name="opcionSi" id="opcionSi" value="Sí">
-        <label for="opcionSi">Si</label><br>
-        <input type="radio" name="opcionNo" id="opcionNo" value="No">
-        <label for="opcionNo">No</label><br>
-        <input type="submit" class="btn btn-danger" value="Eliminar Usuario">
-        <button type="button" class="btn btn-warning" onclick="location.href='{% url 'MundoFastWebApp:usuarios' %}'">Cancelar</button>
-    </form>
+    {% if user.id != usuario.id %}
+   
+        ¿Seguro que desea al usuario: <b>{{ usuario.nombreUsuario }}</b>?<br>
+        
+        <form action="{% url 'MundoFastWebApp:eliminarUsuario' usuario.id %}" method="POST">
+            {% csrf_token %}
+            <input type="radio" name="opcionSi" id="opcionSi" value="Sí">
+            <label for="opcionSi">Si</label><br>
+            <input type="radio" name="opcionNo" id="opcionNo" value="No">
+            <label for="opcionNo">No</label><br>
+            <input type="submit" class="btn btn-danger" value="Eliminar Usuario">
+            <button type="button" class="btn btn-warning" onclick="location.href='{% url 'MundoFastWebApp:usuarios' %}'">Cancelar</button>
+        </form>
+    {% endif %}
 </body>
