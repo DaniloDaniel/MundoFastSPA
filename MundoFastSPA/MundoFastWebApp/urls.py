@@ -45,4 +45,10 @@ urlpatterns = [
     path('reportes/mensual', views.reporteMensual, name='reporteMensual'),
     path('reportes/anual', views.reporteAnual, name='reporteAnual'),
     path('reportes/personalizado', views.reportePersonalizado, name='reportePersonalizado'),
+    # Catalogos:
+    path('productos/catalogos', views.verCatalogos, name='verCatalogos'),
+    # Ofertas:
+    path('productos/verOfertas', views.verOfertas, name='verOfertas'),
+    # Contacto:
+    path('empresa/contacto', views.contactoEmpresa, name='contactoEmpresa'),
 ]

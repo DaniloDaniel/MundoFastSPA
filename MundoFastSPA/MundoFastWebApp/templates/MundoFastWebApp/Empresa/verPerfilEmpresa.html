@@ -9,48 +9,79 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-        <a class="navbar-brand" href="{% url 'MundoFastWebApp:index' %}"><b>Mundo Fast SPA</b></a>
+    <nav class="navbar navbar-expand-sm sticky-top bg-light navbar-light">
+        <a class="navbar-brand" href="{% url 'MundoFastWebApp:index' %}">
+                {% load static %}
+                <img class="img-responsive" width="200px" height="" src="{% static "/MundoFastWebApp/logoMF.png" %}" alt="My image" alt="Mundo Fast SPA">
+            </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="collapsibleNavbar">
             <ul class="navbar-nav">
-                {% block content %}
-                    {% if user.is_authenticated %}
-                        <li class="nav-item">
-                           <a class="nav-link" href="{% url 'MundoFastWebApp:usuarios' %}"> Usuarios</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'MundoFastWebApp:productos' %}">Productos</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'MundoFastWebApp:ventas' %}">Ventas</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link active" href="{% url 'MundoFastWebApp:verPerfilEmpresa' %}">Empresa</a>
-                        </li>
-                        <li class="nav-item">
-                        <a class="nav-link" href="{% url 'logout' %}">Cerrar Sesión</a>
-                       </li>
-                    {% else %}
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'login' %}">Iniciar Sesión</a>
-                        </li>
-                    {% endif %}
-                {% endblock %}
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Catálogos</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Ofertas</a>
+                </li>
+                <form class="mx-2 my-auto d-inline w-100">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Ingrese un producto">
+                        <span class="input-group-append">
+                            <button class="btn btn-outline-secondary" type="button">Buscar</button>
+                            </span>
+                    </div>
+                </form>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Contacto</a>
+                </li>
+                {% block content %} {% if user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'MundoFastWebApp:usuarios' %}">Usuarios</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'MundoFastWebApp:productos' %}">Productos</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'MundoFastWebApp:ventas' %}">Ventas</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'MundoFastWebApp:reportes' %}">Reportes</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="{% url 'MundoFastWebApp:verPerfilEmpresa' %}">Empresa</a>
+                </li>
+                {% endif %} {% endblock %}
             </ul>
-        </div>  
+        </div>
+        <div class="navbar-collapse collapse justify-content-between">
+            <ul class="navbar-nav ml-auto">
+                {% if user.is_authenticated %}
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            {{ user.emailUsuario }}
+                            </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <a class="dropdown-item" href="/MundoFastWebApp/usuarios/{{ user.id }}/">Perfil</a>
+                        <a class="dropdown-item" href="{% url 'logout' %}">Cerrar Sesión</a>
+                    </div>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'login' %}">Iniciar Sesión</a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
     </nav>
     <br>
     <div class="container">
-        {% if messages %}
-            {% for message in messages %}
-                <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %}" role="alert">
-                    {{ message }}
-                </div>
-            {% endfor %}
-        {% endif %}
+        {% if messages %} {% for message in messages %}
+        <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %}" role="alert">
+            {{ message }}
+        </div>
+        {% endfor %} {% endif %}
         <h3>Datos de la Empresa:</h3>
         <b>Nombre:</b> {{ empresa.nombreEmpresa}}
         <br>
@@ -67,10 +98,9 @@
         <img src={{ empresa.imagenEmpresa }} alt="Sin imagen.">
         <br>
         <br>
-        <br>
-        {% if user.is_authenticated %}
+        <br> {% if user.is_authenticated %}
         <button type="button" class="btn btn-danger" onclick="location.href='{% url 'MundoFastWebApp:modificarPerfilEmpresa' %}'">Modificar Información</button>
         {% endif %}
-        <button type="button" class="btn btn-warning" onclick="location.href='{% url 'MundoFastWebApp:index' %}'">Volver</button>
+        <button type="button" class="btn btn-warning" onclick="location.href='javascript:history.go(-1)'">Volver</button>
     </div>
 </body>
