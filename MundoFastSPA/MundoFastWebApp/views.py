@@ -334,3 +334,26 @@ def reportePersonalizado(request):
     fechaTermino = request.POST['fechaTermino'] 
     context = {'listaVenta': listaVenta, 'fechaInicio': fechaInicio, 'fechaTermino': fechaTermino}
     return render(request, 'MundoFastWebApp/Reporte/reportePersonalizado.html', context)
+
+# TEMPORALES
+
+def verCatalogos(request):
+    try:
+        empresa = Empresa.objects.get(pk=1)
+    except Empresa.DoesNotExist:
+        raise Http404("Error. URL no válido.")
+    return render(request, 'MundoFastWebApp/Empresa/verPerfilEmpresa.html', {'empresa': empresa})
+
+def verOfertas(request):
+    try:
+        empresa = Empresa.objects.get(pk=1)
+    except Empresa.DoesNotExist:
+        raise Http404("Error. URL no válido.")
+    return render(request, 'MundoFastWebApp/Empresa/verPerfilEmpresa.html', {'empresa': empresa})
+
+def contactoEmpresa(request):
+    try:
+        empresa = Empresa.objects.get(pk=1)
+    except Empresa.DoesNotExist:
+        raise Http404("Error. URL no válido.")
+    return render(request, 'MundoFastWebApp/Empresa/verPerfilEmpresa.html', {'empresa': empresa})

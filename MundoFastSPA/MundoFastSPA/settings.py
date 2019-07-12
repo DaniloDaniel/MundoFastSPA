@@ -122,3 +122,13 @@ STATIC_URL = '/static/'
 AUTH_USER_MODEL = 'MundoFastWebApp.Usuario'
 LOGIN_REDIRECT_URL = '/MundoFastWebApp/'
 LOGOUT_REDIRECT_URL = '/MundoFastWebApp/'
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, "static"),
+)
+
+MEDIA_ROOT = (
+BASE_DIR
+)
+
+
+MEDIA_URL = '/MundoFastWebApp/img/'
