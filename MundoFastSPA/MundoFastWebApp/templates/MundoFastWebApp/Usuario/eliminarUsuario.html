@@ -75,33 +75,31 @@
             </ul>
         </div>
     </nav>
-    <h1>Datos del Usuario:</h1>
-    <b>RUT:</b> {{ usuario.rutUsuario}}
-    <br>
-    <b>Nombre:</b> {{ usuario.nombreUsuario}}
-    <br>
-    <b>Correo Electrónico:</b> {{ usuario.emailUsuario}}
-    <br>
-    <b>Imagen:</b>
-    <br>
-    <img src={{ usuario.imagenUsuario }} alt="Sin imagen.">
-    <br>
-    <b>Rol:</b> {{ usuario.rolUsuario}}
-    <br>
-    <br>
-    <br> {% if user.id != usuario.id %} ¿Seguro que desea al usuario: <b>{{ usuario.nombreUsuario }}</b>?
-    <br>
-
-    <form action="{% url 'MundoFastWebApp:eliminarUsuario' usuario.id %}" method="POST">
-        {% csrf_token %}
-        <input type="radio" name="opcionSi" id="opcionSi" value="Sí">
-        <label for="opcionSi">Si</label>
+    <div class="container">
         <br>
-        <input type="radio" name="opcionNo" id="opcionNo" value="No">
-        <label for="opcionNo">No</label>
+        <h3>¿Seguro que desea eliminar al siguiente usuario?</b></h3>
         <br>
-        <input type="submit" class="btn btn-danger" value="Eliminar Usuario">
-        <button type="button" class="btn btn-warning" onclick="location.href='{% url 'MundoFastWebApp:usuarios' %}'">Cancelar</button>
-    </form>
-    {% endif %}
+        <b>RUT:</b> {{ usuario.rutUsuario}}
+        <br>
+        <b>Nombre:</b> {{ usuario.nombreUsuario}}
+        <br>
+        <b>Correo Electrónico:</b> {{ usuario.emailUsuario}}
+        <br>
+        <b>Imagen:</b>
+        <br>
+        <img src={{ usuario.imagenUsuario }} width="300px" height="" alt="Sin imagen.">
+        <br>
+        <b>Rol:</b> {{ usuario.rolUsuario}}
+        <br>
+        <br>
+        <br> {% if user.id != usuario.id %} 
+        <br>
+        <form action="{% url 'MundoFastWebApp:eliminarUsuario' usuario.id %}" method="POST">
+            {% csrf_token %}
+            <input type="submit" class="btn btn-danger" value="Eliminar Usuario">
+            {% endif %}
+            <button type="button" class="btn btn-warning" onclick="location.href='{% url 'MundoFastWebApp:usuarios' %}'">Cancelar</button>
+        </form>
+        
+    </div>
 </body>
