@@ -75,38 +75,80 @@
             </ul>
         </div>
     </nav>
-    <h1>Detalles de la Venta:</h1> Folio: {{ venta.folioVenta }}
-    <br> Fecha: {{ venta.fechaVenta }}
-    <br> Productos:
-    <table style="width:30%">
-        <tr>
-            <th>Codigo</th>
-            <th>Nombre</th>
-            <th>Cantidad</th>
-            <th>Precio Unitario</th>
-            <th>Descuento</th>
-            <th>Total</th>
-        </tr>
-        {% for x in listaDetalleVenta%}
-            <tr>
-                <td>{{ x.producto.codigoProducto }}</td>
-                <td>{{ x.producto.nombreProducto }}</td>
-                <td>{{ x.cantidadProducto }}</td>
-                <td>{{ x.totalPorProducto }}</td>
-                <td>{{ x.descuentoAplicadoProducto }}</td>
-                <td>{{ x.totalProducto }}</td>
-            </tr>
-        {% endfor %}
-    </table>
-    Cuotas: {{ venta.cuotasVenta }}
-    <br> Sub Total: {{ venta.subTotal }}
-    <br> Descuento: {{ venta.descuentoAdicionalVenta }}
-    <br> Total: {{ venta.totalVenta }}
-    <br> Estado: {{ venta.estadoVenta }}
-    <br> Responsable: {{venta.responsableVenta}}
-    <br> 
-    <br>
-    <footer>
-        <p><a href="{% url 'MundoFastWebApp:ventas' %}">Volver</a></p>
-    </footer>
+    <div class="container">
+        <br>
+        <h3>Detalles de la Venta:</h3>
+        <br>
+        <div class="row">
+            <div class="col-sm">
+                <b>Folio:</b> {{ venta.folioVenta }}
+            </div>
+            <div class="col-sm text-right">
+                <b>Fecha:</b> {{ venta.fechaVenta }}    
+            </div>
+        </div>
+        <br>
+        <b>Productos:</b>
+        <br>
+        <table class="table table-striped" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Código</th>
+                    <th>Nombre</th>
+                    <th style="text-align: center;">Cantidad</th>
+                    <th style="text-align: center;">Precio Unitario</th>
+                    <th style="text-align: center;">Descuento (%)</th>
+                    <th style="text-align: center;">Total</th>
+                </tr>
+            </thead>
+                <tbody>
+                    {% for x in listaDetalleVenta%}
+                        <tr>
+                            <td>{{ x.producto.codigoProducto }}</td>
+                            <td><a href="/MundoFastWebApp/productos/{{ x.producto.id }}/">{{ x.producto.nombreProducto }}</a></td>
+                            <td style="text-align: center;">{{ x.cantidadProducto }}</td>
+                            <td style="text-align: center;">{{ x.totalPorProducto }}</td>
+                            <td style="text-align: center;">{{ x.descuentoAplicadoProducto }}</td>
+                            <td style="text-align: center;">{{ x.totalProducto }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+        </table>
+        <div class="row">
+            <div class="col">
+                <b>Cuotas:</b> {{ venta.cuotasVenta }}
+            </div>
+            <div class="col text-right">
+                <b>Responsable:</b> {{ venta.responsableVenta }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <b>Sub Total: </b>$ {{ venta.subTotal }}
+            </div>
+            <div class="col text-right">
+                <b>Estado: 
+                {% if venta.estadoVenta == "Finalizada" %}
+                <font color="green">{{ venta.estadoVenta }}</font>
+                {% else %}
+                <font color="red">{{ venta.estadoVenta }}</font>
+                </b>
+                {% endif %}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <b>Descuento:</b> {{ venta.descuentoAdicionalVenta }}
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col">
+                <font size="5px"><b>Total: $ {{ venta.totalVenta }} </b></font>
+            </div>
+        </div>
+        <br> 
+        <br>
+        <button type="button" class="btn btn-warning" onclick="location.href='{% url 'MundoFastWebApp:ventas' %}'">Volver</button>
+    </div>
 </body>

@@ -262,13 +262,14 @@ def modificarVenta(request, id):
 @login_required
 def eliminarVenta(request, id):
     venta = get_object_or_404(Venta, pk=id)
+    listaDetalleVenta = [detalleVenta for detalleVenta in DetalleVenta.objects.order_by('-id') if venta.id == detalleVenta.venta.id]
     if request.method == 'POST':
         if 'opcionSi' in request.POST:
             venta.delete()
-            messages.error(request, 'Venta eliminado correctamente.')
+            messages.error(request, 'Venta eliminada correctamente.')
         return HttpResponseRedirect(reverse('MundoFastWebApp:ventas'))
     else:
-        return render(request, 'MundoFastWebApp/Venta/eliminarVenta.html', {'venta': venta})
+        return render(request, 'MundoFastWebApp/Venta/eliminarVenta.html', {'venta': venta, 'listaDetalleVenta': listaDetalleVenta})
 
 def verPerfilEmpresa(request):
     try:
