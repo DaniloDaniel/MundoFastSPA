@@ -77,6 +77,13 @@
     </nav>
     <div class="container">
         <h3>Crear Nuevo Producto:</h3>
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %}" role="alert">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}    
         {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
         <form action="{% url 'MundoFastWebApp:crearproducto' %}" method="post">
             {% csrf_token %}
