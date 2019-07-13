@@ -32,20 +32,26 @@ def formProducto(request):
 
 @login_required
 def crearProducto(request):
-    try:
-        producto = Producto(codigoProducto = request.POST['codigoProducto'], nombreProducto = request.POST['nombreProducto'], 
-            descripcionProducto = request.POST['descripcionProducto'], categoriaProducto = request.POST['categoriaProducto'], 
-            precioProducto = request.POST['precioProducto'],cantidadProducto = request.POST['cantidadProducto'],
-            ofertaProducto = request.POST['ofertaDropDown'],descuentoProducto = request.POST['descuentoProducto'])
-    except IntegrityError:
-        return render(request, "MundoFastWebApp/Producto/crearProducto.html", {"error_message": "Dejaste un campo vacío"})
+    codigo = request.POST['codigoProducto']
+    if Producto.objects.get(codigoProducto = int(codigo)):
+        producto = Producto()
+        messages.error(request, 'Codigo invalido, codigo '+ codigo +' ya existe.')
+        return render(request, "MundoFastWebApp/Producto/crearProducto.html", {'producto': producto})
     else:
-        producto.save()
-        messages.success(request, 'Producto creado correctamente.')
-        # Always return an HttpResponseRedirect after successfully dealing
-        # with POST data. This prevents data from being posted twice if a
-        # user hits the Back button.
-        return HttpResponseRedirect(reverse('MundoFastWebApp:productos'))
+        try:
+            producto = Producto(codigoProducto = request.POST['codigoProducto'], nombreProducto = request.POST['nombreProducto'], 
+                descripcionProducto = request.POST['descripcionProducto'], categoriaProducto = request.POST['categoriaProducto'], 
+                precioProducto = request.POST['precioProducto'],cantidadProducto = request.POST['cantidadProducto'],
+                ofertaProducto = request.POST['ofertaDropDown'],descuentoProducto = request.POST['descuentoProducto'])
+        except IntegrityError:
+            return render(request, "MundoFastWebApp/Producto/crearProducto.html", {"error_message": "Dejaste un campo vacío"})
+        else:
+            producto.save()
+            messages.success(request, 'Producto creado correctamente.')
+            # Always return an HttpResponseRedirect after successfully dealing
+            # with POST data. This prevents data from being posted twice if a
+            # user hits the Back button.
+            return HttpResponseRedirect(reverse('MundoFastWebApp:productos'))
 
 @login_required
 def modificarProducto(request, id):
