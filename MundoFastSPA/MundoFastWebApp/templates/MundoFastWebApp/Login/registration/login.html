@@ -89,42 +89,48 @@
             </ul>
         </div>
     </nav>
-        <div class="container">
-            {% if user.is_authenticated %}
-            <h3>Sesión ya Iniciada:</h3>
+    <div class="container">
+        <br>
+        {% if user.is_authenticated %}
+            <h3>Sesión ya Iniciada.</h3>
+            <br>
             <button type="button" class="btn btn-danger" onclick="location.href='{% url 'logout' %}'">Cerrar Sesión</button>
-            {% else %}
+        {% else %}
             <h3>Iniciar Sesión:</h3>
-                {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
-                <form action="." method="post">
-                    {% csrf_token %}
-                    <input type="hidden" name="next" value="{{ next }}" />
-                        {{ form.non_field_errors }}
-                        {% for field in form %}
-                    <div class="field-wrapper">
-                        <div class="label-wrapper">
-                            {% if field.name == "username" %}
-                                Correo Electrónico
-                            {% else %}
-                                {{ field.label_tag }}
-                            {% endif %}
-                            {% if field.field.required %}<span class="required">*</span>{% endif %}
-                        </div>
-                        <div class="value-wrapper">
-                            {{ field }}
-                            {{ field.errors }}
-                        </div>
-                    </div>
-                    {% endfor %}
-                    <div class="submit-wrapper">
-                    <input type="submit" class="btn btn-success" value="Iniciar Sesión">
-                    <button type="button" class="btn btn-danger" onclick="location.href='{% url 'MundoFastWebApp:index' %}'">Volver</button>
-                    </div>
-                </form>
+            <br>
+            {% if error_message %}
             {% endif %}
-        </div>
-    </body>
-    <div class="footer">
-        <p>Volver</p>
+            <form action="." method="post">
+                {% csrf_token %}
+                <input type="hidden" name="next" value="{{ next }}">
+                {{ form.non_field_errors }}
+                <div class="row">
+                    <div class="col">   
+                        Correo Electrónico:
+                        <input type="email" class="form-control" name="username" id="username" placeholder="Correo Electrónico" required >
+                        <br>
+                    </div>
+                    <div class="col">
+                    </div>
+                    <div class="col">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">   
+                        Contraseña:
+                        <input type="password" class="form-control" name="password" id="inputPass" placeholder="Contraseña" required>
+                        <br>
+                    </div>
+                    <div class="col">
+                    </div>
+                    <div class="col">
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-success">Iniciar Sesión</button>
+                <button type="button" id="submitButton" class="btn btn-warning" onclick="location.href='javascript:history.go(-1)'">Volver</button>
+                <br>
+            </form>
+        {% endif %}
     </div>
+</body>
 </html>
