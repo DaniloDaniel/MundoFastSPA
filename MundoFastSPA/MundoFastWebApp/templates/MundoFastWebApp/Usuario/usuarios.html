@@ -97,7 +97,7 @@
             </button>
             {% csrf_token %}
             <label for="buscarUsuario"></label>
-            <input type="text" name="buscarUsuario" id="buscarUsuario">
+            <input type="text" name="buscarUsuario" id="buscarUsuario" placeholder="Nombre">
             <input type="submit" value="Buscar Usuario">
         </form>
         {% if messages %} {% for message in messages %}
