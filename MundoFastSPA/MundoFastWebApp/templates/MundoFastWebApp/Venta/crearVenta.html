@@ -8,7 +8,6 @@
     <link href='//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
     <script>
         $(document).ready(function(){
-
             function total() {
                 var subTotal = 0;
                 
@@ -35,7 +34,6 @@
                     j++;
                 });
             }
-
             var lista = [];
             var contProductosVenta = 0;
             var prefixPrecio = '#precioProductoVenta';
@@ -73,14 +71,14 @@
                             j++;
                         });
                         if(!existeProducto){
-                            $("#tableHeader").after("<tr><td><input type='number' class='codigoProductoVenta' style='width:80px' value='"+ lista[i].codigoPAux +"'readonly/></td><td class='nombreProductoVenta'>"+lista[i].nombrePAux+"</td>"+
-                            "<td><input type='number' name='cantidadProductoVenta"+contProductosVenta+"' class='cantidadProductoVenta' value=1 min=1 style='width:80px'/></td><td class='precioProductoVenta'>"+lista[i].precioPAux +"</td><td><button type='button' id='eliminarFila'>eliminar</button></td></tr>");
+                            $("#tableBody").append("<tr><td><input type='number' class='codigoProductoVenta' style='width:80px' value='"+ lista[i].codigoPAux +"'readonly/></td><td class='nombreProductoVenta'>"+lista[i].nombrePAux+"</td>"+
+                            "<td><input type='number' name='cantidadProductoVenta"+contProductosVenta+"' class='cantidadProductoVenta' value=1 min=1 style='width:80px'/></td><td class='precioProductoVenta'>"+lista[i].precioPAux +"</td><td><button type='button' class='btn btn-danger' id='eliminarFila'>Eliminar</button></td></tr>");
                             contProductosVenta++;
                             $("#contProductosVenta").val(contProductosVenta);
                             encontroProducto = true; //como encontró producto se cambia su valor a true
                             $("#errorProductoNoExiste").hide();
                             $("#tablaProductos").show();
-                            $("#tableHeader").show();
+                            $("#tableBody").show();
                             $("#mensajeError").hide();
                         }
                     }
@@ -88,7 +86,6 @@
                         $("#errorProductoNoExiste").show();
                     }
                 }
-
                 $("#form").on("click",function() {
                     var j=0;
                     $('.codigoProductoVenta').each(function(){
@@ -112,7 +109,7 @@
                 $("#eliminarFila").unbind().click(function(){
                     
                     if(contProductosVenta == 1){
-                        $("#tableHeader").hide();
+                        $("#tableBody").hide();
                         $(this).closest('tr').remove();
                         contProductosVenta--;
                     }
@@ -123,7 +120,6 @@
                     total();
                     $("#contProductosVenta").val(contProductosVenta);
                 });
-                
             });
             $("#form").submit(function(e){
                 if(contProductosVenta == 0){
@@ -138,7 +134,7 @@
                         i++;
                     });
                 }
-            });    
+            });
         });
     </script>
 </head>
@@ -210,53 +206,123 @@
         </div>
     </nav>
     <div class="container">
+        <br>
         <h3>Crear Nueva Venta:</h3>
-        <label for="mensajeError" id="mensajeError">Debe agregar al menos un producto a la venta</label>
+        <br>
+        <div class="alert alert-danger" role="alert" id="mensajeError">
+            <label for="mensajeError">Debe agregar al menos un producto a la venta</label>
+        </div>
         {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
         <form action="{% url 'MundoFastWebApp:crearVenta' %}" method="post" id="form">
             {% csrf_token %}
-            <label for="folioVenta"><b>Folio Venta:</b></label>
-            <input type="number" name="folioVenta" id="folioVenta" readonly required><br>
-            
-            <label for="productosVenta"><b>Productos:</b></label>
-            <input type="text" name="productosVentaSearchBox" id="productosVentaSearchBox">
-            <button type="button" class="botonBuscar">Agregar Producto</button>
-            <label for="errorProductoNoExiste" id="errorProductoNoExiste">Ese producto no existe</label><br>
-            <table id="tablaProductos" style="width:50%">
-                <tr id="tableHeader">
-                    <th>Codigo</th>
-                    <th>Nombre</th>
-                    <th>Cantidad</th>
-                    <th>Precio</th>
-                </tr>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col">   
+                        <label for="folioVenta"><b>Folio Venta:</b></label>
+                        <input type="number" class="form-control" name="folioVenta" id="folioVenta" readonly required>
+                    </div>
+                    <div class="col">
+                    </div>   
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="productosVenta"><b>Productos:</b></label>
+                <div class="row">
+                    <div class="col">   
+                        <input type="text" class="form-control" name="productosVentaSearchBox" id="productosVentaSearchBox">
+                    </div>
+                    <div class="col">
+                        <button type="button" class="botonBuscar">Agregar Producto</button>
+                    </div>
+                </div>
+            </div>
+            <div class="row" id="errorProductoNoExiste">
+                <div class="col">   
+                        <div class="alert alert-danger" role="alert" >
+                        <label for="errorProductoNoExiste">Ese producto no existe.</label><br>
+                    </div>
+                </div>
+                <div class="col">
+                </div>
+            </div>
+            <table id="tablaProductos" class="table table-striped" style="width:70%">
+                <thead>
+                    <tr>
+                        <th>Código</th>
+                        <th>Nombre</th>
+                        <th>Cantidad</th>
+                        <th>Precio</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody">
+                </tbody>
             </table>
-            
-            <label for="cuotasVenta"><b>Cuotas Venta:</b></label>
-            <select name="cuotasVenta" id="cuotasVenta">
-                <option value="1">1 Cuota</option>
-                <option value="2">2 Cuotas</option>
-                <option value="3">3 Cuotas</option>          
-            </select><br>
-            <label for="subTotal"><b>Sub Total:</b></label>
-            <input type="number" name="subTotal" id="subTotal" min=1 readonly required><br>
-            <label for="descuentoAdicionalVenta"><b>Descuento Venta:</b></label>
-            <input type="number" name="descuentoAdicionalVenta" id="descuentoAdicionalVenta" value=0 min=0 max=100 required><br>
-            <label for="totalVenta"><b>Total Venta:</b></label>
-            <input type="number" name="totalVenta" id="totalVenta" min=1 readonly required><br>
-            <label for="estadoVenta"><b>Estado Venta:</b></label>
-            <select name="estadoVenta" id="estadoVenta">
-                <option value="En Proceso">En Proceso</option>
-                <option value="Finalizada">Finalizada</option>         
-            </select><br>
-            <label for="responsableVenta"><b>Responsable Venta:</b></label>
-            <select name="responsableVenta" id="responsableVenta">
-                {% for usuario in listaUsuario %}
-                <option value="{{ usuario.emailUsuario }}">{{usuario.emailUsuario}}</option>       
-                {% endfor %}
-            </select><br>
-            <input type="text" id="contProductosVenta" name="contProductosVenta"/>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col">   
+                        <label for="cuotasVenta"><b>Cuotas Venta:</b></label>
+                        <select name="cuotasVenta" class="form-control" id="cuotasVenta">
+                            <option value="1">1 Cuota</option>
+                            <option value="2">2 Cuotas</option>
+                            <option value="3">3 Cuotas</option>          
+                        </select>
+                    </div>
+                    <div class="col"></div>   
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col">   
+                        <label for="subTotal"><b>Sub Total:</b></label>
+                        <input type="number" class="form-control" name="subTotal" id="subTotal" min=1 readonly required>
+                    </div>
+                    <div class="col">
+                        <label for="descuentoAdicionalVenta"><b>Descuento Venta (%):</b></label>
+                        <input type="number" class="form-control" name="descuentoAdicionalVenta" id="descuentoAdicionalVenta" value=0 min=0 max=100 required>
+                    </div>
+                    <div class="col">
+                    </div>
+                    <div class="col">
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col">   
+                        <label for="totalVenta"><b>Total Venta:</b></label>
+                        <input type="number" class="form-control" name="totalVenta" id="totalVenta" min=1 readonly required>
+                    </div>
+                    <div class="col">
+                    </div>
+                </div>
+            </div>  
+            <div class="form-group">
+                <div class="row">
+                    <div class="col">   
+                        <label for="estadoVenta"><b>Estado Venta:</b></label>
+                        <select class="form-control" name="estadoVenta" id="estadoVenta">
+                            <option value="En Proceso">En Proceso</option>
+                            <option value="Finalizada">Finalizada</option>         
+                        </select> 
+                    </div>
+                    <div class="col">
+                        <label for="responsableVenta"><b>Responsable Venta:</b></label>
+                        <select class="form-control" name="responsableVenta" id="responsableVenta">
+                            {% for usuario in listaUsuario %}
+                                <option selected={{user.emailUsuario}} value="{{ usuario.emailUsuario }}">{{usuario.emailUsuario}}</option>       
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col">
+                    </div>
+                </div>
+            </div>
+            <input type="text" id="contProductosVenta" name="contProductosVenta">
             <input type="submit" class="btn btn-success" value="Crear Venta">
             <button type="button" id="submitButton" class="btn btn-danger" onclick="location.href='{% url 'MundoFastWebApp:ventas' %}'">Cancelar</button>
         </form>
     </div>
+    <br>
+    <br>
 </body>
