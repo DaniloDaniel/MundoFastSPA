@@ -75,21 +75,20 @@
             </ul>
         </div>
     </nav>
-    <h1>Detalles del Producto:</h1> Código: {{ producto.codigoProducto}}
-    <br> Nombre: {{ producto.nombreProducto}}
-    <br> Descripcion: {{ producto.descripcionProducto}}
-    <br> Categoria: {{ producto.categoriaProducto}}
-    <br> Precio: {{ producto.precioProducto}}
-    <br> Cantidad: {{ producto.cantidadProducto}}
-    <br> Oferta: {% if producto.ofertaProducto %} Si
-    <br> {% else %} No
-    <br> {% endif %} Descuento: {{ producto.descuentoProducto}}
-    <br>
-    <footer>
-        {% if 'ofertas' in request.META.HTTP_REFERER %}
-        <p><a href="{% url 'MundoFastWebApp:ofertaproducto' %}">Volver</a></p>
-        {% else %}
-        <p><a href="{% url 'MundoFastWebApp:productos' %}">Volver</a></p>
-        {% endif %}
-    </footer>
+    <div class="container">
+        <br>
+        <h3>Detalles del Producto: {{ producto.nombreProducto }}</h3>
+        <br><b>Código:</b> {{ producto.codigoProducto}}
+        <br><b>Nombre:</b> {{ producto.nombreProducto}}
+        <br><b>Descripción:</b> {{ producto.descripcionProducto}}
+        <br><b>Categoria:</b> {{ producto.categoriaProducto}}
+        <br><b>Precio:</b> {{ producto.precioProducto}}
+        <br><b>Cantidad:</b> {{ producto.cantidadProducto}}
+        <br><b>Oferta:</b> {% if producto.ofertaProducto %} Si
+        <br> {% else %} No
+        <br> {% endif %} <b>Descuento:</b> {{ producto.descuentoProducto}}
+        <br>
+        <br>
+        <button type="button" class="btn btn-warning" onclick="location.href='javascript:history.go(-1)'">Volver</button>
+    </div>
 </body>

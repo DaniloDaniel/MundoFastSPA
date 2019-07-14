@@ -1,3 +1,26 @@
+<head>
+    <title>MundoFastSPA - Productos</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <link href='//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        .footer {
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            background-color: black;
+            color: white;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
     <nav class="navbar navbar-expand-sm sticky-top bg-light navbar-light">
         <a class="navbar-brand" href="{% url 'MundoFastWebApp:index' %}">
                 {% load static %}
@@ -64,17 +87,28 @@
             </ul>
         </div>
     </nav>
-<h1>Productos en Oferta:</h1>
-{% if listaProducto %}
-    <ul>
-    {% for producto in listaProducto %}
-        <li><a href="/MundoFastWebApp/productos/{{ producto.id }}/">{{ producto.nombreProducto }}</a></li>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>No existen productos ofertados.</p>
-{% endif %}
-
-<footer>
-    <p><a href="{% url 'MundoFastWebApp:productos' %}">Volver</a></p>
-</footer>
+    <br>
+    <div class="container">
+        <h3>Productos en Oferta:</h3>
+        <br>
+        <ul class="list-group">
+            {% if listaProducto %}
+            {% for producto in listaProducto %}
+                <div class="row">
+                    <div class="col">
+                        <li class="list-group-item"><a href="/MundoFastWebApp/productos/{{ producto.id }}/">{{ producto.nombreProducto }}</a></li>
+                    </div>
+                    <div class="col">
+                    </div>
+                </div>
+            {% endfor %}
+            {% else %}
+                <p>No existen productos ofertados.</p>
+            {% endif %}
+        </ul>
+        <br>
+        <button type="button" class="btn btn-warning" onclick="location.href='{% url 'MundoFastWebApp:productos' %}'">
+            Volver a Productos
+        </button>
+    </div>
+</body>

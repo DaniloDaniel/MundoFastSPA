@@ -93,11 +93,11 @@
         <br>
         <form action="{% url 'MundoFastWebApp:buscarproducto' %}" method="post">
             <button type="button" class="btn btn-success" onclick="location.href='{% url 'MundoFastWebApp:formproducto' %}'">
-                <i class="fa fa-user"></i>Nuevo Producto
+                <i class="fa fa-plus-square"></i>   Nuevo Producto
             </button>
             {% csrf_token %}
             <label for="buscarProducto"></label>
-            <input type="text" name="buscarProducto" id="buscarProducto">
+            <input type="text" name="buscarProducto" id="buscarProducto" placeholder="Nombre Producto">
             <input type="submit" value="Buscar Producto">
         </form>
         {% if messages %}
@@ -110,10 +110,12 @@
         <table class="table table-striped">
             <thead>
                 <tr>
+                    <th>Código</th>
                     <th>Producto</th>
-                    <th>Ver</th>
-                    <th>Editar</th>
-                    <th>Eliminar</th>
+                    <th style="text-align: center;">Unidades</th>
+                    <th style="text-align: center;">Ver</th>
+                    <th style="text-align: center;">Modificar</th>
+                    <th style="text-align: center;">Eliminar</th>
                 </tr>
             </thead>
             <tbody>
@@ -121,19 +123,25 @@
                     {% for producto in listaProducto %}
                         <tr>
                             <td>
-                                <a href="/MundoFastWebApp/productos/{{ producto.id }}/">{{ producto.nombreProducto }}</a>
+                                <a href="/MundoFastWebApp/productos/{{ producto.id }}/">{{ producto.id }}</a>
                             </td>
                             <td>
+                                <a href="/MundoFastWebApp/productos/{{ producto.id }}/">{{ producto.nombreProducto }}</a>
+                            </td>
+                            <td style="text-align: center;">
+                                {{ producto.cantidadProducto }}
+                            </td>
+                            <td style="text-align: center;">
                                 <button type="button" class="btn btn-success" onclick="location.href='/MundoFastWebApp/productos/{{ producto.id }}/'">
                                     <i class="fa fa-eye"></i>
                                 </button>
                             </td>
-                            <td>
+                            <td style="text-align: center;">
                                 <button type="button" class="btn btn-primary" onclick="location.href='/MundoFastWebApp/productos/modificar/{{ producto.id }}/'">
                                     <i class="fa fa-pencil"></i>
                                 </button>
                             </td>
-                            <td>
+                            <td style="text-align: center;">
                                 <button type="button" class="btn btn-danger" onclick="location.href='/MundoFastWebApp/productos/eliminar/{{ producto.id }}/'">
                                     <i class="fa fa-trash"></i>
                                 </button>
@@ -152,16 +160,12 @@
         <form action="{% url 'MundoFastWebApp:ofertaproducto' %}" method="post">
             {% csrf_token %}
             <button type="submit" class="btn btn-info">
-                <i class="fa fa-eye"></i>Mostrar Ofertas
+                <i class="fa fa-eye"></i>  Mostrar Ofertas
             </button>
             {% if 'buscar' in request.path %}
-                <button type="button" class="btn btn-danger" onclick="location.href='{% url 'MundoFastWebApp:productos' %}'">
-                    Volver a la lista
-                </button>
-            {% else %}
-                <button type="button" class="btn btn-danger" onclick="location.href='{% url 'MundoFastWebApp:index' %}'">
-                    Volver
-                </button>           
+                <button type="button" class="btn btn-warning" onclick="location.href='{% url 'MundoFastWebApp:productos' %}'">
+                    Volver a la Lista
+                </button>       
             {% endif %}
         </form>
     </div>

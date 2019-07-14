@@ -76,6 +76,7 @@
         </div>
     </nav>
     <div class="container">
+        <br>
         <h3>Crear Nuevo Producto:</h3>
         {% if messages %}
             {% for message in messages %}
@@ -87,29 +88,52 @@
         {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
         <form action="{% url 'MundoFastWebApp:crearproducto' %}" method="post">
             {% csrf_token %}
-            <label for="codigoProducto"><b>Código Producto:</b></label>
-            <input type="number" name="codigoProducto" id="codigoProducto" required><br>
-            <label for="nombreProducto"><b>Nombre Producto:</b></label>
-            <input type="text" name="nombreProducto" id="nombreProducto" required><br>
-            <label for="descripcionProducto"><b>Descripción Producto:</b></label>
-            <input type="textarea" name="descripcionProducto" id="descripcionProducto" rows="10" cols="30" required><br>
-            <label for="categoriaProducto"><b>Categoria Producto:</b></label>
-            <select name="categoriaProducto" id="categoriaProducto">
-                {% for choice,readablechoice in producto.opcionesCategoria %}
-                <option value="{{ choice }}">{{ readablechoice }}</option>       
-                {% endfor %}
-            </select><br>
-            <label for="precioProducto"><b>Precio Producto:</b></label>
-            <input type="number" name="precioProducto" id="precioProducto" required><br>
-            <label for="cantidadProducto"><b>Cantidad Producto:</b></label>
-            <input type="number" name="cantidadProducto" id="cantidadProducto" required><br>
-            <label for="ofertaProducto"><b>Oferta Producto:</label>
-            <select name="ofertaDropDown">
-                <option value="False" selected>No</option>
-                <option value="True">Si</option>
-            </select><br>
-            <label for="descuentoProducto"><b>Descuento Producto:</b></label>
-            <input type="number" name="descuentoProducto" id="descuentoProducto" min=0 max=100 required><br>
+            <div class="form-group">
+                <br>
+                <label for="codigoProducto"><b>Código Producto:</b></label>
+                <input class="form-control" type="number" name="codigoProducto" id="codigoProducto" required>
+            </div>
+            <div class="form-group">
+                <label for="nombreProducto"><b>Nombre Producto:</b></label>
+                <input class="form-control" type="text" name="nombreProducto" id="nombreProducto" required>
+            </div>
+            <div class="form-group">
+                <label for="descripcionProducto"><b>Descripción Producto:</b></label>
+                <input class="form-control" type="textarea" name="descripcionProducto" id="descripcionProducto" rows="10" cols="30" required>
+            </div>
+            <div class="form-group">
+                <label for="categoriaProducto"><b>Categoría Producto:</b></label>
+                <select class="form-control" name="categoriaProducto" id="categoriaProducto">
+                    {% for choice,readablechoice in producto.opcionesCategoria %}
+                    <option value="{{ choice }}">{{ readablechoice }}</option>       
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="precioProducto"><b>Precio Producto:</b></label>
+                <input class="form-control" type="number" name="precioProducto" id="precioProducto" required>
+            </div>
+            <div class="form-group">
+                <label for="cantidadProducto"><b>Cantidad Producto:</b></label>
+                <input class="form-control" type="number" name="cantidadProducto" id="cantidadProducto" required>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label for="ofertaProducto"><b>Oferta Producto:</label>
+                        <select class="form-control" name="ofertaDropDown">
+                            <option value="False" selected>No</option>
+                            <option value="True">Si</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col">
+                     <div class="form-group">
+                        <label for="descuentoProducto"><b>Descuento Producto (%):</b></label>
+                        <input class="form-control" type="number" name="descuentoProducto" id="descuentoProducto" min=0 max=100 required>
+                    </div>
+                </div>
+            </div>
             <input type="submit" class="btn btn-success" value="Crear Producto">
             <button type="button" class="btn btn-danger" onclick="location.href='{% url 'MundoFastWebApp:productos' %}'">Cancelar</button>
         </form>
