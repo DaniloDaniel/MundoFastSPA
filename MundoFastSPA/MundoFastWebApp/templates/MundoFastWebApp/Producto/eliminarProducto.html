@@ -11,8 +11,8 @@
 <body>
     <nav class="navbar navbar-expand-sm sticky-top bg-light navbar-light">
         <a class="navbar-brand" href="{% url 'MundoFastWebApp:index' %}">
-                {% load static %}
-                <img class="img-responsive" width="200px" height="" src="{% static "/MundoFastWebApp/logoMF.png" %}" alt="My image" alt="Mundo Fast SPA">
+            {% load static %}
+            <img class="img-responsive" width="200px" height="" src="{% static "/MundoFastWebApp/logoMF.png" %}" alt="My image" alt="Mundo Fast SPA">
             </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
             <span class="navbar-toggler-icon"></span>
@@ -30,7 +30,7 @@
                         <input type="text" class="form-control" placeholder="Ingrese un producto">
                         <span class="input-group-append">
                             <button class="btn btn-outline-secondary" type="button">Buscar</button>
-                            </span>
+                        </span>
                     </div>
                 </form>
                 <li class="nav-item">
@@ -75,17 +75,26 @@
             </ul>
         </div>
     </nav>
-    <h1>Eliminar Producto {{ producto.nombreProducto }}</h1>¿Seguro que desea eliminar el producto: <b>{{ producto.nombreProducto }}</b>?
-    <br>
-    <form action="{% url 'MundoFastWebApp:eliminarproducto' producto.id %}" method="POST">
-        {% csrf_token %}
-        <input type="radio" name="opcionSi" id="opcionSi" value="Si">
-        <label for="opcionSi">Si</label>
+    <div class="container">
         <br>
-        <input type="radio" name="opcionNo" id="opcionNo" value="No">
-        <label for="opcionNo">No</label>
+        <h3>Eliminar Producto {{ producto.nombreProducto }}</h3>
+        <br><b>Nombre:</b> {{ producto.nombreProducto}}
+        <br><b>Descripción:</b> {{ producto.descripcionProducto}}
+        <br><b>Categoria:</b> {{ producto.categoriaProducto}}
+        <br><b>Precio:</b> {{ producto.precioProducto}}
+        <br><b>Cantidad:</b> {{ producto.cantidadProducto}}
+        <br><b>Oferta:</b> {% if producto.ofertaProducto %} Si
+        <br> {% else %} No
+        <br> {% endif %} <b>Descuento:</b> {{ producto.descuentoProducto}}
         <br>
-        <input type="submit" class="btn btn-danger" value="Eliminar Producto">
-        <button type="button" class="btn btn-warning" onclick="location.href='{% url 'MundoFastWebApp:productos' %}'">Cancelar</button>
-    </form>
+        <br>
+        ¿Seguro que desea eliminar el producto <b>{{ producto.nombreProducto }}</b>?
+        <br>
+        <br>
+        <form action="{% url 'MundoFastWebApp:eliminarproducto' producto.id %}" method="POST">
+            {% csrf_token %}
+            <input type="submit" class="btn btn-danger" value="Eliminar Producto">
+            <button type="button" class="btn btn-warning" onclick="location.href='{% url 'MundoFastWebApp:productos' %}'">Cancelar</button>
+        </form>
+    </div>
 </body>

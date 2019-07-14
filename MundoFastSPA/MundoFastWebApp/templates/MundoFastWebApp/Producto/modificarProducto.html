@@ -74,44 +74,74 @@
             </ul>
         </div>
     </nav>
-    <h3>Modificar Producto {{ producto.nombreProducto }}</h3>
-
-    {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
-
-    <form action="{% url 'MundoFastWebApp:modificarproducto' producto.id%}" method="post">
-        {% csrf_token %}
-        <label for="codigoProducto"><b>Código Producto:</b></label>
-        <input type="number" name="codigoProducto" id="codigoProducto" value="{{producto.codigoProducto}}" required><br>
-        <label for="nombreProducto"><b>Nombre Producto:</b></label>
-        <input type="text" name="nombreProducto" id="nombreProducto" value="{{producto.nombreProducto}}" required><br>
-        <label for="descripcionProducto"><b>Descripcion Producto:</b></label>
-        <input type="text" name="descripcionProducto" id="descripcionProducto" value="{{producto.descripcionProducto}}" required><br>
-        <label for="categoriaProducto"><b>Categoría Producto:</b></label>
-        <select name="categoriaProducto" id="categoriaProducto">
-            {% for choice,readablechoice in producto.opcionesCategoria %}
-                {% if choice == producto.categoriaProducto %}        
-                <option value="{{ choice }}" selected >{{ readablechoice }}</option>
-                {% endif %}
-                <option value="{{ choice }}">{{ readablechoice }}</option>       
+    <div class="container">
+        <br>
+        <h3>Modificar Producto:</h3>
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %}" role="alert">
+                    {{ message }}
+                </div>
             {% endfor %}
-        </select><br>
-        <label for="precioProducto"><b>Precio Producto:</b></label>
-        <input type="number" name="precioProducto" id="precioProducto" value="{{producto.precioProducto}}" required><br>
-        <label for="cantidadProducto"><b>Cantidad Producto:</b></label>
-        <input type="number" name="cantidadProducto" id="cantidadProducto" value="{{producto.cantidadProducto}}" required><br>
-        <label for="ofertaProducto"><b>Oferta Producto:</b></label>
-        <select name="ofertaDropDown">
-            {% if producto.ofertaProducto %}
-                <option value="{{ producto.ofertaProducto }}" selected>Si</option>
-                <option value="False">No</option>
-            {% else %}
-                <option value="{{ producto.ofertaProducto }}" selected>No</option>
-                <option value="True">Si</option>
-            {% endif %}
-        </select><br>
-        <label for="descuentoProducto">Descuento Producto:</label>
-        <input type="number" name="descuentoProducto" id="descuentoProducto" value="{{producto.descuentoProducto}}" min=0 max=100 required><br>
-        <input type="submit" class="btn btn-success" value="Modificar Producto">
-        <button type="button" class="btn btn-danger" onclick="location.href='{% url 'MundoFastWebApp:productos' %}'">Cancelar</button>
-    </form>
+        {% endif %}    
+        {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+        <form action="{% url 'MundoFastWebApp:modificarproducto' producto.id%}" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="codigoProducto"><b>Código Producto:</b></label>
+                <input class="form-control" type="number" name="codigoProducto" id="codigoProducto" value="{{producto.codigoProducto}}" required>
+            </div>
+            <div class="form-group">
+                <label for="nombreProducto"><b>Nombre Producto:</b></label>
+                <input class="form-control" type="text" name="nombreProducto" id="nombreProducto" value="{{producto.nombreProducto}}" required>
+            </div>
+            <div class="form-group">
+                <label for="descripcionProducto"><b>Descripción Producto:</b></label>
+                <input class="form-control" type="textarea" name="descripcionProducto" id="descripcionProducto" rows="10" cols="30" value="{{producto.descripcionProducto}}" required>
+            </div>
+            <div class="form-group">
+                <label for="cantidadProducto"><b>Categoría Producto:</b></label>
+                <select class="form-control" name="categoriaProducto" id="categoriaProducto">
+                    {% for choice,readablechoice in producto.opcionesCategoria %}
+                        {% if choice == producto.categoriaProducto %}        
+                            <option value="{{ choice }}" selected >{{ readablechoice }}</option>
+                        {% endif %}
+                        <option value="{{ choice }}">{{ readablechoice }}</option>       
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="precioProducto"><b>Precio Producto:</b></label>
+                <input class="form-control" type="number" name="precioProducto" id="precioProducto" value="{{producto.precioProducto}}" required>
+            </div>
+            <div class="form-group">
+                <label for="cantidadProducto"><b>Cantidad Producto:</b></label>
+                <input class="form-control" type="number" name="cantidadProducto" id="cantidadProducto" value="{{producto.cantidadProducto}}" required>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label for="ofertaProducto"><b>Oferta Producto:</label>
+                        <select class="form-control" name="ofertaDropDown">
+                            {% if producto.ofertaProducto %}
+                                <option value="{{ producto.ofertaProducto }}" selected>Si</option>
+                                <option value="False">No</option>
+                            {% else %}
+                                <option value="{{ producto.ofertaProducto }}" selected>No</option>
+                                <option value="True">Si</option>
+                            {% endif %}
+                        </select>
+                    </div>
+                </div>
+                <div class="col">
+                     <div class="form-group">
+                        <label for="descuentoProducto"><b>Descuento Producto (%):</b></label>
+                        <input class="form-control" type="number" name="descuentoProducto" id="descuentoProducto" value="{{producto.descuentoProducto}}" min=0 max=100 required>
+                    </div>
+                </div>
+            </div>
+            <input type="submit" class="btn btn-danger" value="Modificar Producto">
+            <button type="button" class="btn btn-warning" onclick="location.href='{% url 'MundoFastWebApp:productos' %}'">Cancelar</button>
+        </form>
+    </div>
 </body>

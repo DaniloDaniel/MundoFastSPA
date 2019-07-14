@@ -35,7 +35,7 @@ def crearProducto(request):
     codigo = request.POST['codigoProducto']
     if Producto.objects.get(codigoProducto = int(codigo)):
         producto = Producto()
-        messages.error(request, 'Codigo invalido, codigo '+ codigo +' ya existe.')
+        messages.error(request, 'El código "' + codigo + '" ya pertenece a otro producto.')
         return render(request, "MundoFastWebApp/Producto/crearProducto.html", {'producto': producto})
     else:
         try:
@@ -75,9 +75,8 @@ def modificarProducto(request, id):
 def eliminarProducto(request, id):
     producto = get_object_or_404(Producto, pk=id)
     if request.method == 'POST':
-        if 'opcionSi' in request.POST:
-            producto.delete()
-            messages.error(request, 'Producto eliminado correctamente.')
+        producto.delete()
+        messages.error(request, 'Producto eliminado correctamente.')
         return HttpResponseRedirect(reverse('MundoFastWebApp:productos'))
     else:
         return render(request, 'MundoFastWebApp/Producto/eliminarProducto.html', {'producto': producto})
