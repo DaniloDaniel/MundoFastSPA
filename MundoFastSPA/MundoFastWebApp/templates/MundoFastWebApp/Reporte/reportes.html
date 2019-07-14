@@ -84,7 +84,7 @@
                         <input type="text" class="form-control" placeholder="Ingrese un producto">
                         <span class="input-group-append">
                             <button class="btn btn-outline-secondary" type="button">Buscar</button>
-                            </span>
+                        </span>
                     </div>
                 </form>
                 <li class="nav-item">
@@ -129,7 +129,6 @@
             </ul>
         </div>
     </nav>
-    <br>
     <div class="container">
         {% if messages %}
             {% for message in messages %}
@@ -138,23 +137,53 @@
                 </div>
             {% endfor %}
         {% endif %}
-        <h3>Reportes</h3><br>
-        <ul style="list-style: none;">
-            <li><button type="button" class="btn btn-primary" onclick="location.href='{% url 'MundoFastWebApp:reporteDiario' %}'">Generar Reporte Diario</button></li><br>
-            <li><button type="button" class="btn btn-primary" onclick="location.href='{% url 'MundoFastWebApp:reporteMensual' %}'">Generar Reporte Mensual</button></li><br>
-            <li><button type="button" class="btn btn-primary" onclick="location.href='{% url 'MundoFastWebApp:reporteAnual' %}'">Generar Reporte Anual</button></li><br>
-            <li>
-                <form id="formReportePersonalizado"action="{% url 'MundoFastWebApp:reportePersonalizado' %}" method="post">
-                {% csrf_token %}
-                    <button type="submit" class="btn btn-primary">Generar Reporte Personalizado</button>
-                    <input type="date" id="fechaInicio" name="fechaInicio"> - 
-                    <input type="date" id="fechaTermino" name="fechaTermino">
-                    <label id="lblErrorFechas" text-color="red">Fechas inválidas</label>
-                </form>
-            </li><br>      
-        </ul>
-        <button type="button" class="btn btn-danger" onclick="location.href='{% url 'MundoFastWebApp:index' %}'">
-            Volver
-        </button>           
+        <br>
+        <h3>Generar Reportes</h3>
+        <br>
+        Seleccione una opción:
+        <br>
+        <br>
+        <div class="form-group">
+            <div class="row">
+                <div class="col">
+                    <button type="button" class="btn btn-primary btn-block" onclick="location.href='{% url 'MundoFastWebApp:reporteDiario' %}'">Reporte Diario</button><br>
+                    <button type="button" class="btn btn-primary btn-block" onclick="location.href='{% url 'MundoFastWebApp:reporteMensual' %}'">Reporte Mensual</button><br>
+                    <button type="button" class="btn btn-primary btn-block" onclick="location.href='{% url 'MundoFastWebApp:reporteAnual' %}'">Reporte Anual</button><br>
+                </div>
+                <div class="col">
+                </div>
+                <div class="col">   
+                </div>
+                <div class="col">
+                </div>
+                <div class="col">
+                </div>
+            </div>
+        </div>
+        <form id="formReportePersonalizado"action="{% url 'MundoFastWebApp:reportePersonalizado' %}" method="post">
+            {% csrf_token %} 
+            <div class="form-group">
+                <div class="row">
+                    <div class="col">
+                        <button type="submit" class="btn btn-success btn-block">Reporte Personalizado</button>
+                    </div>
+                    Fecha Inicio: 
+                    <div class="col">
+                        <input type="date" id="fechaInicio" class="form-control" name="fechaInicio"> 
+                    </div>
+                    Fecha Término: 
+                    <div class="col">   
+                        <input type="date" id="fechaTermino" name="fechaTermino" class="form-control">
+                        <label id="lblErrorFechas" text-color="red">Fechas inválidas</label>
+                    </div>
+                    <div class="col">
+                    </div>
+                </div>
+            </div>
+        </form>
+        <br>
+        <br>       
     </div>
+    <br>
+    <br>
 </body>

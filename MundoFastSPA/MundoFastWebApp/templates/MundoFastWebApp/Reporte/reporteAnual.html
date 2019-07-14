@@ -44,8 +44,8 @@
                 }
             }
 
-            $('#titulo').after("<span>Año: "+ fechaReporte +"</span><br><span>Ventas Finalizadas: "+ contFinalizadas +"</span><br><span>Total Ventas Finalizadas: "+ totalFinalizadas +"</span><br>"+ 
-                "<span>Ventas En Proceso: "+ contEnProceso +"</span><br><span>Total Ventas En Proceso: "+ totalEnProceso +"</span><br>");
+            $('#titulo').after("<br><div id='reporteAnualDiv'><span><b>Año</b>: "+ fechaReporte +"</span><br>" + "<span><b>Ventas En Proceso:</b> "+ contEnProceso +"</span><br><span><b>Total Ventas En Proceso:</b> "+ totalEnProceso + "<br><b>Ventas Finalizadas:</b> "+ contFinalizadas +"</span><br><span><b>Total Ventas Finalizadas:</b> "+ totalFinalizadas +"</span><br>" +"</div>");
+
 
             $('#btnDetalles').click(function(){
                 $('#detalles').toggle();
@@ -132,21 +132,47 @@
                 </div>
             {% endfor %}
         {% endif %}
-        <h3 id="titulo">Reporte Anual</h3><br>
-        <button type="button" id="btnDetalles" class="btn btn-info">Detalles</button>
-        <button type="button" id="btnImprimir" class="btn btn-info">Imprimir</button><br><br>
-        <div id="detalles">
-        {% for venta in listaVenta %}
-                <label>Folio n°: {{venta.folioVenta}}</label>
-                <ul>
-                    <li>Fecha: {{venta.fechaVenta.date}}</li>
-                    <li>Estado: {{venta.estadoVenta}}
-                    <li>Total: {{venta.totalVenta}}</li>
-                </ul>
-        {% endfor %}
+        <h3 id="titulo">Reporte Anual</h3>
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="section-headline">
+                    <br>
+                    <button type="button" id="btnDetalles" class="btn btn-info">Mostrar Detalles</button>
+                    <button type="button" id="btnImprimir" class="btn btn-primary">Imprimir</button>
+                    <button type="button" class="btn btn-warning" onclick="location.href='{% url 'MundoFastWebApp:reportes' %}'">Volver</button>
+                </div>
+            </div>
         </div>
-        <button type="button" class="btn btn-danger" onclick="location.href='{% url 'MundoFastWebApp:reportes' %}'">
-            Volver
-        </button>           
+        <br>
+        <table class="table table-striped" id="detalles">
+            <thead>
+                <tr>
+                    <th>Folio</th>
+                    <th>Fecha</th>
+                    <th style="text-align: center;">Estado</th>
+                    <th style="text-align: center;">Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for venta in listaVenta %}
+                    <tr>
+                        <td><a href="/MundoFastWebApp/ventas/{{ venta.id }}/">{{venta.folioVenta}}</a></td>
+                        <td>{{venta.fechaVenta.date}}</td>
+                        <td style="text-align: center;">
+                            <label>{% if venta.estadoVenta == "Finalizada" %}
+                                <font color="green">{{ venta.estadoVenta }}</font>
+                                {% else %}
+                                <font color="red">{{ venta.estadoVenta }}</font>
+                                </b>
+                                {% endif %}
+                            </label>
+                        </td>
+                        <td style="text-align: center;">{{venta.totalVenta}}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
+    <br>
+    <br>
 </body>
