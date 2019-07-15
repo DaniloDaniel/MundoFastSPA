@@ -6,8 +6,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <link href='//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
-   {% load static %}
-   <link rel="stylesheet" href="{% static "/MundoFastWebApp/css/styles.css" %}"
+    {% load static %}
+    <link rel="stylesheet" href="{% static "/MundoFastWebApp/css/styles.css" %}"
 </head>
 
 <body>
@@ -32,11 +32,11 @@
                         <input type="text" class="form-control" placeholder="Ingrese un producto">
                         <span class="input-group-append">
                             <button class="btn btn-outline-secondary" type="button">Buscar</button>
-                            </span>
+                        </span>
                     </div>
                 </form>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'MundoFastWebApp:contactoEmpresa' %}">Contacto</a>
+                    <a class="nav-link active" href="{% url 'MundoFastWebApp:contactoEmpresa' %}">Contacto</a>
                 </li>
                 {% block content %} {% if user.is_authenticated %}
                 <li class="nav-item">
@@ -51,7 +51,7 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'MundoFastWebApp:reportes' %}">Reportes</a>
                 </li>
-                <li class="nav-item active">
+                <li class="nav-item">
                     <a class="nav-link" href="{% url 'MundoFastWebApp:verPerfilEmpresa' %}">Empresa</a>
                 </li>
                 {% endif %} {% endblock %}
@@ -78,13 +78,36 @@
         </div>
     </nav>
     <br>
-    
+    <div class="container">
+        <h3>Contáctenos</h3>
+        <form action="{% url 'MundoFastWebApp:contactarEmpresa' %}" method="post">
+            {% csrf_token %}
+            <br>
+            <div class="form-group">
+                <label for="remitente"><b>Correo Electrónico:</b></label>
+                <input type="email" class="form-control" name="remitente" id="remitente" required>
+            </div>
+            <div class="form-group">
+                <label for="asunto"><b>Asunto:</b></label>
+                <input type="text" class="form-control" name="asunto" id="asunto" required>
+            </div>
+            <div class="form-group">
+                <label for="mensaje"><b>Mensaje:</b></label>
+                <input type="text" class="form-control" name="mensaje" id="mensaje" required>
+            </div>
+            <br>
+            <div class="form-actions">
+                <button type="submit" class="btn btn-success">Enviar Correo Electrónico</button>
+                <button type="button" class="btn btn-warning" onclick="location.href='javascript:history.go(-1)'">Volver</button>
+            </div>
+        </form>
+    </div>
     <div id="about" class="about-area area-padding">
         <div class="container">
             <div class="row">
                 <div class="col-md-12 col-sm-12 col-xs-12">
                     <div class="section-headline text-center">
-                        <h3>Información de la Empresa</h3>
+                        <h3>{{ empresa.nombreEmpresa}}</h3>
                     </div>
                 </div>
             </div>
@@ -97,17 +120,14 @@
                             {{ message }}
                         </div>
                         {% endfor %} {% endif %}
-                        <b>Nombre:</b> {{ empresa.nombreEmpresa}}
-                        <br>
                         <b>Correo Electrónico:</b> {{ empresa.emailEmpresa}}
                         <br>
-                        <b>Descripción Empresa:</b> {{ empresa.descripcionEmpresa}}
+                        <b>Descripción:</b> {{ empresa.descripcionEmpresa}}
                         <br>
-                        <b>Dirección Empresa:</b> {{ empresa.direccionEmpresa}}
+                        <b>Dirección:</b> {{ empresa.direccionEmpresa}}
                         <br>
-                        <b>Horario Empresa:</b> {{ empresa.horarioEmpresa}}
+                        <b>Horario:</b> {{ empresa.horarioEmpresa}}
                         <br>
-                        <b>Imagen:</b>
                         <br>
                     </div>
                 </div>
@@ -119,17 +139,6 @@
                             {% load static %}
                             <img class="img-responsive" width="500px" height="" src="{% static "/MundoFastWebApp/logoMF.png" %}" alt="My image" alt="Mundo Fast SPA">
                         </a>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12 col-sm-12 col-xs-12">
-                    <div class="section-headline text-center">
-                        {% if user.is_authenticated %}
-                        <br>
-                        <button type="button" class="btn btn-danger" onclick="location.href='{% url 'MundoFastWebApp:modificarPerfilEmpresa' %}'">Modificar Información</button>
-                        {% endif %}
-                        <button type="button" class="btn btn-warning" onclick="location.href='{% url 'MundoFastWebApp:index' %}'">Volver</button>
                     </div>
                 </div>
             </div>
