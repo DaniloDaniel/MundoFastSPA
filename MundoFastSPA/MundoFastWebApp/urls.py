@@ -51,4 +51,5 @@ urlpatterns = [
     path('productos/verOfertas', views.verOfertas, name='verOfertas'),
     # Contacto:
     path('empresa/contacto', views.contactoEmpresa, name='contactoEmpresa'),
+    path('empresa/success/', views.contactarEmpresa, name='contactarEmpresa'),
 ]

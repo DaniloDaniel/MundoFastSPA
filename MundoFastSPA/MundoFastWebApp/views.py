@@ -1,4 +1,4 @@
-from django.shortcuts import get_object_or_404, render, render_to_response
+from django.shortcuts import get_object_or_404, render, redirect, render_to_response
 from .models import Usuario, Producto, Venta, DetalleVenta, Empresa # Importa el modelo
 from django.http import Http404 # Importa vista de error 404
 from django.http import HttpResponse, HttpResponseRedirect
@@ -8,6 +8,9 @@ import datetime
 from django.contrib import messages # Librería para mensajes
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import update_session_auth_hash
+from django.core.mail import send_mail, BadHeaderError
+from .forms import ContactForm
+from django.conf import settings
 
 # Create your views here.
 
@@ -358,8 +361,22 @@ def verOfertas(request):
     return render(request, 'MundoFastWebApp/Empresa/verPerfilEmpresa.html', {'empresa': empresa})
 
 def contactoEmpresa(request):
+    empresa = Empresa.objects.get(pk=1)
+    return render(request, 'MundoFastWebApp/Contacto/contactoEmpresa.html', {'empresa': empresa})
+
+def contactarEmpresa(request):
     try:
         empresa = Empresa.objects.get(pk=1)
-    except Empresa.DoesNotExist:
-        raise Http404("Error. URL no válido.")
-    return render(request, 'MundoFastWebApp/Empresa/verPerfilEmpresa.html', {'empresa': empresa})
+        subject = request.POST['asunto']
+        from_email = request.POST['remitente']
+        message = request.POST['mensaje']
+        email_from = settings.EMAIL_HOST_USER
+        recipient_list = ['francisco.venegas.aguilera@gmail.com',]   
+        send_mail( subject, 'Remitente: ' + from_email + '\n' + message, email_from, recipient_list )
+    except IntegrityError:
+        return render(request, "MundoFastWebApp/Contacto/contactoEmpresa.html", {'empresa': empresa})
+    #try:
+    #    send_mail(subject, message, from_email, ['francisco.venegas.aguilera@gmail.com'])
+    #except BadHeaderError:
+    #    return HttpResponse('Invalid header found.')
+    return render(request, 'MundoFastWebApp/Contacto/contactoRealizado.html')

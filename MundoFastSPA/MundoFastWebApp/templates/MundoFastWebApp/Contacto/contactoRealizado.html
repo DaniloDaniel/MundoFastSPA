@@ -78,61 +78,16 @@
         </div>
     </nav>
     <br>
-    
-    <div id="about" class="about-area area-padding">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12 col-sm-12 col-xs-12">
-                    <div class="section-headline text-center">
-                        <h3>Información de la Empresa</h3>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12 col-sm-12 col-xs-12">
-                    <div class="section-headline text-center">
-                        <br>
-                        {% if messages %} {% for message in messages %}
-                        <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %}" role="alert">
-                            {{ message }}
-                        </div>
-                        {% endfor %} {% endif %}
-                        <b>Nombre:</b> {{ empresa.nombreEmpresa}}
-                        <br>
-                        <b>Correo Electrónico:</b> {{ empresa.emailEmpresa}}
-                        <br>
-                        <b>Descripción Empresa:</b> {{ empresa.descripcionEmpresa}}
-                        <br>
-                        <b>Dirección Empresa:</b> {{ empresa.direccionEmpresa}}
-                        <br>
-                        <b>Horario Empresa:</b> {{ empresa.horarioEmpresa}}
-                        <br>
-                        <b>Imagen:</b>
-                        <br>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12 col-sm-12 col-xs-12">
-                    <div class="section-headline text-center">
-                        <a href="#">
-                            {% load static %}
-                            <img class="img-responsive" width="500px" height="" src="{% static "/MundoFastWebApp/logoMF.png" %}" alt="My image" alt="Mundo Fast SPA">
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12 col-sm-12 col-xs-12">
-                    <div class="section-headline text-center">
-                        {% if user.is_authenticated %}
-                        <br>
-                        <button type="button" class="btn btn-danger" onclick="location.href='{% url 'MundoFastWebApp:modificarPerfilEmpresa' %}'">Modificar Información</button>
-                        {% endif %}
-                        <button type="button" class="btn btn-warning" onclick="location.href='{% url 'MundoFastWebApp:index' %}'">Volver</button>
-                    </div>
-                </div>
-            </div>
+    <div class="container">
+        <div class="section-headline text-center">
+            <h3>¡Correo Electrónico enviado exitosamente!</h3>
+            <br>
+            {% load static %}
+            <img class="img-responsive" width="500px" height="" src="{% static "/MundoFastWebApp/logoMF.png" %}" alt="My image" alt="Mundo Fast SPA">
+            <br>
+            <button type="button" class="btn btn-warning" onclick="location.href='{% url 'MundoFastWebApp:index' %}'">Inicio</button>
         </div>
     </div>
 </body>
+
+
