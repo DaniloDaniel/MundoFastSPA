@@ -36,11 +36,12 @@ def formProducto(request):
 @login_required
 def crearProducto(request):
     codigo = request.POST['codigoProducto']
-    if Producto.objects.get(codigoProducto = int(codigo)):
+    try:
+        Producto.objects.get(codigoProducto = int(codigo))
         producto = Producto()
         messages.error(request, 'El código "' + codigo + '" ya pertenece a otro producto.')
         return render(request, "MundoFastWebApp/Producto/crearProducto.html", {'producto': producto})
-    else:
+    except:
         try:
             producto = Producto(codigoProducto = request.POST['codigoProducto'], nombreProducto = request.POST['nombreProducto'], 
                 descripcionProducto = request.POST['descripcionProducto'], categoriaProducto = request.POST['categoriaProducto'], 
