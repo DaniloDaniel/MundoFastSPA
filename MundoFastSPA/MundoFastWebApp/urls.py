@@ -47,6 +47,7 @@ urlpatterns = [
     path('reportes/personalizado', views.reportePersonalizado, name='reportePersonalizado'),
     # Catalogos:
     path('catalogo', views.verCatalogo, name='verCatalogo'),
+    path('catalogo/<int:id>/', views.verProductoCatalogo, name='verProductoCatalogo'),
     # Ofertas:
     path('productos/verOfertas', views.verOfertas, name='verOfertas'),
     # Contacto:
