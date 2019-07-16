@@ -24,6 +24,7 @@ def productos(request):
     context = {'listaProducto': listaProducto}
     return render(request, 'MundoFastWebApp/Producto/productos.html', context)
 
+@login_required
 def verProducto(request, id):
     producto = get_object_or_404(Producto, pk=id)
     return render(request, 'MundoFastWebApp/Producto/verProducto.html', {'producto': producto})
@@ -359,11 +360,27 @@ def verCatalogo(request):
         listaProducto = [producto for producto in Producto.objects.all() if producto.categoriaProducto == categoria]
     else:
         listaProducto = [producto for producto in Producto.objects.all() if nombreProductoBusqueda in producto.nombreProducto and producto.categoriaProducto == categoria]
+    lista = []
+    listaAux = []
+    cont = 0
+    for i in listaProducto:
+        listaAux.append(i)
+        print(listaAux[cont])
+        cont = cont + 1
+        if(cont==4 or i == listaProducto[len(listaProducto)-1]):
+            cont = 0
+            lista.append(listaAux)
+            listaAux = []
     context = {
+        'lista': lista,
         'listaProducto': listaProducto,
         'productoX': productoX
     }
     return render(request, 'MundoFastWebApp/Catalogo/verCatalogo.html', context)
+
+def verProductoCatalogo(request, id):
+    producto = get_object_or_404(Producto, pk=id)
+    return render(request, 'MundoFastWebApp/Catalogo/verProductoCatalogo.html', {'producto': producto})
 
 def verOfertas(request):
     try:
