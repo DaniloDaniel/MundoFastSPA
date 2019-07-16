@@ -3,7 +3,7 @@ from django.contrib.auth.models import AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
 from django.utils.translation import gettext_lazy as _
 from django.utils import timezone
-
+from django.conf import settings
 from .managers import CustomUserManager
 
 
@@ -17,17 +17,20 @@ class Producto(models.Model):
     catBanio = 'Baño'
     catDecoracion = 'Decoración'
     catJardineria = 'Jardín'
+    catOtros = 'Otros'
     opcionesCategoria = (
         (catElectrodomesticos, 'Electrodomesticos'),
         (catCocina, 'Articulos de Cocina'),
         (catBanio, 'Articulos de Baño'),
         (catDecoracion, 'Articulos de Decoracion'),
-        (catJardineria, 'Articulos de Jardineria')
+        (catJardineria, 'Articulos de Jardineria'),
+        (catOtros, 'Otros')
     )
 
     codigoProducto = models.IntegerField(unique=True)
     nombreProducto = models.CharField(max_length=100)
     descripcionProducto = models.CharField(max_length=500)
+    imagenProducto = models.ImageField(upload_to='productos', default='Imagen-no-disponible.png')
     categoriaProducto = models.CharField(max_length=50, choices=opcionesCategoria, default=catElectrodomesticos)
     precioProducto = models.PositiveIntegerField(default=0)
     cantidadProducto = models.PositiveIntegerField(default=0)

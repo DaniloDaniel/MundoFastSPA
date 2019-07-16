@@ -127,11 +127,11 @@ STATICFILES_DIRS = (
 )
 
 MEDIA_ROOT = (
-BASE_DIR
+BASE_DIR + "\\MundoFastWebApp\\img"
 )
 
 
-MEDIA_URL = '/MundoFastWebApp/img/'
+MEDIA_URL = '/'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'

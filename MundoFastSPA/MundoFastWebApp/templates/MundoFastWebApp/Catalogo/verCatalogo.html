@@ -1,11 +1,16 @@
+<!DOCTYPE HTML>
+<html>
+
 <head>
-    <title>MundoFastSPA - Modificar Producto</title>
+    <title>MundoFastSPA</title>
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <link href='//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
 </head>
 
 <body>
@@ -25,12 +30,21 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'MundoFastWebApp:verOfertas' %}">Ofertas</a>
                 </li>
-                <form class="mx-2 my-auto d-inline w-100">
+                <form class="mx-2 my-auto d-inline w-100" action="{% url 'MundoFastWebApp:verCatalogo' %}" method="post">
+                    {% csrf_token %}
                     <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Ingrese un producto">
+                        <input type="text" class="form-control" name="sbNombreProducto" placeholder="Ingrese un producto">
                         <span class="input-group-append">
-                            <button class="btn btn-outline-secondary" type="button">Buscar</button>
-                            </span>
+                            <select class="form-control" name="categoriaProducto" id="categoriaProducto">
+                                <option value="Todas las categorías">Todas las categorías</option>
+                            {% for choice,readablechoice in productoX.opcionesCategoria %}
+                                <option value="{{ choice }}">{{ readablechoice }}</option>       
+                            {% endfor %}
+                            </select>
+                        </span>
+                        <span class="input-group-append">
+                            <button class="btn btn-outline-secondary" type="submit">Buscar</button>
+                        </span>
                     </div>
                 </form>
                 <li class="nav-item">
@@ -40,7 +54,7 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'MundoFastWebApp:usuarios' %}">Usuarios</a>
                 </li>
-                <li class="nav-item active">
+                <li class="nav-item">
                     <a class="nav-link" href="{% url 'MundoFastWebApp:productos' %}">Productos</a>
                 </li>
                 <li class="nav-item">
@@ -75,20 +89,20 @@
             </ul>
         </div>
     </nav>
+    <div>
+
+    </div>
     <div class="container">
-        <br>
-        <h3>Detalles del Producto: {{ producto.nombreProducto }}</h3>
-        <br><b>Código:</b> {{ producto.codigoProducto}}
-        <br><b>Nombre:</b> {{ producto.nombreProducto}}
-        <br><b>Descripción:</b> {{ producto.descripcionProducto}}
-        <br><b>Categoria:</b> {{ producto.categoriaProducto}}
-        <br><b>Precio:</b> {{ producto.precioProducto}}
-        <br><b>Cantidad:</b> {{ producto.cantidadProducto}}
-        <br><b>Oferta:</b> {% if producto.ofertaProducto %} Si
-        <br> {% else %} No
-        <br> {% endif %} <b>Descuento:</b> {{ producto.descuentoProducto}}
-        <br>
-        <br>
-        <button type="button" class="btn btn-warning" onclick="location.href='javascript:history.go(-1)'">Volver</button>
+        <table>
+            {% for producto in listaProducto %}
+                <tr><td><ul>
+                    <li><img src='{{ producto.imagenProducto.url }}' width=100 height=100></li>
+                    <li>{{ producto.nombreProducto }}</li>
+                    <li>{{ producto.precioProducto }}</li>
+                    <li>{{ producto.descuentoProducto }}</li>
+                </ul></td></tr>  
+            {% endfor %}
+        </table>
     </div>
 </body>
+</html>

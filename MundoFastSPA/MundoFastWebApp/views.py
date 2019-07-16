@@ -15,8 +15,8 @@ from django.conf import settings
 # Create your views here.
 
 def index(request):
-    return render(request, 'MundoFastWebApp/index.html')
-
+    productoX = Producto()
+    return render(request, 'MundoFastWebApp/index.html', {'productoX': productoX})
 
 @login_required
 def productos(request):
@@ -45,7 +45,7 @@ def crearProducto(request):
         try:
             producto = Producto(codigoProducto = request.POST['codigoProducto'], nombreProducto = request.POST['nombreProducto'], 
                 descripcionProducto = request.POST['descripcionProducto'], categoriaProducto = request.POST['categoriaProducto'], 
-                precioProducto = request.POST['precioProducto'],cantidadProducto = request.POST['cantidadProducto'],
+                imagenProducto = request.FILES['imagenProducto'], precioProducto = request.POST['precioProducto'],cantidadProducto = request.POST['cantidadProducto'],
                 ofertaProducto = request.POST['ofertaDropDown'],descuentoProducto = request.POST['descuentoProducto'])
         except IntegrityError:
             return render(request, "MundoFastWebApp/Producto/crearProducto.html", {"error_message": "Dejaste un campo vacío"})
@@ -64,6 +64,7 @@ def modificarProducto(request, id):
         producto.codigoProducto = request.POST['codigoProducto']
         producto.nombreProducto = request.POST['nombreProducto']
         producto.descripcionProducto = request.POST['descripcionProducto']
+        producto.imagenProducto = request.FILES['imagenProducto']
         producto.categoriaProducto = request.POST['categoriaProducto']
         producto.precioProducto = request.POST['precioProducto']
         producto.cantidadProducto = request.POST['cantidadProducto']
@@ -346,12 +347,23 @@ def reportePersonalizado(request):
 
 # TEMPORALES
 
-def verCatalogos(request):
-    try:
-        empresa = Empresa.objects.get(pk=1)
-    except Empresa.DoesNotExist:
-        raise Http404("Error. URL no válido.")
-    return render(request, 'MundoFastWebApp/Empresa/verPerfilEmpresa.html', {'empresa': empresa})
+def verCatalogo(request):
+    productoX = Producto()
+    categoria = request.POST['categoriaProducto']
+    nombreProductoBusqueda = request.POST['sbNombreProducto']
+    if categoria == "Todas las categorías" and nombreProductoBusqueda == "":
+        listaProducto = Producto.objects.all()
+    elif nombreProductoBusqueda != "" and categoria == "Todas las categorías":
+        listaProducto = [producto for producto in Producto.objects.all() if nombreProductoBusqueda in producto.nombreProducto]
+    elif categoria != "Todas las categorías" and nombreProductoBusqueda == "":
+        listaProducto = [producto for producto in Producto.objects.all() if producto.categoriaProducto == categoria]
+    else:
+        listaProducto = [producto for producto in Producto.objects.all() if nombreProductoBusqueda in producto.nombreProducto and producto.categoriaProducto == categoria]
+    context = {
+        'listaProducto': listaProducto,
+        'productoX': productoX
+    }
+    return render(request, 'MundoFastWebApp/Catalogo/verCatalogo.html', context)
 
 def verOfertas(request):
     try:
