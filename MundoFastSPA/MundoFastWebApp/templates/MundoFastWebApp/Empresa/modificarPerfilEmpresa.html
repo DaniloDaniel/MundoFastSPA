@@ -1,38 +1,53 @@
+<!DOCTYPE HTML>
+<html>
 <head>
-    <title>MundoFastSPA - Modificar Perfil</title>
+    <title>MundoFastSPA - Modificar Perfil Empresa</title>
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <link href='//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    {% load static %}
+    <link rel="shortcut icon" href="{% static '/MundoFastWebApp/favicon.ico' %}">
 </head>
 
 <body>
     <nav class="navbar navbar-expand-sm sticky-top bg-light navbar-light">
         <a class="navbar-brand" href="{% url 'MundoFastWebApp:index' %}">
-                {% load static %}
-                <img class="img-responsive" width="200px" height="" src="{% static "/MundoFastWebApp/logoMF.png" %}" alt="My image" alt="Mundo Fast SPA">
-            </a>
+            <img class="img-responsive" width="200px" height="" src="{% static '/MundoFastWebApp/logoMF.png' %}" alt="Mundo Fast SPA">
+        </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="collapsibleNavbar">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'MundoFastWebApp:verCatalogo' %}">Catálogos</a>
+                    <a class="nav-link" href="{% url 'MundoFastWebApp:index' %}">Inicio</a>
                 </li>
+                <form class="mx-2 my-auto d-inline w-100" action="{% url 'MundoFastWebApp:verCatalogo' %}" method="post">
+                    {% csrf_token %}
+                    <div class="input-group">
+                        <input type="text" class="form-control" name="sbNombreProducto" placeholder="Ingrese un producto">
+                        &nbsp;
+                        <span class="input-group-append">
+                            <select class="form-control" name="categoriaProducto" id="categoriaProducto">
+                                <option value="Todas las categorías">Todas las categorías</option>
+                            {% for choice,readablechoice in productoX.opcionesCategoria %}
+                                <option value="{{ choice }}">{{ readablechoice }}</option>       
+                            {% endfor %}
+                            </select>
+                        </span>
+                        <span class="input-group-append">
+                            <button class="btn btn-outline-secondary" type="submit">Buscar</button>
+                        </span>
+                    </div>
+                </form>
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'MundoFastWebApp:verOfertas' %}">Ofertas</a>
                 </li>
-                <form class="mx-2 my-auto d-inline w-100">
-                    <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Ingrese un producto">
-                        <span class="input-group-append">
-                            <button class="btn btn-outline-secondary" type="button">Buscar</button>
-                            </span>
-                    </div>
-                </form>
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'MundoFastWebApp:contactoEmpresa' %}">Contacto</a>
                 </li>
@@ -49,8 +64,8 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'MundoFastWebApp:reportes' %}">Reportes</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link active" href="{% url 'MundoFastWebApp:verPerfilEmpresa' %}">Empresa</a>
+                <li class="nav-item active">
+                    <a class="nav-link" href="{% url 'MundoFastWebApp:verPerfilEmpresa' %}">Empresa</a>
                 </li>
                 {% endif %} {% endblock %}
             </ul>
@@ -77,23 +92,28 @@
     </nav>
     <div class="container">
         <br>
-        
         <h3>Modificar Información de la Empresa:</h3> {% if error_message %}
         <p><strong>{{ error_message }}</strong></p>
         {% endif %}
         <form action="{% url 'MundoFastWebApp:modificarPerfilEmpresa' %}" method="post">
             {% csrf_token %}
-            <div class="form-group">
-                <label for="nombreEmpresa">Nombre Empresa:</label>
-                <input type="text" class="form-control" name="nombreEmpresa" id="nombreEmpresa" value="{{empresa.nombreEmpresa}}" required>
-            </div>
-            <div class="form-group">
-                <label for="emailEmpresa">Correo Electrónico:</label>
-                <input type="email" class="form-control" name="emailEmpresa" id="emailEmpresa" value="{{empresa.emailEmpresa}}" required>
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label for="nombreEmpresa">Nombre Empresa:</label>
+                        <input type="text" class="form-control" name="nombreEmpresa" id="nombreEmpresa" value="{{empresa.nombreEmpresa}}" required>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label for="emailEmpresa">Correo Electrónico:</label>
+                        <input type="email" class="form-control" name="emailEmpresa" id="emailEmpresa" value="{{empresa.emailEmpresa}}" required>
+                    </div>
+                </div>
             </div>
             <div class="form-group">
                 <label for="descripcionEmpresa"><b>Descripción:</b></label>
-                <input type="text" class="form-control" name="descripcionEmpresa" value="{{empresa.descripcionEmpresa}}" required>
+                <textarea type="text" class="form-control" name="descripcionEmpresa" value="{{empresa.descripcionEmpresa}}" required>{{empresa.descripcionEmpresa}}</textarea>
             </div>
             <div class="form-group">
                 <label for="direccionEmpresa">Dirección:</label>
@@ -107,8 +127,9 @@
                 <label for="imagenEmpresa">Imagen:</label>
                 <input type="text" class="form-control" name="imagenEmpresa" id="imagenEmpresa" value="{{empresa.imagenEmpresa}}" required>
             </div>
-            <input type="submit" class="btn btn-success" value="Modificar Empresa">
-            <button type="button" class="btn btn-danger" onclick="location.href='{% url 'MundoFastWebApp:verPerfilEmpresa' %}'">Cancelar</button>
+            <input type="submit" class="btn btn-danger" value="Modificar Empresa">
+            <button type="button" class="btn btn-warning" onclick="location.href='{% url 'MundoFastWebApp:verPerfilEmpresa' %}'">Cancelar</button>
         </form>
     </div>
 </body>
+</html>
