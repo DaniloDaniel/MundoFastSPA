@@ -1,5 +1,8 @@
+<!DOCTYPE HTML>
+<html>
 <head>
     <title>MundoFastSPA - Usuarios</title>
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
@@ -7,44 +10,43 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <link href='//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <style>
-        .footer {
-            position: fixed;
-            left: 0;
-            bottom: 0;
-            width: 100%;
-            background-color: black;
-            color: white;
-            text-align: center;
-        }
-    </style>
+    {% load static %}
+    <link rel="shortcut icon" href="{% static '/MundoFastWebApp/favicon.ico' %}">
 </head>
-
 <body>
     <nav class="navbar navbar-expand-sm sticky-top bg-light navbar-light">
         <a class="navbar-brand" href="{% url 'MundoFastWebApp:index' %}">
-                {% load static %}
-                <img class="img-responsive" width="200px" height="" src="{% static "/MundoFastWebApp/logoMF.png" %}" alt="My image" alt="Mundo Fast SPA">
-            </a>
+            <img class="img-responsive" width="200px" height="" src="{% static '/MundoFastWebApp/logoMF.png' %}" alt="Mundo Fast SPA">
+        </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="collapsibleNavbar">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'MundoFastWebApp:verCatalogo' %}">Catálogos</a>
+                    <a class="nav-link" href="{% url 'MundoFastWebApp:index' %}">Inicio</a>
                 </li>
+                <form class="mx-2 my-auto d-inline w-100" action="{% url 'MundoFastWebApp:verCatalogo' %}" method="post">
+                    {% csrf_token %}
+                    <div class="input-group">
+                        <input type="text" class="form-control" name="sbNombreProducto" placeholder="Ingrese un producto">
+                        &nbsp;
+                        <span class="input-group-append">
+                            <select class="form-control" name="categoriaProducto" id="categoriaProducto">
+                                <option value="Todas las categorías">Todas las categorías</option>
+                            {% for choice,readablechoice in productoX.opcionesCategoria %}
+                                <option value="{{ choice }}">{{ readablechoice }}</option>       
+                            {% endfor %}
+                            </select>
+                        </span>
+                        <span class="input-group-append">
+                            <button class="btn btn-outline-secondary" type="submit">Buscar</button>
+                        </span>
+                    </div>
+                </form>
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'MundoFastWebApp:verOfertas' %}">Ofertas</a>
                 </li>
-                <form class="mx-2 my-auto d-inline w-100">
-                    <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Ingrese un producto">
-                        <span class="input-group-append">
-                            <button class="btn btn-outline-secondary" type="button">Buscar</button>
-                            </span>
-                    </div>
-                </form>
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'MundoFastWebApp:contactoEmpresa' %}">Contacto</a>
                 </li>
@@ -109,9 +111,9 @@
             <thead>
                 <tr>
                     <th>Nombre Usuario</th>
-                    <th>Ver</th>
-                    <th>Editar</th>
-                    <th>Eliminar</th>
+                    <th style="text-align: center;">Ver</th>
+                    <th style="text-align: center;">Editar</th>
+                    <th style="text-align: center;">Eliminar</th>
                 </tr>
             </thead>
             <tbody>
@@ -120,17 +122,17 @@
                     <td>
                         <a href="/MundoFastWebApp/usuarios/{{ usuario.id }}/">{{ usuario.nombreUsuario }}</a>
                     </td>
-                    <td>
+                    <td style="text-align: center;">
                         <button type="button" class="btn btn-success" onclick="location.href='/MundoFastWebApp/usuarios/{{ usuario.id }}/'">
                             <i class="fa fa-eye"></i>
                         </button>
                     </td>
-                    <td>
+                    <td style="text-align: center;">
                         <button type="button" class="btn btn-primary" onclick="location.href='/MundoFastWebApp/usuarios/modificarUsuario/{{ usuario.id }}/'">
                             <i class="fa fa-pencil"></i>
                         </button>
                     </td>
-                    <td>
+                    <td style="text-align: center;">
                         {% if user.id != usuario.id %}
                         <button type="button" class="btn btn-danger" onclick="location.href='/MundoFastWebApp/usuarios/eliminarUsuario/{{ usuario.id }}/'">
                             <i class="fa fa-trash"></i>
@@ -155,3 +157,4 @@
         {% endif %}
     </div>
 </body>
+</html>

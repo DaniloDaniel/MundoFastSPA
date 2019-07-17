@@ -1,6 +1,5 @@
 <!DOCTYPE HTML>
 <html>
-
 <head>
     <title>MundoFastSPA</title>
     <meta charset="utf-8">
@@ -10,32 +9,30 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <link href='//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
-    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
-   {% load static %}
-   <link rel="stylesheet" href="{% static "/MundoFastWebApp/css/catalogo.css" %}"
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    {% load static %}
+    <link rel="stylesheet" href="{% static '/MundoFastWebApp/css/catalogo.css' %}">
+    <link rel="stylesheet" href="{% static '/MundoFastWebApp/favicon.ico' %}">
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-sm sticky-top bg-light navbar-light">
+<nav class="navbar navbar-expand-sm sticky-top bg-light navbar-light">
         <a class="navbar-brand" href="{% url 'MundoFastWebApp:index' %}">
-                {% load static %}
-                <img class="img-responsive" width="200px" height="" src="{% static "/MundoFastWebApp/logoMF.png" %}" alt="My image" alt="Mundo Fast SPA">
-            </a>
+            <img class="img-responsive" width="200px" height="" src="{% static '/MundoFastWebApp/logoMF.png' %}" alt="Mundo Fast SPA">
+        </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="collapsibleNavbar">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link active" href="{% url 'MundoFastWebApp:verCatalogo' %}">Catálogos</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'MundoFastWebApp:verOfertas' %}">Ofertas</a>
+                    <a class="nav-link" href="{% url 'MundoFastWebApp:index' %}">Inicio</a>
                 </li>
                 <form class="mx-2 my-auto d-inline w-100" action="{% url 'MundoFastWebApp:verCatalogo' %}" method="post">
                     {% csrf_token %}
                     <div class="input-group">
                         <input type="text" class="form-control" name="sbNombreProducto" placeholder="Ingrese un producto">
+                        &nbsp;
                         <span class="input-group-append">
                             <select class="form-control" name="categoriaProducto" id="categoriaProducto">
                                 <option value="Todas las categorías">Todas las categorías</option>
@@ -49,6 +46,9 @@
                         </span>
                     </div>
                 </form>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'MundoFastWebApp:verOfertas' %}">Ofertas</a>
+                </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'MundoFastWebApp:contactoEmpresa' %}">Contacto</a>
                 </li>
