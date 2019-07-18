@@ -122,9 +122,9 @@
                             <td>{{ x.producto.codigoProducto }}</td>
                             <td><a href="/MundoFastWebApp/productos/{{ x.producto.id }}/">{{ x.producto.nombreProducto }}</a></td>
                             <td style="text-align: center;">{{ x.cantidadProducto }}</td>
+                            <td style="text-align: center;">{{ x.producto.precioProducto }}</td>
+                            <td style="text-align: center;">{{ x.producto.descuentoProducto }}</td>
                             <td style="text-align: center;">{{ x.totalPorProducto }}</td>
-                            <td style="text-align: center;">{{ x.descuentoAplicadoProducto }}</td>
-                            <td style="text-align: center;">{{ x.totalProducto }}</td>
                         </tr>
                     {% endfor %}
                 </tbody>
@@ -153,7 +153,7 @@
         </div>
         <div class="row">
             <div class="col">
-                <b>Descuento:</b> {{ venta.descuentoAdicionalVenta }}
+                <b>Descuento:</b> {{ venta.descuendoAdicionalVenta }}
             </div>
         </div>
         <br>
