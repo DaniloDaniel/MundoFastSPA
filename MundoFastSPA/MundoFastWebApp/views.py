@@ -11,6 +11,8 @@ from django.contrib.auth import update_session_auth_hash
 from django.core.mail import send_mail, BadHeaderError
 from .forms import ContactForm
 from django.conf import settings
+from django.core.exceptions import ObjectDoesNotExist
+from MundoFastWebApp.models import Empresa
 
 # Create your views here.
 
@@ -124,7 +126,7 @@ def formUsuario(request):
 @login_required
 def crearUsuario(request):
     try:
-        usuario = Usuario.objects.create_superuser(rutUsuario = request.POST['rutUsuario'], nombreUsuario = request.POST['nombreUsuario'], emailUsuario = request.POST['emailUsuario'], imagenUsuario = request.POST['imagenUsuario'], rolUsuario = request.POST['rolUsuario'], password = request.POST['password'])
+        usuario = Usuario.objects.create_superuser(rutUsuario = request.POST['rutUsuario'], nombreUsuario = request.POST['nombreUsuario'], emailUsuario = request.POST['emailUsuario'], imagenUsuario = request.FILES['imagenUsuario'], rolUsuario = request.POST['rolUsuario'], password = request.POST['password'])
     except (KeyError, Usuario.DoesNotExist):
         return render(request, 'MundoFastWebApp/Usuario/crearUsuario.html', {'usuario': usuario, 'error_message': 'Error al crear Nuevo Usuario', 'productoX': Producto})
     else:
@@ -138,7 +140,10 @@ def modificarUsuario(request, id):
     if request.method == 'POST':
         usuario.rutUsuario = request.POST['rutUsuario']
         usuario.nombreUsuario = request.POST['nombreUsuario']
-        usuario.imagenUsuario = request.POST['imagenUsuario']
+        try:
+            usuario.imagenUsuario = request.FILES['imagenUsuario']
+        except: 
+            pass
         usuario.rolUsuario = request.POST['rolUsuario']
         usuario.emailUsuario = request.POST['emailUsuario']
         if(request.POST['password']!=""):
@@ -155,7 +160,7 @@ def eliminarUsuario(request, id):
     usuario = get_object_or_404(Usuario, pk=id)
     if request.method == 'POST':
         usuario.delete()
-        messages.error(request, 'Usuario eliminado corrzectamente.')
+        messages.error(request, 'Usuario eliminado correctamente.')
         return HttpResponseRedirect(reverse('MundoFastWebApp:usuarios'))
     else:
         return render(request, 'MundoFastWebApp/Usuario/eliminarUsuario.html', {'usuario': usuario, 'productoX': Producto})
@@ -389,14 +394,15 @@ def verProductoCatalogo(request, id):
     return render(request, 'MundoFastWebApp/Catalogo/verProductoCatalogo.html', {'producto': producto, 'productoX': Producto})
 
 def verOfertas(request):
-    try:
+    if(Empresa.DoesNotExist):
+        empresa = Empresa.objects.get_or_create(nombreEmpresa="Mundo Fast SPA", emailEmpresa="mundofaststore@gmail.com", direccionEmpresa = "Super Agro Santa María - Local X", descripcionEmpresa = "Descripción", horarioEmpresa = "Todos los días", imagenEmpresa="")
         empresa = Empresa.objects.get(pk=1)
-    except Empresa.DoesNotExist:
-        raise Http404("Error. URL no válido.")
     return render(request, 'MundoFastWebApp/Empresa/verPerfilEmpresa.html', {'empresa': empresa, 'productoX': Producto})
 
 def contactoEmpresa(request):
-    empresa = Empresa.objects.get(pk=1)
+    if(Empresa.DoesNotExist):
+        empresa = Empresa.objects.get_or_create(nombreEmpresa="Mundo Fast SPA", emailEmpresa="mundofaststore@gmail.com", direccionEmpresa = "Super Agro Santa María - Local X", descripcionEmpresa = "Descripción", horarioEmpresa = "Todos los días", imagenEmpresa="")
+        empresa = Empresa.objects.get(pk=1)
     return render(request, 'MundoFastWebApp/Contacto/contactoEmpresa.html', {'empresa': empresa, 'productoX': Producto})
 
 def contactarEmpresa(request):

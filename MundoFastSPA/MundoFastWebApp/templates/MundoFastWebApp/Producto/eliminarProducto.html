@@ -93,15 +93,25 @@
     <div class="container">
         <br>
         <h3>Eliminar Producto {{ producto.nombreProducto }}</h3>
-        <br><b>Nombre:</b> {{ producto.nombreProducto}}
-        <br><b>Descripción:</b> {{ producto.descripcionProducto}}
-        <br><b>Categoria:</b> {{ producto.categoriaProducto}}
-        <br><b>Precio:</b> {{ producto.precioProducto}}
-        <br><b>Cantidad:</b> {{ producto.cantidadProducto}}
-        <br><b>Oferta:</b> {% if producto.ofertaProducto %} Si
-        <br> {% else %} No
-        <br> {% endif %} <b>Descuento:</b> {{ producto.descuentoProducto}}
-        <br>
+        
+        <div class="row">
+            <div class="col">
+                <img src='{{ producto.imagenProducto.url }}'class="img-thumbnail" alt="Sin imagen.">
+            </div>
+            <div class="col">
+                <br><b>Nombre:</b> {{ producto.nombreProducto}}
+                <br><b>Descripción:</b> {{ producto.descripcionProducto}}
+                <br><b>Categoria:</b> {{ producto.categoriaProducto}}
+                <br><b>Precio:</b> {{ producto.precioProducto}}
+                <br><b>Cantidad:</b> {{ producto.cantidadProducto}}
+                <br><b>Oferta:</b> {% if producto.ofertaProducto %} Si
+                <br> {% else %} No
+                <br> {% endif %} <b>Descuento:</b> {{ producto.descuentoProducto}}
+                <br>
+            </div>
+            <div class="col">
+            </div>  
+        </div>
         <br>
         ¿Seguro que desea eliminar el producto <b>{{ producto.nombreProducto }}</b>?
         <br>
@@ -111,6 +121,8 @@
             <input type="submit" class="btn btn-danger" value="Eliminar Producto">
             <button type="button" class="btn btn-warning" onclick="location.href='{% url 'MundoFastWebApp:productos' %}'">Cancelar</button>
         </form>
+        <br>
+        <br>
     </div>
 </body>
 </html>

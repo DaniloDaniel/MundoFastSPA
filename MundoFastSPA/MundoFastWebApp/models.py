@@ -43,7 +43,7 @@ class Producto(models.Model):
 class Usuario(AbstractBaseUser, PermissionsMixin):
     rutUsuario = models.CharField(max_length=20)
     nombreUsuario = models.CharField(max_length=50)
-    imagenUsuario = models.CharField(max_length=10000)
+    imagenUsuario = models.ImageField(upload_to='usuarios', default='Imagen-no-disponible.png')
     rolUsuario = models.CharField(max_length=20)
     emailUsuario = models.EmailField(_('email address'), unique=True)
     is_staff = models.BooleanField(default=True)
@@ -88,12 +88,12 @@ class DetalleVenta(models.Model):
         return total
 
 class Empresa(models.Model):
-    nombreEmpresa = models.CharField(max_length=30)
-    emailEmpresa = models.CharField(max_length=1000)
-    descripcionEmpresa = models.CharField(max_length=10000)
-    imagenEmpresa = models.CharField(max_length=10000)
-    direccionEmpresa = models.CharField(max_length=50)
-    horarioEmpresa = models.CharField(max_length=500)
+    nombreEmpresa = models.CharField(max_length=30, default="")
+    emailEmpresa = models.CharField(max_length=1000, default="")
+    descripcionEmpresa = models.CharField(max_length=10000 ,default="")
+    imagenEmpresa = models.CharField(max_length=10000, default="")
+    direccionEmpresa = models.CharField(max_length=50, default="")
+    horarioEmpresa = models.CharField(max_length=500, default="")
 
     def __str__(self):
         return self

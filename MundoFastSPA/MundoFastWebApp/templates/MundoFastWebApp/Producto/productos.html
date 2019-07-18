@@ -106,6 +106,7 @@
         </form>
         {% if messages %}
             {% for message in messages %}
+                <br>
                 <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %}" role="alert">
                     {{ message }}
                 </div>
@@ -155,6 +156,8 @@
                     <td>
                         {% if 'buscar' in request.path %} No existen productos almacenados con ese nombre. {% else %} No existen productos almacenados. {% endif %}
                     </td>
+                    <td></td>
+                    <td></td>
                     <td></td>
                     <td></td>
                     <td></td>
