@@ -93,19 +93,23 @@
         <br>
         <h3>¿Seguro que desea eliminar al siguiente usuario?</b></h3>
         <br>
-        <b>RUT:</b> {{ usuario.rutUsuario}}
         <br>
-        <b>Nombre:</b> {{ usuario.nombreUsuario}}
-        <br>
-        <b>Correo Electrónico:</b> {{ usuario.emailUsuario}}
-        <br>
-        <b>Imagen:</b>
-        <br>
-        <img src={{ usuario.imagenUsuario }} width="300px" height="" alt="Sin imagen.">
-        <br>
-        <b>Rol:</b> {{ usuario.rolUsuario}}
-        <br>
-        <br>
+        <div class="row">
+            <div class="col">
+                <img src='{{ usuario.imagenUsuario.url }}'class="img-thumbnail" alt="Sin imagen.">
+            </div>
+            <div class="col">
+                <b>RUT:</b> {{ usuario.rutUsuario}}
+                <br>
+                <b>Nombre:</b> {{ usuario.nombreUsuario}}
+                <br>
+                <b>Correo Electrónico:</b> {{ usuario.emailUsuario }}
+                <br>
+                <b>Rol:</b> {{ usuario.rolUsuario}}
+            </div>
+            <div class="col">
+            </div>  
+        </div>
         <br> {% if user.id != usuario.id %} 
         <br>
         <form action="{% url 'MundoFastWebApp:eliminarUsuario' usuario.id %}" method="POST">
@@ -113,7 +117,9 @@
             <input type="submit" class="btn btn-danger" value="Eliminar Usuario">
             {% endif %}
             <button type="button" class="btn btn-warning" onclick="location.href='{% url 'MundoFastWebApp:usuarios' %}'">Cancelar</button>
-        </form>  
+        </form>
+        <br>
+        <br>
     </div>
 </body>
 </html>
