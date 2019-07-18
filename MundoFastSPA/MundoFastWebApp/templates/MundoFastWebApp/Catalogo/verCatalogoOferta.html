@@ -92,19 +92,20 @@
         </div>
     </nav>
     <div class="container">
-        <h3>Resultados</h3>
+        <h3>Resultados Ofertas</h3>
         <br>
         <div class="row">
-            {% for producto in listaProducto %}
+            {% for producto in lista %}
                 <div class="col col-md-4 product-grid text-center">
-                    <a href="/MundoFastWebApp/catalogo/{{ producto.id }}/">
+                    <a href="/MundoFastWebApp/catalogo/{{ producto.0.id }}/">
                     <div class="image">
-                        <img src='{{ producto.imagenProducto.url }}' class="img-thumbnail">
+                        <img src='{{ producto.0.imagenProducto.url }}' class="img-thumbnail">
                     </div>
                     <hr>
                     </a>
-                    <h4><a href="/MundoFastWebApp/catalogo/{{ producto.id }}/">{{ producto.nombreProducto }}</a></h4>
-                    <h5>${{ producto.precioProducto }}</h5>
+                    <h4><a href="/MundoFastWebApp/catalogo/{{ producto.id }}/">{{ producto.0.nombreProducto }}</a></h4>
+                    <label><strike><font color="red">${{ producto.0.precioProducto }}</font></strike></label><br><label> {{producto.0.descuentoProducto}}%</label>
+                    <h4>${{producto.1}}</h4>
                 </div>
             {% endfor %}
         </div>

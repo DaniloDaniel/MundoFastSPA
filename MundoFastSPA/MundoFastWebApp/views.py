@@ -389,11 +389,23 @@ def verProductoCatalogo(request, id):
     return render(request, 'MundoFastWebApp/Catalogo/verProductoCatalogo.html', {'producto': producto, 'productoX': Producto})
 
 def verOfertas(request):
-    try:
-        empresa = Empresa.objects.get(pk=1)
-    except Empresa.DoesNotExist:
-        raise Http404("Error. URL no válido.")
-    return render(request, 'MundoFastWebApp/Empresa/verPerfilEmpresa.html', {'empresa': empresa, 'productoX': Producto})
+    listaProductoOferta = [producto for producto in Producto.objects.order_by('id') if bool(producto.ofertaProducto)]
+    listaPrecioDescontado = []
+    for producto in Producto.objects.order_by('id'):
+        if bool(producto.ofertaProducto):
+            descuento = int(producto.precioProducto) - (int(producto.precioProducto) * (int(producto.descuentoProducto)/100))
+            listaPrecioDescontado.append(int(descuento))
+    for x in listaPrecioDescontado:
+        print(x)
+    lista = tuple(zip(listaProductoOferta, listaPrecioDescontado))
+    for x in lista:
+        print(x)
+    print(lista)
+    context = {
+        'lista': lista,
+        'productoX': Producto
+    }
+    return render(request, 'MundoFastWebApp/Catalogo/verCatalogoOferta.html', context)
 
 def contactoEmpresa(request):
     empresa = Empresa.objects.get(pk=1)
