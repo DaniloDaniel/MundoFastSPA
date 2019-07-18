@@ -227,7 +227,14 @@
         <div class="alert alert-danger" role="alert" id="mensajeError">
             <label for="mensajeError">Debe agregar al menos un producto a la venta</label>
         </div>
-        {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+        {% if messages %}
+            <br>
+            {% for message in messages %}
+                <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %}" role="alert">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}    
         <form action="{% url 'MundoFastWebApp:crearVenta' %}" method="post" id="form">
             {% csrf_token %}
             <div class="form-group">
