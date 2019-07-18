@@ -395,12 +395,7 @@ def verOfertas(request):
         if bool(producto.ofertaProducto):
             descuento = int(producto.precioProducto) - (int(producto.precioProducto) * (int(producto.descuentoProducto)/100))
             listaPrecioDescontado.append(int(descuento))
-    for x in listaPrecioDescontado:
-        print(x)
     lista = tuple(zip(listaProductoOferta, listaPrecioDescontado))
-    for x in lista:
-        print(x)
-    print(lista)
     context = {
         'lista': lista,
         'productoX': Producto
