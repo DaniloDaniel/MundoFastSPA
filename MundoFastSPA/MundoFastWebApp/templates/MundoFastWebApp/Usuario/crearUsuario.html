@@ -93,7 +93,7 @@
         <br>
         <h3>Crear Nuevo Usuario:</h3> {% if error_message %}
         <p><strong>{{ error_message }}</strong></p>{% endif %}
-        <form action="{% url 'MundoFastWebApp:crearUsuario' %}" method="post">
+        <form action="{% url 'MundoFastWebApp:crearUsuario' %}" method="post" enctype="multipart/form-data">
             {% csrf_token %}
             <br>
             <div class="row">
@@ -112,7 +112,7 @@
             </div>
             <div class="form-group">
                 <label for="imagenUsuario"><b>Imagen:</b></label>
-                <input type="text" class="form-control" name="imagenUsuario" id="imagenUsuario" required>
+                <input type="file" class="form-control" name="imagenUsuario" id="imagenUsuario" value="{{producto.imagenUsuario}}" required>
             </div>
             <div class="form-group">
                 <label for="rolUsuario"><b>Rol:</b></label>

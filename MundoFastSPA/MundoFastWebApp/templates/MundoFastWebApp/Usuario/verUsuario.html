@@ -95,11 +95,7 @@
          <div class="row">
             <div class="col-md-4">
                <div class="profile-img">
-                  <img src={{ usuario.imagenUsuario }} alt="Imagen Usuario" width="200px" height="200px">
-                  <div class="file btn btn-lg btn-primary">
-                     Cambiar Imagen
-                     <input type="file" name="file">
-                  </div>
+                  <img src='{{ usuario.imagenUsuario.url }}' alt="Imagen Usuario" width="200px" height="200px">
                </div>
             </div>
             <div class="col-md-6">

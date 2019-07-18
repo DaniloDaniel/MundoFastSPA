@@ -93,7 +93,7 @@
         <br>
         <h3>Modificar Información del Usuario:</h3> {% if error_message %}
         <p><strong>{{ error_message }}</strong></p>{% endif %}
-        <form action="{% url 'MundoFastWebApp:modificarUsuario' usuario.id %}" method="post">
+        <form action="{% url 'MundoFastWebApp:modificarUsuario' usuario.id %}" method="post" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="row">
                 <div class="col">
@@ -111,7 +111,7 @@
             </div>
             <div class="form-group">
                 <label for="imagenUsuario"><b>Imagen:</b></label>
-                <input type="text" class="form-control" name="imagenUsuario" id="imagenUsuario" value="{{usuario.imagenUsuario}}">
+                <input type="file" class="form-control" name="imagenUsuario" id="imagenUsuario" value="{{usuario.imagenUsuario}}">
             </div>
             <div class="form-group">
                 <label for="rolUsuario"><b>Rol:</b></label>
