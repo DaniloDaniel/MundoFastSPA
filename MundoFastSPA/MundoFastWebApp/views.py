@@ -67,7 +67,10 @@ def modificarProducto(request, id):
         producto.codigoProducto = request.POST['codigoProducto']
         producto.nombreProducto = request.POST['nombreProducto']
         producto.descripcionProducto = request.POST['descripcionProducto']
-        producto.imagenProducto = request.FILES['imagenProducto']
+        try:
+            producto.imagenProducto = request.FILES['imagenProducto']
+        except:
+            pass
         producto.categoriaProducto = request.POST['categoriaProducto']
         producto.precioProducto = request.POST['precioProducto']
         producto.cantidadProducto = request.POST['cantidadProducto']
@@ -199,7 +202,6 @@ def formVenta(request):
 def crearVenta(request):
     try:
         cantProductosVenta = int(request.POST['contProductosVenta'])
-        detallesVenta = []
         venta = Venta(folioVenta = request.POST['folioVenta'], cuotasVenta = request.POST['cuotasVenta'], subTotal = request.POST.get('subTotal'), 
             descuendoAdicionalVenta = request.POST['descuentoAdicionalVenta'], totalVenta = request.POST.get('totalVenta'),
             estadoVenta = request.POST['estadoVenta'], responsableVenta = Usuario.objects.get(emailUsuario = request.POST['responsableVenta']))
@@ -207,10 +209,26 @@ def crearVenta(request):
         for i in range(cantProductosVenta):
             productoAux = Producto()
             productoAux = Producto.objects.get(codigoProducto=request.POST.get('codigoProductoVenta'+str(i)))
-            cantidadProducto = request.POST.get('cantidadProductoVenta'+str(i))
-            totalProducto = productoAux.precioProducto - (productoAux.precioProducto * productoAux.descuentoProducto / 100)
-            detalleVenta = DetalleVenta(producto=productoAux, venta=venta, cantidadProducto=cantidadProducto, descuentoAplicadoProducto=productoAux.descuentoProducto, totalPorProducto=totalProducto)
-            detalleVenta.save()
+            cantidadProductoVenta = request.POST.get('cantidadProductoVenta'+str(i))
+            productoAux.cantidadProducto -= int(cantidadProductoVenta)
+            if productoAux.cantidadProducto < 0:
+                productoAux.cantidadProducto += int(cantidadProductoVenta)
+                venta.delete()
+                venta = Venta()
+                listaUsuario = Usuario.objects.order_by('-id')
+                listaProducto = Producto.objects.order_by('-id')
+                context = {
+                    'venta': venta,
+                    'listaUsuario': listaUsuario,
+                    'listaProducto': listaProducto
+                }
+                messages.error(request, 'Stock de %s es %s' %(productoAux.nombreProducto, productoAux.cantidadProducto))
+                return render(request, "MundoFastWebApp/Venta/crearVenta.html", context)
+            else:
+                totalProducto = productoAux.precioProducto - (productoAux.precioProducto * productoAux.descuentoProducto / 100)
+                detalleVenta = DetalleVenta(producto=productoAux, venta=venta, cantidadProducto=cantidadProductoVenta, descuentoAplicadoProducto=productoAux.descuentoProducto, totalPorProducto=totalProducto)
+                detalleVenta.save()
+                productoAux.save()
     except IntegrityError:
         return render(request, "MundoFastWebApp/Venta/crearVenta.html", {"error_message": "Dejaste un campo vacío", 'productoX': Producto})
     else:
@@ -219,6 +237,7 @@ def crearVenta(request):
         # with POST data. This prevents data from being posted twice if a
         # user hits the Back button.
         return HttpResponseRedirect(reverse('MundoFastWebApp:ventas'))
+        
 
 @login_required
 def buscarVenta(request):
