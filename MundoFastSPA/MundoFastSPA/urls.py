@@ -18,6 +18,8 @@ from django.urls import include, path
 from . import settings
 from django.contrib.staticfiles.urls import static
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+from django.contrib.auth import views as auth_views
+from django.conf.urls import url
 
 urlpatterns = [
     path('MundoFastWebApp/', include('MundoFastWebApp.urls')),
