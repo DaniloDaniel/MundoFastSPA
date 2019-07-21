@@ -12,7 +12,6 @@ from django.core.mail import send_mail, BadHeaderError
 from .forms import ContactForm
 from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
-from MundoFastWebApp.models import Empresa
 
 # Create your views here.
 
@@ -121,12 +120,13 @@ def verUsuario(request, id):
 
 @login_required
 def formUsuario(request):
-    return render(request, 'MundoFastWebApp/Usuario/crearUsuario.html', {'productoX': Producto})
+    usuario = Usuario()
+    return render(request, 'MundoFastWebApp/Usuario/crearUsuario.html', {'usuario': usuario,  'productoX': Producto})
 
 @login_required
 def crearUsuario(request):
     try:
-        usuario = Usuario.objects.create_superuser(rutUsuario = request.POST['rutUsuario'], nombreUsuario = request.POST['nombreUsuario'], emailUsuario = request.POST['emailUsuario'], imagenUsuario = request.FILES['imagenUsuario'], rolUsuario = request.POST['rolUsuario'], password = request.POST['password'])
+        usuario = Usuario.objects.create_superuser(rutUsuario = request.POST['rutUsuario'], nombreUsuario = request.POST['nombreUsuario'], imagenUsuario = request.FILES['imagenUsuario'], rolUsuario = request.POST['rolUsuario'], emailUsuario = request.POST['emailUsuario'], password = request.POST['password'])
     except (KeyError, Usuario.DoesNotExist):
         return render(request, 'MundoFastWebApp/Usuario/crearUsuario.html', {'usuario': usuario, 'error_message': 'Error al crear Nuevo Usuario', 'productoX': Producto})
     else:
