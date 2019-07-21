@@ -11,8 +11,8 @@
     <link href='//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     {% load static %}
+    <link rel="stylesheet" href="{% static '/MundoFastWebApp/css/catalogo.css' %}">
     <link rel="shortcut icon" href="{% static '/MundoFastWebApp/favicon.ico' %}">
-    <link rel="stylesheet" href="{% static '/MundoFastWebApp/css/styles.css' %}">
 </head>
 
 <body>
@@ -89,9 +89,75 @@
         </div>
     </nav>
     <div class="container">
-        {% block content2 %} {% if user.is_authenticated %} Felicidades! Has iniciado Sesión con el E-mail {{ user.emailUsuario }}! {% else %}
-        <p>No has iniciado Sesión</p>
-        <a href="{% url 'login' %}">login</a> {% endif %} {% endblock %}
+        <h2><font font-weight=900 color="#01265E">D E S T A C A D O S</font></h2>
+        <div id="multi-item-example" class="carousel slide carousel-multi-item" data-ride="carousel">
+            <!--Controls-->
+            <div class="controls-top">
+                <a class="btn-floating" href="#multi-item-example" data-slide="prev"><i class="fa fa-chevron-left"></i></a>
+                <a class="btn-floating" href="#multi-item-example" data-slide="next"><i class="fa fa-chevron-right"></i></a>
+            </div>
+            <!--/.Controls-->
+
+            <!--Indicators-->
+            <ol class="carousel-indicators">
+                {% for producto in listaProducto  %}
+                    {% if forloop.counter0 < 2 %}
+                        {% if forloop.counter0 == 0 %}
+                            <li data-target="#multi-item-example" data-slide-to="{{ forloop.counter0 }}" class="active"></li>
+                        {% else %}
+                            <li data-target="#multi-item-example" data-slide-to="{{ forloop.counter0 }}"></li>
+                        {% endif %}  
+                    {% endif %}
+                {% endfor %}
+            </ol>
+            <!--/.Indicators-->
+
+            <!--Slides-->
+            <div class="carousel-inner" role="listbox">
+                <!--First slide-->
+                {% for producto in listaProducto %}
+                    {% if forloop.counter0|divisibleby:"3" %}
+                        
+                        {% if forloop.counter0 == 0 %}
+                            <div class="carousel-item active">
+                        {% else %}
+                            <div class="carousel-item">
+                        {% endif %}
+                            <div class="row">
+                            <div class="col col-md-3 product-grid text-center">
+                                    <a href="/MundoFastWebApp/catalogo/{{ producto.id }}/">
+                                    <div class="image">
+                                        <img src='{{ producto.imagenProducto.url }}' class="img-thumbnail" width="200px" heigth="200px">
+                                    </div>
+                                    <hr>
+                                    </a>
+                                    <h4><a href="/MundoFastWebApp/catalogo/{{ producto.id }}/">{{ producto.nombreProducto }}</a></h4>
+                                    <h5>${{ producto.precioProducto }}</h5>
+                            </div>
+                    {% else %}
+                        <div class="col col-md-3 product-grid text-center">
+                            <a href="/MundoFastWebApp/catalogo/{{ producto.id }}/">
+                            <div class="image">
+                                <img src='{{ producto.imagenProducto.url }}' width="200px" heigth="200px">
+                            </div>
+                            <hr>
+                            </a>
+                            <h4><a href="/MundoFastWebApp/catalogo/{{ producto.id }}/">{{ producto.nombreProducto }}</a></h4>
+                            <h5>${{ producto.precioProducto }}</h5>
+                        </div>
+                    {% endif %} 
+                
+                    {% if forloop.counter0 == 0 and forloop.counter0 == 2 and forloop.counter0 == 5 and forloop.counter0 == 8 %}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+                <!--/.First slide-->
+            </div>
+            <!--/.Slides-->
+            
+        </div>
+        
+        <!--/.Carousel Wrapper-->
     </div>
 </body>
 </html>

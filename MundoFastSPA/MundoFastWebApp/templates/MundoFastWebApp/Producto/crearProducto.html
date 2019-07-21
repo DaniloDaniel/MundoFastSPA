@@ -241,6 +241,20 @@
                     </div>
                 </div>
             </div>
+            <div class="col">
+                <div class="form-group">
+                    <label for="productoDestacado"><b>Producto Destacado:</label>
+                    <select class="form-control" name="productoDestacado">
+                        {% if producto.productoDestacado %}
+                            <option value="{{ producto.productoDestacado }}" selected>Si</option>
+                            <option value="False">No</option>
+                        {% else %}
+                            <option value="{{ producto.productoDestacado }}" selected>No</option>
+                            <option value="True">Si</option>
+                        {% endif %}
+                    </select>
+                </div>
+            </div>
             <input type="submit" class="btn btn-success" value="Crear Producto">
             <button type="button" class="btn btn-danger" onclick="location.href='{% url 'MundoFastWebApp:productos' %}'">Cancelar</button>
         </form>
