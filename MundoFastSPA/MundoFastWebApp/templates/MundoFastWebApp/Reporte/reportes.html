@@ -149,35 +149,20 @@
                     <button type="button" class="btn btn-primary btn-block" onclick="location.href='{% url 'MundoFastWebApp:reporteMensual' %}'">Reporte Mensual</button><br>
                     <button type="button" class="btn btn-primary btn-block" onclick="location.href='{% url 'MundoFastWebApp:reporteAnual' %}'">Reporte Anual</button><br>
                 </div>
-                <div class="col">
-                </div>
-                <div class="col">   
-                </div>
-                <div class="col">
-                </div>
-                <div class="col">
-                </div>
             </div>
         </div>
         <form id="formReportePersonalizado"action="{% url 'MundoFastWebApp:reportePersonalizado' %}" method="post">
             {% csrf_token %} 
-            <div class="form-group">
-                <div class="row">
-                    <div class="col">
-                        <button type="submit" class="btn btn-success btn-block">Reporte Personalizado</button>
-                    </div>
-                    Fecha Inicio: 
-                    <div class="col">
-                        <input type="date" id="fechaInicio" class="form-control" name="fechaInicio"> 
-                    </div>
-                    Fecha Término: 
-                    <div class="col">   
-                        <input type="date" id="fechaTermino" name="fechaTermino" class="form-control">
-                        <label id="lblErrorFechas" text-color="red">Fechas inválidas</label>
-                    </div>
-                    <div class="col">
-                    </div>
-                </div>
+            <div class="form-inline">
+                <button type="submit" class="btn btn-success">Reporte Personalizado</button>
+                &nbsp;
+                Fecha Inicio:
+                &nbsp;
+                <input type="date" id="fechaInicio" class="form-control" name="fechaInicio"> 
+                &nbsp;
+                Fecha Término: 
+                &nbsp;
+                <input type="date" id="fechaTermino" name="fechaTermino" class="form-control">
             </div>
         </form>
         <br>
