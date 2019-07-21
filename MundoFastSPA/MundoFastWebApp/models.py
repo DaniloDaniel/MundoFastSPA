@@ -5,10 +5,28 @@ from django.utils.translation import gettext_lazy as _
 from django.utils import timezone
 from django.conf import settings
 from .managers import CustomUserManager
-
-
+from django_resized import ResizedImageField
+from django.core.files.storage import FileSystemStorage
+import os
 from django.core.validators import MaxValueValidator
 import datetime
+
+def content_file_name(instance, filename):
+    # Funcion que se encarga de asignar nombre al archivo a crear
+    # El archivo sera subido a MEDIA_ROOT/<user_<id>.PNG
+    if(isinstance(instance,Usuario)):
+        return 'usuarios/{0}'.format(str(instance.id) + '.PNG')
+    elif(isinstance(instance,Producto)):
+        return 'productos/{0}'.format(str(instance.id) + '.PNG')
+    # Caso default para futuro
+    return '/{0}'.format(str(instance.id) + '.PNG')
+
+class OverwriteStorage(FileSystemStorage):
+    # Funcion que habilita la sobreescritura de archivos
+    def get_available_name(self, name, max_length=None):
+        if self.exists(name):
+            os.remove(os.path.join(settings.MEDIA_ROOT, name))
+        return name
 
 # Create your models here.
 class Producto(models.Model):
@@ -30,7 +48,7 @@ class Producto(models.Model):
     codigoProducto = models.IntegerField(unique=True)
     nombreProducto = models.CharField(max_length=100)
     descripcionProducto = models.CharField(max_length=500)
-    imagenProducto = models.ImageField(upload_to='productos', default='Imagen-no-disponible.png')
+    imagenProducto = ResizedImageField(upload_to=content_file_name, default='Imagen-no-disponible.png', size=[500, 300], storage=OverwriteStorage())
     categoriaProducto = models.CharField(max_length=50, choices=opcionesCategoria, default=catElectrodomesticos)
     precioProducto = models.PositiveIntegerField(default=0)
     cantidadProducto = models.PositiveIntegerField(default=0)
@@ -57,7 +75,7 @@ class Usuario(AbstractBaseUser, PermissionsMixin):
     )
     rutUsuario = models.CharField(max_length=20)
     nombreUsuario = models.CharField(max_length=50)
-    imagenUsuario = models.ImageField(upload_to='usuarios', default='Imagen-no-disponible.png')
+    imagenUsuario = ResizedImageField(upload_to=content_file_name, default='Imagen-no-disponible.png', size=[500, 300], storage=OverwriteStorage())
     rolUsuario = models.CharField(max_length=50, choices=opcionesRol, default=rolDesarrollador)
     emailUsuario = models.EmailField(_('email address'), unique=True)
     is_staff = models.BooleanField(default=True)
@@ -72,6 +90,7 @@ class Usuario(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.emailUsuario
+
 
 class Venta(models.Model):
     folioVenta = models.PositiveIntegerField(unique=True, default=0)
