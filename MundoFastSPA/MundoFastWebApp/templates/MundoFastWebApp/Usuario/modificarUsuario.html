@@ -12,9 +12,71 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     {% load static %}
     <link rel="shortcut icon" href="{% static '/MundoFastWebApp/favicon.ico' %}">
+    <link rel="stylesheet" href="{% static '/MundoFastWebApp/css/styles.css' %}">
+    <script>
+        $(document).on('click', '#close-preview', function(){ 
+            $('.image-preview').popover('hide');
+            // Hover befor close the preview
+        });
+         $(function() {
+             $('.image-preview').hover(
+                function () {
+                $('.image-preview').popover('show');
+                }, 
+                function () {
+                $('.image-preview').popover('hide');
+                }
+            );
+         }); 
+        $(function() {
+            // Create the close button
+            var closebtn = $('<button/>', {
+                type:"button",
+                text: 'x',
+                id: 'close-preview',
+                style: 'font-size: initial;',
+            });
+            closebtn.attr("class","close pull-right");
+            // Set the popover default content
+            $('.image-preview').popover({
+                trigger:'manual',
+                html:true,
+                title: "<strong>Vista Previa</strong>",
+                content: "Seleccione una imagen.",
+                placement:'bottom'
+            });
+            // Clear event
+            $('.image-preview-clear').click(function(){
+                $('.image-preview').attr("data-content","").popover('hide');
+                $('.image-preview-filename').val("");
+                $('.image-preview-clear').hide();
+                $('.image-preview-input input:file').val("");
+                $(".image-preview-input-title").text("Browse"); 
+            }); 
+            // Create the preview image
+            $(".image-preview-input input:file").change(function (){     
+                var img = $("<img class='img-thumbnail'/>", {
+                    id: 'dynamic',
+                    width:250,
+                    height:200
+                });      
+                var file = this.files[0];
+                var reader = new FileReader();
+                // Set preview image into the popover data-content
+                reader.onload = function (e) {
+                    $(".image-preview-input-title").text("Cambiar");
+                    $(".image-preview-clear").show();
+                    $(".image-preview-filename").val(file.name);            
+                    img.attr('src', e.target.result);
+                    $(".image-preview").attr("data-content",$(img)[0].outerHTML).popover("show");
+                }        
+                reader.readAsDataURL(file);
+            });  
+        });
+    </script>
 </head>
 <body>
-    <nav class="navbar navbar-expand-sm sticky-top bg-light navbar-light">
+    <nav class="navbar navbar-expand-lg sticky-top bg-light navbar-light">
         <a class="navbar-brand" href="{% url 'MundoFastWebApp:index' %}">
             <img class="img-responsive" width="200px" height="" src="{% static '/MundoFastWebApp/logoMF.png' %}" alt="Mundo Fast SPA">
         </a>
@@ -51,20 +113,17 @@
                     <a class="nav-link" href="{% url 'MundoFastWebApp:contactoEmpresa' %}">Contacto</a>
                 </li>
                 {% block content %} {% if user.is_authenticated %}
-                <li class="nav-item">
-                    <a class="nav-link active" href="{% url 'MundoFastWebApp:usuarios' %}">Usuarios</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'MundoFastWebApp:productos' %}">Productos</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'MundoFastWebApp:ventas' %}">Ventas</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'MundoFastWebApp:reportes' %}">Reportes</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'MundoFastWebApp:verPerfilEmpresa' %}">Empresa</a>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <b>Administración</b>
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <a class="dropdown-item" href="{% url 'MundoFastWebApp:usuarios' %}"><b>Usuarios</b></a>
+                        <a class="dropdown-item" href="{% url 'MundoFastWebApp:productos' %}">Productos</a>
+                        <a class="dropdown-item" href="{% url 'MundoFastWebApp:ventas' %}">Ventas</a>
+                        <a class="dropdown-item" href="{% url 'MundoFastWebApp:reportes' %}">Reportes</a>
+                        <a class="dropdown-item" href="{% url 'MundoFastWebApp:verPerfilEmpresa' %}">Empresa</a>
+                    </div>
                 </li>
                 {% endif %} {% endblock %}
             </ul>
@@ -109,13 +168,35 @@
                     </div>
                 </div>
             </div>
-            <div class="form-group">
-                <label for="imagenUsuario"><b>Imagen:</b></label>
-                <input type="file" class="form-control" name="imagenUsuario" id="imagenUsuario" value="{{usuario.imagenUsuario}}">
-            </div>
-            <div class="form-group">
-                <label for="rolUsuario"><b>Rol:</b></label>
-                <input type="text" class="form-control" name="rolUsuario" id="rolUsuario" value="{{usuario.rolUsuario}}" required>
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label for="imagenUsuario"><b>Imagen:</b></label>
+                        <div class="input-group image-preview">
+                            <input type="text" class="form-control image-preview-filename"  disabled="disabled">
+                            <span class="input-group-btn">
+                                <div class="btn btn-default image-preview-input">
+                                    <i class="fa fa-folder-open-o"></i>
+                                    <span class="image-preview-input-title">Examinar</span>
+                                    <input type="file" accept="image/png, image/jpeg, image/gif" name="imagenUsuario" id="imagenUsuario"/>
+                                </div>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label for="rolUsuario"><b>Rol:</b></label>
+                        <select class="form-control" name="rolUsuario" id="rolUsuario">
+                            {% for choice,readablechoice in usuario.opcionesRol %}
+                                {% if choice == usuario.rolUsuario %}        
+                                    <option value="{{ choice }}" selected >{{ readablechoice }}</option>
+                                {% endif %}
+                                <option value="{{ choice }}">{{ readablechoice }}</option>       
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
             </div>
             <div class="form-group">
                 <label for="emailUsuario"><b>Correo Electrónico:</b></label>
@@ -128,6 +209,7 @@
             <input type="submit" class="btn btn-danger" value="Modificar Usuario">
             <button type="button" class="btn btn-warning" onclick="location.href='javascript:history.go(-1)'">Cancelar</button>
         </form>
+        
     </div>
 </body>
 </html>

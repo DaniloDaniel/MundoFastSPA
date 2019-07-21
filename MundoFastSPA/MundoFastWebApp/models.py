@@ -12,18 +12,18 @@ import datetime
 
 # Create your models here.
 class Producto(models.Model):
-    catElectrodomesticos = 'Electro'
+    catElectrodomesticos = 'Electrodomésticos'
     catCocina = 'Cocina'
     catBanio = 'Baño'
     catDecoracion = 'Decoración'
     catJardineria = 'Jardín'
     catOtros = 'Otros'
     opcionesCategoria = (
-        (catElectrodomesticos, 'Electrodomesticos'),
-        (catCocina, 'Articulos de Cocina'),
-        (catBanio, 'Articulos de Baño'),
-        (catDecoracion, 'Articulos de Decoracion'),
-        (catJardineria, 'Articulos de Jardineria'),
+        (catElectrodomesticos, 'Electrodomésticos'),
+        (catCocina, 'Artículos de Cocina'),
+        (catBanio, 'Artículos de Baño'),
+        (catDecoracion, 'Artículos de Decoracion'),
+        (catJardineria, 'Artículos de Jardineria'),
         (catOtros, 'Otros')
     )
 
@@ -41,10 +41,24 @@ class Producto(models.Model):
         return self.nombreProducto
     
 class Usuario(AbstractBaseUser, PermissionsMixin):
+    rolAdministrador = 'Administrador'
+    rolDesarrollador = 'Desarrollador'
+    rolEmpleado = 'Empleado'
+    rolCajero = 'Cajero'
+    rolCliente = 'Cliente'
+    rolOtro = 'Otro'
+    opcionesRol = (
+        (rolAdministrador, 'Administrador'),
+        (rolDesarrollador, 'Desarrollador'),
+        (rolEmpleado, 'Empleado'),
+        (rolCajero, 'Cajero'),
+        (rolCliente, 'Cliente'),
+        (rolOtro, 'Otro')
+    )
     rutUsuario = models.CharField(max_length=20)
     nombreUsuario = models.CharField(max_length=50)
     imagenUsuario = models.ImageField(upload_to='usuarios', default='Imagen-no-disponible.png')
-    rolUsuario = models.CharField(max_length=20)
+    rolUsuario = models.CharField(max_length=50, choices=opcionesRol, default=rolDesarrollador)
     emailUsuario = models.EmailField(_('email address'), unique=True)
     is_staff = models.BooleanField(default=True)
     is_active = models.BooleanField(default=True)

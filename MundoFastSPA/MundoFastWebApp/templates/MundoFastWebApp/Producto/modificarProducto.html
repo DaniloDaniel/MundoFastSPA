@@ -12,9 +12,71 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     {% load static %}
     <link rel="shortcut icon" href="{% static '/MundoFastWebApp/favicon.ico' %}">
+    <link rel="stylesheet" href="{% static '/MundoFastWebApp/css/styles.css' %}">
+    <script>
+        $(document).on('click', '#close-preview', function(){ 
+            $('.image-preview').popover('hide');
+            // Hover befor close the preview
+        });
+         $(function() {
+             $('.image-preview').hover(
+                function () {
+                $('.image-preview').popover('show');
+                }, 
+                function () {
+                $('.image-preview').popover('hide');
+                }
+            );
+         }); 
+        $(function() {
+            // Create the close button
+            var closebtn = $('<button/>', {
+                type:"button",
+                text: 'x',
+                id: 'close-preview',
+                style: 'font-size: initial;',
+            });
+            closebtn.attr("class","close pull-right");
+            // Set the popover default content
+            $('.image-preview').popover({
+                trigger:'manual',
+                html:true,
+                title: "<strong>Vista Previa</strong>",
+                content: "Seleccione una imagen.",
+                placement:'bottom'
+            });
+            // Clear event
+            $('.image-preview-clear').click(function(){
+                $('.image-preview').attr("data-content","").popover('hide');
+                $('.image-preview-filename').val("");
+                $('.image-preview-clear').hide();
+                $('.image-preview-input input:file').val("");
+                $(".image-preview-input-title").text("Browse"); 
+            }); 
+            // Create the preview image
+            $(".image-preview-input input:file").change(function (){     
+                var img = $("<img class='img-thumbnail'/>", {
+                    id: 'dynamic',
+                    width:250,
+                    height:200
+                });      
+                var file = this.files[0];
+                var reader = new FileReader();
+                // Set preview image into the popover data-content
+                reader.onload = function (e) {
+                    $(".image-preview-input-title").text("Cambiar");
+                    $(".image-preview-clear").show();
+                    $(".image-preview-filename").val(file.name);            
+                    img.attr('src', e.target.result);
+                    $(".image-preview").attr("data-content",$(img)[0].outerHTML).popover("show");
+                }        
+                reader.readAsDataURL(file);
+            });  
+        });
+    </script>
 </head>
 <body>
-    <nav class="navbar navbar-expand-sm sticky-top bg-light navbar-light">
+    <nav class="navbar navbar-expand-lg sticky-top bg-light navbar-light">
         <a class="navbar-brand" href="{% url 'MundoFastWebApp:index' %}">
             <img class="img-responsive" width="200px" height="" src="{% static '/MundoFastWebApp/logoMF.png' %}" alt="Mundo Fast SPA">
         </a>
@@ -51,20 +113,17 @@
                     <a class="nav-link" href="{% url 'MundoFastWebApp:contactoEmpresa' %}">Contacto</a>
                 </li>
                 {% block content %} {% if user.is_authenticated %}
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'MundoFastWebApp:usuarios' %}">Usuarios</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active" href="{% url 'MundoFastWebApp:productos' %}">Productos</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'MundoFastWebApp:ventas' %}">Ventas</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'MundoFastWebApp:reportes' %}">Reportes</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'MundoFastWebApp:verPerfilEmpresa' %}">Empresa</a>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <b>Administración</b>
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <a class="dropdown-item" href="{% url 'MundoFastWebApp:usuarios' %}">Usuarios</a>
+                        <a class="dropdown-item" href="{% url 'MundoFastWebApp:productos' %}"><b>Productos</b></a>
+                        <a class="dropdown-item" href="{% url 'MundoFastWebApp:ventas' %}">Ventas</a>
+                        <a class="dropdown-item" href="{% url 'MundoFastWebApp:reportes' %}">Reportes</a>
+                        <a class="dropdown-item" href="{% url 'MundoFastWebApp:verPerfilEmpresa' %}">Empresa</a>
+                    </div>
                 </li>
                 {% endif %} {% endblock %}
             </ul>
@@ -74,8 +133,8 @@
                 {% if user.is_authenticated %}
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            {{ user.emailUsuario }}
-                            </a>
+                        {{ user.emailUsuario }}
+                    </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                         <a class="dropdown-item" href="/MundoFastWebApp/usuarios/{{ user.id }}/">Perfil</a>
                         <a class="dropdown-item" href="{% url 'logout' %}">Cerrar Sesión</a>
@@ -90,7 +149,6 @@
         </div>
     </nav>
     <div class="container">
-        <br>
         <h3>Modificar Producto:</h3>
         {% if messages %}
             {% for message in messages %}
@@ -102,42 +160,67 @@
         {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
         <form action="{% url 'MundoFastWebApp:modificarproducto' producto.id%}" method="post" enctype="multipart/form-data">
             {% csrf_token %}
-            <div class="form-group">
-                <label for="codigoProducto"><b>Código Producto:</b></label>
-                <input class="form-control" type="number" name="codigoProducto" id="codigoProducto" value="{{producto.codigoProducto}}" required>
-            </div>
-            <div class="form-group">
-                <label for="nombreProducto"><b>Nombre Producto:</b></label>
-                <input class="form-control" type="text" name="nombreProducto" id="nombreProducto" value="{{producto.nombreProducto}}" required>
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label for="codigoProducto"><b>Código Producto:</b></label>
+                        <input class="form-control" type="number" name="codigoProducto" id="codigoProducto" value="{{producto.codigoProducto}}" required>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label for="nombreProducto"><b>Nombre Producto:</b></label>
+                        <input class="form-control" type="text" name="nombreProducto" id="nombreProducto" value="{{producto.nombreProducto}}" required>
+                    </div>
+                </div>
             </div>
             <div class="form-group">
                 <label for="descripcionProducto"><b>Descripción Producto:</b></label>
-                <input class="form-control" type="textarea" name="descripcionProducto" id="descripcionProducto" rows="10" cols="30" value="{{producto.descripcionProducto}}" required>
-            </div>
-            <div class="form-group">
-                <label for="imagenProducto"><b>Imagen Producto:</b></label>
-                <input class="form-control" type="file" name="imagenProducto" id="imagenProducto" value="{{producto.imagenProducto}}">
-            </div>
-            <div class="form-group">
-                <label for="cantidadProducto"><b>Categoría Producto:</b></label>
-                <select class="form-control" name="categoriaProducto" id="categoriaProducto">
-                    {% for choice,readablechoice in producto.opcionesCategoria %}
-                        {% if choice == producto.categoriaProducto %}        
-                            <option value="{{ choice }}" selected >{{ readablechoice }}</option>
-                        {% endif %}
-                        <option value="{{ choice }}">{{ readablechoice }}</option>       
-                    {% endfor %}
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="precioProducto"><b>Precio Producto:</b></label>
-                <input class="form-control" type="number" name="precioProducto" id="precioProducto" value="{{producto.precioProducto}}" required>
-            </div>
-            <div class="form-group">
-                <label for="cantidadProducto"><b>Cantidad Producto:</b></label>
-                <input class="form-control" type="number" name="cantidadProducto" id="cantidadProducto" value="{{producto.cantidadProducto}}" required>
+                <textarea class="form-control" type="text" name="descripcionProducto" id="descripcionProducto" rows="10" cols="30" required>{{producto.descripcionProducto}}</textarea>
             </div>
             <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label for="imagenProducto"><b>Imagen Producto:</b></label>
+                        <div class="input-group image-preview">
+                            <input type="text" class="form-control image-preview-filename"  disabled="disabled">
+                            <span class="input-group-btn">
+                                <div class="btn btn-default image-preview-input">
+                                    <i class="fa fa-folder-open-o"></i>
+                                    <span class="image-preview-input-title">Examinar</span>
+                                    <input type="file" accept="image/png, image/jpeg, image/gif" name="imagenProducto" id="imagenProducto"/>
+                                </div>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label for="cantidadProducto"><b>Categoría Producto:</b></label>
+                        <select class="form-control" name="categoriaProducto" id="categoriaProducto">
+                            {% for choice,readablechoice in producto.opcionesCategoria %}
+                                {% if choice == producto.categoriaProducto %}        
+                                    <option value="{{ choice }}" selected >{{ readablechoice }}</option>
+                                {% endif %}
+                                <option value="{{ choice }}">{{ readablechoice }}</option>       
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label for="cantidadProducto"><b>Cantidad Producto:</b></label>
+                        <input class="form-control" type="number" name="cantidadProducto" id="cantidadProducto" value="{{producto.cantidadProducto}}" required>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label for="precioProducto"><b>Precio Producto:</b></label>
+                        <input class="form-control" type="number" name="precioProducto" id="precioProducto" value="{{producto.precioProducto}}" required>
+                    </div>
+                </div>
                 <div class="col">
                     <div class="form-group">
                         <label for="ofertaProducto"><b>Oferta Producto:</label>
