@@ -88,28 +88,12 @@
             </ul>
         </div>
     </nav>
+    {% load my_tags %}
     <div class="container">
         <h2><font font-weight=900 color="#01265E">D E S T A C A D O S</font></h2>
         <div id="multi-item-example" class="carousel slide carousel-multi-item" data-ride="carousel">
-            <!--Controls-->
-            <div class="controls-top">
-                <a class="btn-floating" href="#multi-item-example" data-slide="prev"><i class="fa fa-chevron-left"></i></a>
-                <a class="btn-floating" href="#multi-item-example" data-slide="next"><i class="fa fa-chevron-right"></i></a>
-            </div>
-            <!--/.Controls-->
-
             <!--Indicators-->
-            <ol class="carousel-indicators">
-                {% for producto in listaProducto  %}
-                    {% if forloop.counter0 < 2 %}
-                        {% if forloop.counter0 == 0 %}
-                            <li data-target="#multi-item-example" data-slide-to="{{ forloop.counter0 }}" class="active"></li>
-                        {% else %}
-                            <li data-target="#multi-item-example" data-slide-to="{{ forloop.counter0 }}"></li>
-                        {% endif %}  
-                    {% endif %}
-                {% endfor %}
-            </ol>
+            
             <!--/.Indicators-->
 
             <!--Slides-->
@@ -123,41 +107,115 @@
                         {% else %}
                             <div class="carousel-item">
                         {% endif %}
-                            <div class="row">
-                            <div class="col col-md-3 product-grid text-center">
-                                    <a href="/MundoFastWebApp/catalogo/{{ producto.id }}/">
-                                    <div class="image">
-                                        <img src='{{ producto.imagenProducto.url }}' class="img-thumbnail" width="200px" heigth="200px">
+                                <div class="row">
+                                    <div class="col col-md-4 text-center">
+ 
+                                            <a href="/MundoFastWebApp/catalogo/{{ producto.id }}/">
+                                            <div class="image">
+                                                <img src='{{ producto.imagenProducto.url }}' class="img-thumbnail">
+                                            </div>
+                                            <hr>
+                                            </a>
+                                            <h4><a href="/MundoFastWebApp/catalogo/{{ producto.id }}/">{{ producto.nombreProducto }}</a></h4>
+                                            <h5>${{ producto.precioProducto }}</h5>
+
                                     </div>
-                                    <hr>
-                                    </a>
-                                    <h4><a href="/MundoFastWebApp/catalogo/{{ producto.id }}/">{{ producto.nombreProducto }}</a></h4>
-                                    <h5>${{ producto.precioProducto }}</h5>
-                            </div>
                     {% else %}
-                        <div class="col col-md-3 product-grid text-center">
-                            <a href="/MundoFastWebApp/catalogo/{{ producto.id }}/">
-                            <div class="image">
-                                <img src='{{ producto.imagenProducto.url }}' width="200px" heigth="200px">
-                            </div>
-                            <hr>
-                            </a>
-                            <h4><a href="/MundoFastWebApp/catalogo/{{ producto.id }}/">{{ producto.nombreProducto }}</a></h4>
-                            <h5>${{ producto.precioProducto }}</h5>
-                        </div>
+                                    <div class="col col-md-4 text-center clearfix d-none d-md-block">
+
+                                            <a href="/MundoFastWebApp/catalogo/{{ producto.id }}/">
+                                            <div class="image">
+                                                <img src='{{ producto.imagenProducto.url }}' class="img-thumbnail" >
+                                            </div>
+                                            <hr>
+                                            </a>
+                                            <h4><a href="/MundoFastWebApp/catalogo/{{ producto.id }}/">{{ producto.nombreProducto }}</a></h4>
+                                            <h5>${{ producto.precioProducto }}</h5>
+
+                                    </div>
                     {% endif %} 
                 
-                    {% if forloop.counter0 == 0 and forloop.counter0 == 2 and forloop.counter0 == 5 and forloop.counter0 == 8 %}
-                        </div>
+                    {% if forloop.counter|modulo:3 == 0 %}
+                                </div>
+                            </div>
                     {% endif %}
                 {% endfor %}
+                
                 <!--/.First slide-->
+            
             </div>
+            
             <!--/.Slides-->
             
         </div>
         
         <!--/.Carousel Wrapper-->
+    </div>
+    <br>
+    <div class="container">
+        <div class="row">
+            <div class="col">
+            </div>
+            <div class="col text-right">
+                <i class="fa fa-chevron-left fa-2x" href="#multi-item-example" data-slide="prev"></i>
+            </div>
+            <div class="col">
+            <br><br>
+            <ol class="carousel-indicators">
+                    {% for producto in listaProducto  %}
+                        {% if forloop.counter0|divisibleby:"3" %}
+                            {% if forloop.counter0 == 0 %}
+                                <li data-target="#multi-item-example" data-slide-to="{{ forloop.counter0 }}" class="active bg-dark"></li>
+                            {% else %}
+                                <li data-target="#multi-item-example" data-slide-to="{{ forloop.counter0 }}" class="bg-dark"></li>
+                            {% endif %}  
+                        {% endif %}
+                    {% endfor %}
+                </ol>
+            </div>
+            <div class="col text-left">
+                <i class="fa fa-chevron-right fa-2x" href="#multi-item-example" data-slide="next"></i>
+            </div>
+            <div class="col">
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div id="about" class="about-area area-padding">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="section-headline text-center">
+                        <a href="#">
+                            {% load static %}
+                            <img class="img-responsive" width="500px" height="" src="{% static "/MundoFastWebApp/logoMF.png" %}" alt="My image" alt="Mundo Fast SPA">
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="section-headline text-center">
+                        <br>
+                        {% if messages %} {% for message in messages %}
+                        <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %}" role="alert">
+                            {{ message }}
+                        </div>
+                        {% endfor %} {% endif %}
+                        <b>Correo Electrónico:</b> {{ empresa.emailEmpresa}}
+                        <br>
+                        <b>Dirección:</b> {{ empresa.direccionEmpresa}}
+                        <br>
+                        <b>Horario:</b> {{ empresa.horarioEmpresa}}
+                        <br>
+                        <b>Facebook:</b><a href="https://www.facebook.com/MundoFast"> @MundoFast</a>
+                        <br>
+                        <br>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     </div>
 </body>
 </html>
