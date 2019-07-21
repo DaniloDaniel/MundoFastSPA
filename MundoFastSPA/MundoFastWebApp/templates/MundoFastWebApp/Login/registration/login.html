@@ -107,25 +107,27 @@
                 <div class="row">
                     <div class="col">   
                         Correo Electrónico:
-                        <input type="email" class="form-control" name="username" id="username" placeholder="Correo Electrónico" required >
-                        <br>
-                    </div>
-                    <div class="col">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fa fa-user" aria-hidden="true"></i></span>
+                            <input type="email" class="form-control" name="username" id="username" placeholder="Correo Electrónico" required >
+                        </div>
                     </div>
                     <div class="col">
                     </div>
                 </div>
+                <br>
                 <div class="row">
-                    <div class="col">   
-                        Contraseña:
-                        <input type="password" class="form-control" name="password" id="inputPass" placeholder="Contraseña" required>
-                        <br>
-                    </div>
                     <div class="col">
+                        Contraseña:
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fa fa-key" aria-hidden="true"></i></span>
+                            <input type="password" class="form-control" name="password" id="inputPass" placeholder="Contraseña" required>
+                        </div>
                     </div>
                     <div class="col">
                     </div>
                 </div>
+                <br>
                 <button type="submit" class="btn btn-success">Iniciar Sesión</button>
                 <button type="button" id="submitButton" class="btn btn-warning" onclick="location.href='javascript:history.go(-1)'">Volver</button>
                 <br>

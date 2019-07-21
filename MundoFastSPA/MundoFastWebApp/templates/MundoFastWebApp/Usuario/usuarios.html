@@ -90,14 +90,15 @@
     <div class="container">
         <h3>Lista de Usuarios:</h3>
         <br>
-        <form action="{% url 'MundoFastWebApp:buscarUsuario' %}" method="post">
+        <form action="{% url 'MundoFastWebApp:buscarUsuario' %}" class="form-inline" method="post">
             <button type="button" class="btn btn-success" onclick="location.href='{% url 'MundoFastWebApp:formUsuario' %}'">
                 <i class="fa fa-user-plus"></i>  Nuevo Usuario
             </button>
             {% csrf_token %}
             <label for="buscarUsuario"></label>
-            <input type="text" name="buscarUsuario" id="buscarUsuario" placeholder="Nombre">
-            <input type="submit" value="Buscar Usuario">
+            &nbsp;
+            <input type="text" name="buscarUsuario" id="buscarUsuario" class="form-control" placeholder="Nombre">
+            <input type="submit" class="btn btn-outline-secondary" value="Buscar Usuario">
         </form>
         {% if messages %} {% for message in messages %}
         <br>
@@ -109,6 +110,7 @@
             <thead>
                 <tr>
                     <th>Nombre Usuario</th>
+                    <th>Correo Electrónico</th>
                     <th style="text-align: center;">Ver</th>
                     <th style="text-align: center;">Editar</th>
                     <th style="text-align: center;">Eliminar</th>
@@ -117,6 +119,9 @@
             <tbody>
                 {% if listaUsuario %} {% for usuario in listaUsuario %}
                 <tr>
+                    <td>
+                        <a href="/MundoFastWebApp/usuarios/{{ usuario.id }}/">{{ usuario.emailUsuario }}</a>
+                    </td>
                     <td>
                         <a href="/MundoFastWebApp/usuarios/{{ usuario.id }}/">{{ usuario.nombreUsuario }}</a>
                     </td>
@@ -142,6 +147,7 @@
                 <td>
                     {% if 'buscar' in request.path %} No existen usuarios registrados con ese nombre. {% else %} No existen usuarios registrados. {% endif %}
                 </td>
+                <td></td>
                 <td></td>
                 <td></td>
                 <td></td>

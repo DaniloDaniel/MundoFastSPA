@@ -59,7 +59,7 @@
                 }
             {% endfor %}
             $("#folioVenta").val(randomFolio);
-            $(".botonBuscar").click(function(){
+            $("#botonBuscar").click(function(){
                 var i;
                 var encontroProducto = false; //variable para determinar si encontro producto en la busqueda
                 for(i=0;i<lista.length;i++){
@@ -248,10 +248,10 @@
                 <label for="productosVenta"><b>Productos:</b></label>
                 <div class="row">
                     <div class="col">   
-                        <input type="text" class="form-control" name="productosVentaSearchBox" id="productosVentaSearchBox">
+                        <input type="text" class="form-control" name="productosVentaSearchBox" id="productosVentaSearchBox" placeholder="Código o Nombre del Producto">
                     </div>
                     <div class="col">
-                        <button type="button" class="botonBuscar">Agregar Producto</button>
+                        <button type="button" class="btn btn-success" id="botonBuscar"><i class=" 	fa fa-plus"></i></button>
                     </div>
                 </div>
             </div>
