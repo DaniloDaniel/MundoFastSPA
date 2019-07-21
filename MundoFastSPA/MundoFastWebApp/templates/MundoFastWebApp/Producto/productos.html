@@ -92,14 +92,15 @@
     <div class="container">
         <h3>Lista de Productos:</h3>
         <br>
-        <form action="{% url 'MundoFastWebApp:buscarproducto' %}" method="post">
+        <form action="{% url 'MundoFastWebApp:buscarproducto' %}" class="form-inline" method="post">
             <button type="button" class="btn btn-success" onclick="location.href='{% url 'MundoFastWebApp:formproducto' %}'">
-                <i class="fa fa-plus-square"></i>   Nuevo Producto
+                <i class="fa fa-plus"></i>   Nuevo Producto
             </button>
             {% csrf_token %}
             <label for="buscarProducto"></label>
-            <input type="text" name="buscarProducto" id="buscarProducto" placeholder="Nombre Producto">
-            <input type="submit" value="Buscar Producto">
+            &nbsp;
+            <input type="text" name="buscarProducto" id="buscarProducto" class="form-control" placeholder="Nombre Producto">
+            <input type="submit" class="btn btn-outline-secondary" value="Buscar Producto">
         </form>
         {% if messages %}
             {% for message in messages %}
@@ -114,7 +115,7 @@
                 <tr>
                     <th>Código</th>
                     <th>Producto</th>
-                    <th style="text-align: center;">Unidades</th>
+                    <th style="text-align: center;">Stock</th>
                     <th style="text-align: center;">Ver</th>
                     <th style="text-align: center;">Modificar</th>
                     <th style="text-align: center;">Eliminar</th>

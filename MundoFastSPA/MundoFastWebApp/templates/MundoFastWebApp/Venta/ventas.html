@@ -92,14 +92,15 @@
     <div class="container">
         <h3>Lista de Ventas:</h3>
         <br>
-        <form action="{% url 'MundoFastWebApp:buscarVenta' %}" method="post">
+        <form action="{% url 'MundoFastWebApp:buscarVenta' %}" class="form-inline" method="post">
             <button type="button" class="btn btn-success" onclick="location.href='{% url 'MundoFastWebApp:formVenta' %}'">
                 <i class="fa fa-usd"></i>  Nueva Venta
             </button>
             {% csrf_token %}
             <label for="buscarVenta"></label>
-            <input type="number" name="buscarVenta" id="buscarVenta" placeholder="N° de Folio">
-            <input type="submit" value="Buscar Venta">
+            &nbsp;
+            <input type="number" class="form-control" name="buscarVenta" id="buscarVenta" placeholder="N° de Folio">
+            <input type="submit" class="btn btn-outline-secondary" value="Buscar Venta">
         </form>
         {% if messages %}
             <br>
