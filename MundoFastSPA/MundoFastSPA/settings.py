@@ -120,6 +120,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 AUTH_USER_MODEL = 'MundoFastWebApp.Usuario'
+LOGIN_URL = '/MundoFastWebApp/login/'
 LOGIN_REDIRECT_URL = '/MundoFastWebApp/'
 LOGOUT_REDIRECT_URL = '/MundoFastWebApp/'
 STATICFILES_DIRS = (
@@ -127,7 +128,7 @@ STATICFILES_DIRS = (
 )
 
 MEDIA_ROOT = (
-BASE_DIR + "\\MundoFastWebApp\\img"
+BASE_DIR + "\\MundoFastWebApp\\img\\"
 )
 
 
