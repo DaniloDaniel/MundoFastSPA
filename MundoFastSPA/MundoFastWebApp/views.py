@@ -16,7 +16,16 @@ from django.core.exceptions import ObjectDoesNotExist
 # Create your views here.
 
 def index(request):
-    return render(request, 'MundoFastWebApp/index.html', {'productoX': Producto})
+    listaProducto = [producto for producto in Producto.objects.all() if producto.productoDestacado]
+    if(Empresa.DoesNotExist):
+        empresa = Empresa.objects.get_or_create(nombreEmpresa="Mundo Fast SPA", emailEmpresa="mundofaststore@gmail.com", direccionEmpresa = "Super Agro Santa María - Local X", descripcionEmpresa = "Descripción", horarioEmpresa = "Todos los días", imagenEmpresa="")
+        empresa = Empresa.objects.get(pk=1)
+    context = {
+        'productoX': Producto,
+        'listaProducto': listaProducto,
+        'empresa': empresa
+    }
+    return render(request, 'MundoFastWebApp/index.html', context)
 
 @login_required
 def productos(request):
@@ -48,7 +57,7 @@ def crearProducto(request):
             producto = Producto(codigoProducto = request.POST['codigoProducto'], nombreProducto = request.POST['nombreProducto'], 
                 descripcionProducto = request.POST['descripcionProducto'], categoriaProducto = request.POST['categoriaProducto'], 
                 imagenProducto = request.FILES['imagenProducto'], precioProducto = request.POST['precioProducto'],cantidadProducto = request.POST['cantidadProducto'],
-                ofertaProducto = request.POST['ofertaDropDown'],descuentoProducto = request.POST['descuentoProducto'])
+                ofertaProducto = request.POST['ofertaDropDown'],descuentoProducto = request.POST['descuentoProducto'], productoDestacado = request.POST['productoDestacado'])
         except IntegrityError:
             return render(request, "MundoFastWebApp/Producto/crearProducto.html", {"error_message": "Dejaste un campo vacío"})
         else:
@@ -75,6 +84,7 @@ def modificarProducto(request, id):
         producto.cantidadProducto = request.POST['cantidadProducto']
         producto.ofertaProducto = request.POST['ofertaDropDown']
         producto.descuentoProducto = request.POST['descuentoProducto']
+        producto.productoDestacado = request.POST['productoDestacado']
         producto.save()
         messages.success(request, 'Producto modificado correctamente.')
         return HttpResponseRedirect(reverse('MundoFastWebApp:productos'))

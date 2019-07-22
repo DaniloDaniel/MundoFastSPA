@@ -190,7 +190,7 @@
                                 <div class="btn btn-default image-preview-input">
                                     <i class="fa fa-folder-open-o"></i>
                                     <span class="image-preview-input-title">Examinar</span>
-                                    <input type="file" accept="image/png, image/jpeg, image/gif" name="imagenProducto" id="imagenProducto"/>
+                                    <input type="file" accept="image/png, image/jpeg, image/gif" name="imagenProducto" id="imagenProducto" required/>
                                 </div>
                             </span>
                         </div>
@@ -239,6 +239,20 @@
                         <label for="descuentoProducto"><b>Descuento Producto (%):</b></label>
                         <input class="form-control" type="number" name="descuentoProducto" id="descuentoProducto" value="{{producto.descuentoProducto}}" min=0 max=100 required>
                     </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label for="productoDestacado"><b>Producto Destacado:</label>
+                    <select class="form-control" name="productoDestacado">
+                        {% if producto.productoDestacado %}
+                            <option value="{{ producto.productoDestacado }}" selected>Si</option>
+                            <option value="False">No</option>
+                        {% else %}
+                            <option value="{{ producto.productoDestacado }}" selected>No</option>
+                            <option value="True">Si</option>
+                        {% endif %}
+                    </select>
                 </div>
             </div>
             <input type="submit" class="btn btn-success" value="Crear Producto">
