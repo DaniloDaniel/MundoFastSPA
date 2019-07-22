@@ -104,6 +104,8 @@
                 <br><b>Oferta:</b> {% if producto.ofertaProducto %} Si
                 <br> {% else %} No
                 <br> {% endif %} <b>Descuento:</b> {{ producto.descuentoProducto}}
+                <br><b>Destacado:</b> {% if producto.productoDestacado %} Si
+                <br> {% else %} No {% endif %}
                 <br>
             </div>
             <div class="col">
