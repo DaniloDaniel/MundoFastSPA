@@ -94,25 +94,29 @@
         <div class="row">
             <div class="col col-md-4">
                 <div class="image">
-                    <img src='{{ producto.imagenProducto.url }}' class="img-thumbnail">
+                    <img src='{{ producto.imagenProducto.url }}' class="img-thumbnail" width="300px" height="">
                 </div>
             </div>
             <div class="col col-md-4">
                 <b>Código:</b> {{ producto.codigoProducto}}
                 <br><b>Nombre:</b> {{ producto.nombreProducto}}
                 <br><b>Descripción:</b> {{ producto.descripcionProducto}}
-                <br><b>Categoria:</b> {{ producto.categoriaProducto}}
-                <br><b>Precio:</b> {{ producto.precioProducto}}
+                <br><b>Categoría:</b> {{ producto.categoriaProducto}}
+                <br><b>Precio:</b> $ {{ producto.precioProducto}}
                 <br><b>Cantidad:</b> {{ producto.cantidadProducto}}
                 <br><b>Oferta:</b> {% if producto.ofertaProducto %} Si
                 <br> {% else %} No
-                <br> {% endif %} <b>Descuento:</b> {{ producto.descuentoProducto}}
+                <br> {% endif %} <b>Descuento:</b> {{ producto.descuentoProducto}} %
+                <br><b>Destacado:</b> {% if producto.productoDestacado %} Si
+                <br> {% else %} No {% endif %}
                 <br>
                 <br>
                 <button type="button" class="btn btn-danger" onclick="location.href='/MundoFastWebApp/productos/modificar/{{ producto.id }}/'">Modificar Información</button>
                 <button type="button" class="btn btn-warning" onclick="location.href='javascript:history.go(-1)'">Volver</button>
             </div>
         </div>
+        <br>
+        <br>
     </div>
 </body>
 </html>

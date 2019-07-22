@@ -40,8 +40,8 @@ class Producto(models.Model):
         (catElectrodomesticos, 'Electrodomésticos'),
         (catCocina, 'Artículos de Cocina'),
         (catBanio, 'Artículos de Baño'),
-        (catDecoracion, 'Artículos de Decoracion'),
-        (catJardineria, 'Artículos de Jardineria'),
+        (catDecoracion, 'Artículos de Decoración'),
+        (catJardineria, 'Artículos de Jardinería'),
         (catOtros, 'Otros')
     )
 

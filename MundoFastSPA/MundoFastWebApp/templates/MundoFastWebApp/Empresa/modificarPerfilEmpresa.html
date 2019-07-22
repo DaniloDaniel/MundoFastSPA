@@ -97,13 +97,13 @@
             <div class="row">
                 <div class="col">
                     <div class="form-group">
-                        <label for="nombreEmpresa">Nombre Empresa:</label>
+                        <label for="nombreEmpresa"><b>Nombre Empresa:</b></label>
                         <input type="text" class="form-control" name="nombreEmpresa" id="nombreEmpresa" value="{{empresa.nombreEmpresa}}" required>
                     </div>
                 </div>
                 <div class="col">
                     <div class="form-group">
-                        <label for="emailEmpresa">Correo Electrónico:</label>
+                        <label for="emailEmpresa"><b>Correo Electrónico:</b></label>
                         <input type="email" class="form-control" name="emailEmpresa" id="emailEmpresa" value="{{empresa.emailEmpresa}}" required>
                     </div>
                 </div>
@@ -113,20 +113,22 @@
                 <textarea type="text" class="form-control" name="descripcionEmpresa" value="{{empresa.descripcionEmpresa}}" required>{{empresa.descripcionEmpresa}}</textarea>
             </div>
             <div class="form-group">
-                <label for="direccionEmpresa">Dirección:</label>
+                <label for="direccionEmpresa"><b>Dirección:</b></label>
                 <input type="text" class="form-control" name="direccionEmpresa" id="direccionEmpresa" value="{{empresa.direccionEmpresa}}" required>
             </div>
             <div class="form-group">
-                <label for="horarioEmpresa">Horario:</label>
+                <label for="horarioEmpresa"><b>Horario:</b></label>
                 <input type="text" class="form-control" name="horarioEmpresa" id="horarioEmpresa" value="{{empresa.horarioEmpresa}}" required>
             </div>
             <div class="form-group">
-                <label for="imagenEmpresa">Imagen:</label>
+                <label for="imagenEmpresa"><b>Imagen:</b></label>
                 <input type="text" class="form-control" name="imagenEmpresa" id="imagenEmpresa" value="{{empresa.imagenEmpresa}}" required>
             </div>
             <input type="submit" class="btn btn-danger" value="Modificar Empresa">
             <button type="button" class="btn btn-warning" onclick="location.href='{% url 'MundoFastWebApp:verPerfilEmpresa' %}'">Cancelar</button>
         </form>
+        <br>
+        <br>
     </div>
 </body>
 </html>

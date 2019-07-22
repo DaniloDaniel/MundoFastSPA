@@ -106,17 +106,16 @@
                             {{ message }}
                         </div>
                         {% endfor %} {% endif %}
-                        <b>Nombre:</b> {{ empresa.nombreEmpresa}}
+                        <i class="fa fa-address-card" aria-hidden="true"></i><b> Nombre:</b> {{ empresa.nombreEmpresa}}
                         <br>
-                        <b>Correo Electrónico:</b> {{ empresa.emailEmpresa}}
+                        <i class="fa fa-envelope" aria-hidden="true"></i><b> Correo Electrónico: </b> {{ empresa.emailEmpresa}}
                         <br>
-                        <b>Descripción Empresa:</b> {{ empresa.descripcionEmpresa}}
+                        <i class="fa fa-location-arrow" aria-hidden="true"></i><b> Dirección:</b> {{ empresa.direccionEmpresa}}
                         <br>
-                        <b>Dirección Empresa:</b> {{ empresa.direccionEmpresa}}
+                        <i class="fa fa-clock-o" aria-hidden="true"></i><b> Horario:</b> {{ empresa.horarioEmpresa}}
                         <br>
-                        <b>Horario Empresa:</b> {{ empresa.horarioEmpresa}}
+                        <i class="fa fa-facebook-official" aria-hidden="true"></i><b> Facebook: </b><a href="https://www.facebook.com/MundoFast">@MundoFast</a>
                         <br>
-                        <b>Imagen:</b>
                         <br>
                     </div>
                 </div>
@@ -144,5 +143,7 @@
             </div>
         </div>
     </div>
+    <br>
+    <br>
 </body>
 </html>
